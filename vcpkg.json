@@ -1,0 +1,30 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
+  "name": "nodeforge",
+  "version-string": "0.1.0",
+  "description": "NodeForge — Real-time node-based media engine for Neo Realms (projection mapping, holograms, floor plans)",
+  "dependencies": [
+    "glfw3",
+    "glm",
+    "imgui",
+    "imgui-node-editor",
+    "vk-bootstrap",
+    "vulkan-memory-allocator",
+    "spdlog",
+    "fmt",
+    "nlohmann-json",
+    "stb",
+    "tinyexr",
+    "shaderc",
+    "pybind11",
+    "gtest",
+    "benchmark",
+    "ffmpeg",
+    "opencv4",
+    "assimp",
+    "rtmidi",
+    "nativefiledialog-extended"
+  ],
+  "overrides": [],
+  "builtin-baseline": ""
+}

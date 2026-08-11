@@ -1,0 +1,48 @@
+# AI assistant workspace — not part of NodeForge source
+.agent/
+
+# Build output
+build/
+out/
+.cmake/
+CMakeFiles/
+CMakeCache.txt
+*.cmake
+!cmake/*.cmake
+
+# vcpkg
+vcpkg_installed/
+
+# IDE
+.vs/
+.vscode/settings.json
+*.user
+*.suo
+*.VC.db
+*.VC.opendb
+
+# Binaries
+*.exe
+*.dll
+*.lib
+*.pdb
+*.exp
+*.ilk
+*.obj
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Tracy profiler capture
+*.tracy
+
+# NodeForge project files (dev working copies — commit intentionally)
+# *.nfp
+# *.nfc
