@@ -47,6 +47,8 @@ See [`docs/02-BUILD-ROADMAP-A-to-Z.md`](docs/02-BUILD-ROADMAP-A-to-Z.md) — 15 
 
 ## Building
 
+**Stop!** Before trying to build, you must read the [Developer Setup Guide](docs/DEVELOPER-SETUP.md) to install CMake, Ninja, and configure `vcpkg`. If you skip this, the build will fail.
+
 ### Prerequisites
 
 - Windows 10/11 x64
@@ -54,6 +56,7 @@ See [`docs/02-BUILD-ROADMAP-A-to-Z.md`](docs/02-BUILD-ROADMAP-A-to-Z.md) — 15 
 - CMake 3.28+
 - Ninja
 - vcpkg (set `VCPKG_ROOT` env var)
+
 
 ### Build
 
