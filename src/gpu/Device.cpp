@@ -38,9 +38,6 @@ bool Device::Initialize(GLFWwindow* window) {
 
     // Select Physical Device
     vkb::PhysicalDeviceSelector selector{vkb_inst};
-    if (m_surface) {
-        selector.set_surface(m_surface);
-    }
 
     // Require Vulkan 1.3 features (Dynamic Rendering)
     VkPhysicalDeviceVulkan13Features features13{};
@@ -49,8 +46,14 @@ bool Device::Initialize(GLFWwindow* window) {
     features13.synchronization2 = VK_TRUE;
 
     selector.set_minimum_version(1, 3)
-            .add_required_extension(VK_KHR_SWAPCHAIN_EXTENSION_NAME)
             .set_required_features_13(features13);
+
+    if (m_surface) {
+        selector.set_surface(m_surface)
+                .add_required_extension(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
+    } else {
+        selector.require_present(false);
+    }
 
     auto phys_ret = selector.select();
     if (!phys_ret) {

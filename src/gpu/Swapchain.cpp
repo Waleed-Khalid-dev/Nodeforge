@@ -13,7 +13,7 @@ Swapchain::~Swapchain() {
 }
 
 bool Swapchain::Build() {
-    vkb::SwapchainBuilder swapchain_builder{m_device->GetPhysicalDevice(), m_device->GetDevice(), m_device->GetInstance()};
+    vkb::SwapchainBuilder swapchain_builder{m_device->GetPhysicalDevice(), m_device->GetDevice(), m_device->GetSurface()};
 
     auto vkb_swapchain_ret = swapchain_builder
                                  .use_default_format_selection()

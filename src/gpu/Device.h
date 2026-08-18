@@ -21,6 +21,7 @@ public:
     VkInstance GetInstance() const { return m_instance; }
     VkPhysicalDevice GetPhysicalDevice() const { return m_physicalDevice; }
     VkDevice GetDevice() const { return m_device; }
+    VkSurfaceKHR GetSurface() const { return m_surface; }
     VmaAllocator GetAllocator() const { return m_allocator; }
     VkQueue GetGraphicsQueue() const { return m_graphicsQueue; }
     uint32_t GetGraphicsQueueIndex() const { return m_graphicsQueueIndex; }

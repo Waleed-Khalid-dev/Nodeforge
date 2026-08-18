@@ -33,18 +33,26 @@ std::vector<uint32_t> CompileShader(const std::string& source, shaderc_shader_ki
 }
 
 std::string ReadFile(const std::string& filepath) {
-    std::ifstream file(filepath, std::ios::ate | std::ios::binary);
-    if (!file.is_open()) {
-        spdlog::error("Failed to open file: {}", filepath);
-        return "";
+    std::vector<std::string> searchPaths = {
+        filepath,
+        "../../" + filepath,
+        "../" + filepath,
+        "D:/[Project]/Touch Designer/" + filepath
+    };
+    for (const auto& path : searchPaths) {
+        std::ifstream file(path, std::ios::ate | std::ios::binary);
+        if (file.is_open()) {
+            size_t fileSize = (size_t)file.tellg();
+            std::string buffer;
+            buffer.resize(fileSize);
+            file.seekg(0);
+            file.read(buffer.data(), fileSize);
+            file.close();
+            return buffer;
+        }
     }
-    size_t fileSize = (size_t)file.tellg();
-    std::string buffer;
-    buffer.resize(fileSize);
-    file.seekg(0);
-    file.read(buffer.data(), fileSize);
-    file.close();
-    return buffer;
+    spdlog::error("Failed to open file: {}", filepath);
+    return "";
 }
 
 VkShaderModule CreateShaderModule(VkDevice device, const std::vector<uint32_t>& code) {
