@@ -29,31 +29,36 @@ find_package(Vulkan        REQUIRED)
 find_package(vk-bootstrap  CONFIG REQUIRED)
 find_package(VulkanMemoryAllocator CONFIG REQUIRED)
 find_package(Stb           REQUIRED)
-
-# Enable GTest for Phase 1 Smoke Test
 find_package(GTest         CONFIG REQUIRED)
-
-# Phase 2+: uncomment as phases unlock
-# find_package(benchmark     CONFIG REQUIRED)
-# find_package(pybind11      CONFIG REQUIRED)
+find_package(benchmark     CONFIG REQUIRED)
 find_package(unofficial-shaderc CONFIG REQUIRED)
-# find_package(OpenCV        CONFIG REQUIRED)
-# find_package(assimp        CONFIG REQUIRED)
 
-# ─── Main executable ────────────────────────────────────────────────────────
-add_executable(nodeforge
-    src/app/main.cpp
+# ─── Core Library ───────────────────────────────────────────────────────────
+add_library(nodeforge_core STATIC
     src/gpu/Device.cpp
     src/gpu/Swapchain.cpp
     src/gpu/Texture.cpp
     src/gpu/FrameResources.cpp
+    src/graph/PinValue.cpp
+    src/graph/Pin.cpp
+    src/graph/Wire.cpp
+    src/graph/Node.cpp
+    src/graph/Graph.cpp
+    src/graph/GraphSerializer.cpp
+    src/graph/NodeRegistry.cpp
+    src/graph/CoreNodes.cpp
+    src/operators/chan/ConstantChanOp.cpp
+    src/operators/chan/MathChanOp.cpp
+    src/operators/tex/ConstantTexOp.cpp
+    src/operators/tex/TransformTexOp.cpp
 )
 
-target_include_directories(nodeforge PRIVATE
+target_include_directories(nodeforge_core PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${Stb_INCLUDE_DIR}
 )
 
-target_link_libraries(nodeforge PRIVATE
+target_link_libraries(nodeforge_core PUBLIC
     glfw
     glm::glm
     imgui::imgui
@@ -66,24 +71,27 @@ target_link_libraries(nodeforge PRIVATE
     unofficial::shaderc::shaderc
 )
 
-# Warnings as errors on core (Phase 0 rule)
-target_compile_options(nodeforge PRIVATE
-    $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX /utf-8 /wd4996>
+target_compile_options(nodeforge_core PUBLIC
+    $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX /utf-8 /wd4996 /wd4251 /wd4275>
     $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Werror -Wpedantic>
 )
 
-target_compile_definitions(nodeforge PRIVATE
+target_compile_definitions(nodeforge_core PUBLIC
     NF_VERSION_MAJOR=${PROJECT_VERSION_MAJOR}
     NF_VERSION_MINOR=${PROJECT_VERSION_MINOR}
     NF_VERSION_PATCH=${PROJECT_VERSION_PATCH}
     $<$<CONFIG:Debug>:NF_DEBUG=1>
 )
 
-# ─── Tests (unlock in Phase 2) ──────────────────────────────────────────────
+# ─── Main executable ────────────────────────────────────────────────────────
+add_executable(nodeforge
+    src/app/main.cpp
+)
+
+target_link_libraries(nodeforge PRIVATE
+    nodeforge_core
+)
+
+# ─── Tests & Benchmarks ─────────────────────────────────────────────────────
 enable_testing()
 add_subdirectory(tests)
-
-# ─── Phase tracking note ────────────────────────────────────────────────────
-# Phase 0: only main.cpp — GLFW window opens and closes. No operators.
-# Phase 1: add src/gpu/ — Vulkan device, swapchain, texture upload.
-# Do NOT add Phase 1+ code until STATUS.md says Active phase: 1.
