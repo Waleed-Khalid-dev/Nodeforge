@@ -453,11 +453,11 @@ Expression languages v1:
 2.10 Serialization sketch: graph to JSON roundtrip (no full project UI).  
 
 #### Definition of Done
-
-- [ ] Tests prove cook order + dirty + cache  
-- [ ] Cycle graphs fail safely  
-- [ ] JSON roundtrip for simple graph  
-- [ ] ADR-0004: cook model  
+ 
+- [x] Tests prove cook order + dirty + cache (10/10 tests pass, diamond cook memoization, 100-node linear chain)
+- [x] Cycle graphs fail safely (immediate connection rejection + Kahn's topo-sort cycle guards)
+- [x] JSON roundtrip for simple graph (GraphSerializer roundtrip test verified)
+- [x] ADR-0004: cook model (documented in docs/adr/ADR-0004-graph-runtime.md)  
 
 #### Agent note
 

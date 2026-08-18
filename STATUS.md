@@ -1,20 +1,21 @@
 # NodeForge Status
 
-**Active phase:** 2  
-**Phase name:** Graph Runtime (Heart of the Product)  
+**Active phase:** 3  
+**Phase name:** Parameter System + Expressions + Python Embed  
 
-**Updated:** 2026-08-18  
+**Updated:** 2026-08-19  
 **Branch policy:** main protected; work on `phase/0-*` branches when git is initialized  
 **Git remote:** https://github.com/Waleed-Khalid-dev/Nodeforge (make private before creating)
 
 ## In progress
 
-- [ ] Phase 2 kickoff (Node, Pin, Wire, Graph runtime, dirty propagation, topo sort, cook context)
+- [ ] Phase 3 kickoff (Parameter System, Expressions, Python 3.11 embed, pybind11 integration)
 
 ## Completed
 
 - [x] Phase 0: Repository, clean-room setup, roadmap, baseline CMake & dependencies
 - [x] Phase 1: GPU Foundation (Vulkan 1.3, Dynamic Rendering, VMA, Swapchain, Texture2D upload & present, Headless tests)
+- [x] Phase 2: Graph Runtime (Node, Pin, Wire, Graph, NodeRegistry, Topo sort, Cycle rejection, Hybrid dirty propagation, 4 starter operators, JSON roundtrip, 10/10 tests)
 
 ## Blocked
 
@@ -30,12 +31,18 @@
 - [x] `docs/adr/ADR-0001-stack.md`
 - [x] `docs/adr/ADR-0002-file-formats.md`
 - [x] `docs/adr/ADR-0003-naming.md`
+- [x] `docs/adr/ADR-0004-graph-runtime.md`
+- [x] `docs/operator-spec/ConstantChanOp.md`
+- [x] `docs/operator-spec/MathChanOp.md`
+- [x] `docs/operator-spec/ConstantTexOp.md`
+- [x] `docs/operator-spec/TransformTexOp.md`
 - [x] `docs/api/gpu-api.md`
 
 ## Last DoD sign-off
 
 - Phase 0 complete (2026-08-11)
 - Phase 1 complete (2026-08-18)
+- Phase 2 complete (2026-08-19)
 
 ## Notes
 
