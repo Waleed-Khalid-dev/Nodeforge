@@ -1,23 +1,25 @@
 ---
 type: project
-created: 2026-07-20
-updated: 2026-07-25
+created: 2026-08-18
+updated: 2026-08-19
 ---
 
-# Crypto Dashboard / NexusDesk Architecture
+# NodeForge Architecture
+
+## Overview
+NodeForge is a real-time node-based visual development platform for generative graphics, projection mapping, interactive holograms, and walkable floor plans (Neo Realms flagship workflow).
 
 ## Tech Stack
-- **Framework**: Electron (Main + Renderer processes with WebContentsView multi-pane layout)
-- **APIs**: CCXT (Cross-exchange Spot/Futures), Google Gemini AI, CoinMarketCap, LunarCrush
-- **UI**: Vanilla HTML5/CSS3 (Dark-mode Glassmorphism), Chart.js
-- **Security**: Windows DPAPI (`electron.safeStorage`) for encrypted key vault in `%AppData%\NexusDesk\`
+- **Language & Standard**: C++23 (MSVC `/W4 /WX /utf-8 /std:c++latest`)
+- **Graphics API**: Vulkan 1.3 with dynamic rendering, VMA (VulkanMemoryAllocator), and `shaderc` runtime GLSL compilation
+- **Windowing & UI**: GLFW3 + Dear ImGui
+- **Graph Runtime**: Hybrid pull-on-demand with push dirty invalidation, type-safe `PinValue` (`std::variant`), Kahn's topological sorting, reachability-based cycle rejection, and JSON graph serialization
+- **Scripting & Expressions**: Embedded CPython 3 via `pybind11` (Phase 3)
+- **Logging & Utilities**: `spdlog`, `fmt`, `nlohmann_json`, `stb`
+- **Testing**: GoogleTest (unit tests) + Google Benchmark
 
-## Key Design Patterns & Milestones
-- **Multi-Pane WebContentsView Layout**: Top control bar, CryptoBubbles, TradingView chart, Coinglass Heatmap, and dynamic bottom panel (CMC / AI Co-Pilot / Vault / Arbitrage).
-- **Navigation Fix**: Overridden `will-prevent-unload` events on TradingView `WebContents` to prevent chart interactions from blocking coin search navigation.
-- **Graphify & Serena Memory**: Indexed 444 nodes / 675 edges knowledge graph (`graphify-out/`) and `.serena/memories/` cognitive brain.
-- **Synchronized Repositories**: `crypto-dashboard` (dev) and `NexusDesk` (production public repo at `Waleed-Khalid-dev/NexusDesk`).
-- **Multi-Tab Workspace System**: Glassmorphism tab bar in control bar allowing users to open, switch, rename, and close coin monitoring tabs. Persists tab states across app restarts via `%AppData%\NexusDesk\hub-settings.json` (`workspaceTabs`, `activeTabId`). Synchronizes cross-pane layouts on tab switch.
-- **Documentation**: Standardized `docs/ARCHITECTURE.md`, `llms.txt`, and clean UTF-8 `README.md`.
-
-
+## Key Subsystems & Status
+- **GPU Subsystem (`src/gpu/`)**: `Device`, `Swapchain`, `Texture2D`, `FrameResources`. Supports headless GPU initialization and 60 FPS presentation. (Phase 1 ✅)
+- **Graph Runtime (`src/graph/`)**: `Node`, `Pin`, `Wire`, `Graph`, `NodeRegistry`, `GraphSerializer`. (Phase 2 ✅)
+- **Starter Operators (`src/operators/`)**: `ConstantChanOp`, `MathChanOp`, `ConstantTexOp`, `TransformTexOp`. (Phase 2 ✅)
+- **Parameter & Python Subsystem (`src/param/`, `src/python/`)**: Dual-mode parameters (`Constant` vs `Expression`), `PythonEngine` singleton with GIL guard, `nodeforge` module bindings. (Phase 3 🔨 In Progress)
