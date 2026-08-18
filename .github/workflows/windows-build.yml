@@ -27,17 +27,20 @@ jobs:
       with:
         version: 1.11.0
 
-    - name: Restore vcpkg and Build
-      uses: lukka/run-vcpkg@v11
-      with:
-        vcpkgGitCommitId: 'master'
-
     - name: Configure CMake
-      run: cmake -B ${{ github.workspace }}/build -G Ninja -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
+      shell: pwsh
+      run: |
+        cmake -B ${{ github.workspace }}/build `
+          -G Ninja `
+          -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} `
+          -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake" `
+          -DVCPKG_TARGET_TRIPLET=x64-windows
 
     - name: Build
+      shell: pwsh
       run: cmake --build ${{ github.workspace }}/build --config ${{ env.BUILD_TYPE }}
 
-    - name: Test
+    - name: Run Tests
+      shell: pwsh
       working-directory: ${{ github.workspace }}/build
       run: ctest -C ${{ env.BUILD_TYPE }} --output-on-failure
