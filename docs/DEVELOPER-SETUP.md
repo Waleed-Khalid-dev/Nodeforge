@@ -53,7 +53,7 @@ These libraries require manual downloads due to licensing or registration. You w
 | SDK / Tool | Why we need it | Where to get it | Notes |
 |------------|----------------|-----------------|-------|
 | **Python 3.11 Embeddable** | For embedded Python scripting (Phase 3) | [python.org/downloads/windows](https://www.python.org/downloads/windows/) | Download the "Windows embeddable package (64-bit)" for 3.11.x (Do not use 3.12 or 3.13). Extract it into `NodeForge/third_party/python/` when we reach Phase 3. |
-| **NDI SDK v6.3.2** | Sending/receiving live video over LAN (Phase 10) | [ndi.video/developers/sdk/](https://ndi.video/developers/sdk/) | Registration required (free). Run the Windows installer. |
+| **NDI SDK v6.3.2** | Sending/receiving live video over LAN (Phase 10) | [ndi.video](https://ndi.video/) | Click "For Developers" in the top menu. Registration required (free). Run the Windows installer. |
 | **Spout2 SDK** | Sharing GPU textures with other apps (Phase 10) | [GitHub - Spout2](https://github.com/leadedge/Spout2) | Download the repository or release zip. |
 | **Intel RealSense SDK** | Depth camera for gesture tracking (Phase 11) | [GitHub - librealsense](https://github.com/IntelRealSense/librealsense/releases) | Download the `Intel.RealSense.SDK-WIN10` installer. |
 | **DeckLink SDK** | Capture card video input (Phase 10) | [Blackmagic Developer](https://www.blackmagicdesign.com/developer/) | Download the "Desktop Video SDK" (free). |
