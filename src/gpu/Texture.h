@@ -19,6 +19,7 @@ public:
 
     // Procedural checkerboard generation
     bool CreateProceduralCheckerboard();
+    bool UploadData(const void* pixelData, uint32_t width, uint32_t height, VkDeviceSize imageSize);
     void Cleanup();
 
     VkImage GetImage() const { return m_image; }
@@ -26,7 +27,6 @@ public:
     VkSampler GetSampler() const { return m_sampler; }
 
 private:
-    bool UploadData(const void* pixelData, uint32_t width, uint32_t height, VkDeviceSize imageSize);
 
     Device* m_device = nullptr;
     VkImage m_image = VK_NULL_HANDLE;
