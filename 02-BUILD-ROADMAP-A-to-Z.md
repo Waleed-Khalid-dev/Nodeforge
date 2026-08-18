@@ -387,10 +387,10 @@ Expression languages v1:
 
 #### Definition of Done
 
-- [ ] `cmake --build` succeeds on clean Windows machine  
-- [ ] Window opens and closes cleanly  
-- [ ] Docs present; STATUS.md exists  
-- [ ] No operator code yet (except stubs if needed)  
+- [x] `cmake --build` succeeds on clean Windows machine  
+- [x] Window opens and closes cleanly  
+- [x] Docs present; STATUS.md exists  
+- [x] No operator code yet (except stubs if needed)  
 
 #### Deliverables
 
