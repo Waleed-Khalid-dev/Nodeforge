@@ -26,18 +26,27 @@ find_package(spdlog        CONFIG REQUIRED)
 find_package(fmt           CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(Vulkan        REQUIRED)
+find_package(vk-bootstrap  CONFIG REQUIRED)
+find_package(vulkan-memory-allocator CONFIG REQUIRED)
+find_package(stb           CONFIG REQUIRED)
+
+# Enable GTest for Phase 1 Smoke Test
+find_package(GTest         CONFIG REQUIRED)
 
 # Phase 2+: uncomment as phases unlock
-# find_package(GTest         CONFIG REQUIRED)
 # find_package(benchmark     CONFIG REQUIRED)
 # find_package(pybind11      CONFIG REQUIRED)
-# find_package(shaderc       CONFIG REQUIRED)
+find_package(shaderc       CONFIG REQUIRED)
 # find_package(OpenCV        CONFIG REQUIRED)
 # find_package(assimp        CONFIG REQUIRED)
 
 # ─── Main executable ────────────────────────────────────────────────────────
 add_executable(nodeforge
     src/app/main.cpp
+    src/gpu/Device.cpp
+    src/gpu/Swapchain.cpp
+    src/gpu/Texture.cpp
+    src/gpu/FrameResources.cpp
 )
 
 target_link_libraries(nodeforge PRIVATE
@@ -48,6 +57,10 @@ target_link_libraries(nodeforge PRIVATE
     fmt::fmt
     nlohmann_json::nlohmann_json
     Vulkan::Vulkan
+    vk-bootstrap::vk-bootstrap
+    vulkan-memory-allocator::vulkan-memory-allocator
+    stb::stb
+    shaderc::shaderc
 )
 
 # Warnings as errors on core (Phase 0 rule)
@@ -65,7 +78,7 @@ target_compile_definitions(nodeforge PRIVATE
 
 # ─── Tests (unlock in Phase 2) ──────────────────────────────────────────────
 enable_testing()
-# add_subdirectory(tests)
+add_subdirectory(tests)
 
 # ─── Phase tracking note ────────────────────────────────────────────────────
 # Phase 0: only main.cpp — GLFW window opens and closes. No operators.
