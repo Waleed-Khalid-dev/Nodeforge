@@ -1,10 +1,11 @@
 #include "Node.h"
+#include "../python/PythonEngine.h"
 #include <spdlog/spdlog.h>
 
 namespace nf {
 
 Node::Node(NodeId id, const std::string& name, const std::string& typeName)
-    : m_id(id), m_name(name), m_typeName(typeName) {
+    : m_id(id), m_name(name), m_typeName(typeName), m_params(this) {
 }
 
 Pin* Node::AddInputPin(const std::string& name, PinType type, const PinValue& defaultValue) {
@@ -46,19 +47,35 @@ Pin* Node::GetOutputPin(size_t index) {
 }
 
 void Node::SetParam(const std::string& name, const PinValue& value) {
-    m_parameters[name] = value;
-    MarkDirty();
+    Parameter* p = m_params.Get(name);
+    if (p) {
+        p->SetValue(value);
+    } else {
+        ParamMetadata meta;
+        meta.name = name;
+        meta.label = name;
+        meta.defaultValue = value;
+        if (value.Is<float>()) meta.type = ParamType::Float;
+        else if (value.Is<int32_t>()) meta.type = ParamType::Int;
+        else if (value.Is<bool>()) meta.type = ParamType::Bool;
+        else if (value.Is<std::string>()) meta.type = ParamType::String;
+        else if (value.Is<glm::vec2>()) meta.type = ParamType::Vec2;
+        else if (value.Is<glm::vec3>()) meta.type = ParamType::Vec3;
+        else if (value.Is<glm::vec4>()) meta.type = ParamType::Vec4;
+        m_params.Add(meta);
+        MarkDirty();
+    }
 }
 
 const PinValue& Node::GetParam(const std::string& name) const {
     static const PinValue emptyVal{};
-    auto it = m_parameters.find(name);
-    if (it != m_parameters.end()) return it->second;
+    Parameter* p = m_params.Get(name);
+    if (p) return p->GetValue();
     return emptyVal;
 }
 
 bool Node::HasParam(const std::string& name) const {
-    return m_parameters.find(name) != m_parameters.end();
+    return m_params.Has(name);
 }
 
 void Node::RemoveDownstreamNode(Node* node) {
@@ -93,6 +110,15 @@ bool Node::EnsureCooked(const CookContext& context) {
                     return false;
                 }
             }
+        }
+    }
+
+    // Evaluate dynamic parameter expressions
+    for (const auto& param : m_params.GetAll()) {
+        if (param->GetMode() == ParamMode::Expression && !param->GetExpression().empty()) {
+            std::string exprErr;
+            PinValue evalResult = PythonEngine::Instance().EvaluateExpression(param->GetExpression(), this, context, &exprErr);
+            param->SetEvaluatedValue(evalResult);
         }
     }
 

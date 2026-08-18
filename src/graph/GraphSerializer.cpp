@@ -1,4 +1,5 @@
 #include "GraphSerializer.h"
+#include "../param/Parameter.h"
 #include <spdlog/spdlog.h>
 
 namespace nf {
@@ -60,8 +61,12 @@ nlohmann::json GraphSerializer::Serialize(const Graph& graph) {
         nodeObj["type"] = node->GetTypeName();
 
         nlohmann::json paramsObj = nlohmann::json::object();
-        for (const auto& [paramName, paramVal] : node->GetAllParams()) {
-            paramsObj[paramName] = SerializePinValue(paramVal);
+        for (const auto& param : node->GetParams().GetAll()) {
+            nlohmann::json paramObj;
+            paramObj["mode"] = (param->GetMode() == ParamMode::Expression) ? "expression" : "constant";
+            paramObj["expr"] = param->GetExpression();
+            paramObj["val"] = SerializePinValue(param->GetConstantValue());
+            paramsObj[param->GetName()] = paramObj;
         }
         nodeObj["params"] = paramsObj;
         nodesJson.push_back(nodeObj);
@@ -108,7 +113,24 @@ bool GraphSerializer::Deserialize(Graph& graph, const nlohmann::json& json, cons
 
             if (nodeObj.contains("params") && nodeObj["params"].is_object()) {
                 for (auto& [paramName, paramJson] : nodeObj["params"].items()) {
-                    node->SetParam(paramName, DeserializePinValue(paramJson));
+                    if (paramJson.is_object() && paramJson.contains("val")) {
+                        PinValue val = DeserializePinValue(paramJson["val"]);
+                        Parameter* p = node->GetParams().Get(paramName);
+                        if (p) {
+                            p->SetValue(val);
+                            if (paramJson.contains("mode") && paramJson["mode"] == "expression") {
+                                p->SetExpression(paramJson.value("expr", ""));
+                            }
+                        } else {
+                            node->SetParam(paramName, val);
+                            if (paramJson.contains("mode") && paramJson["mode"] == "expression") {
+                                Parameter* added = node->GetParams().Get(paramName);
+                                if (added) added->SetExpression(paramJson.value("expr", ""));
+                            }
+                        }
+                    } else {
+                        node->SetParam(paramName, DeserializePinValue(paramJson));
+                    }
                 }
             }
 

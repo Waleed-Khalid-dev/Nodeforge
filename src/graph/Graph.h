@@ -30,6 +30,7 @@ public:
         return ptr;
     }
 
+    NodeId GenerateNodeId() { return m_nextNodeId++; }
     Node* AddNode(std::unique_ptr<Node> node);
     bool RemoveNode(NodeId id);
     Node* GetNode(NodeId id) const;

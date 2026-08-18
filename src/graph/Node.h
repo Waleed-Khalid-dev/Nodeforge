@@ -2,6 +2,7 @@
 
 #include "Pin.h"
 #include "CookContext.h"
+#include "../param/ParameterGroup.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -39,10 +40,12 @@ public:
     const std::vector<std::unique_ptr<Pin>>& GetOutputPins() const { return m_outputPins; }
 
     // Parameter Management
+    ParameterGroup& GetParams() { return m_params; }
+    const ParameterGroup& GetParams() const { return m_params; }
+
     void SetParam(const std::string& name, const PinValue& value);
     const PinValue& GetParam(const std::string& name) const;
     bool HasParam(const std::string& name) const;
-    const std::unordered_map<std::string, PinValue>& GetAllParams() const { return m_parameters; }
 
     // Dirty & Cook Pipeline
     bool IsDirty() const { return m_isDirty; }
@@ -67,7 +70,7 @@ protected:
 
     std::vector<std::unique_ptr<Pin>> m_inputPins;
     std::vector<std::unique_ptr<Pin>> m_outputPins;
-    std::unordered_map<std::string, PinValue> m_parameters;
+    ParameterGroup m_params;
     std::vector<Node*> m_downstreamNodes;
 
     bool m_isDirty = true;
