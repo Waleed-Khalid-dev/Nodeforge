@@ -1,7 +1,7 @@
 # NodeForge Status
 
-**Active phase:** 3  
-**Phase name:** Parameter System + Expressions + Python Embed  
+**Active phase:** 4  
+**Phase name:** TexOp Pipeline (GPU Nodes)  
 
 **Updated:** 2026-08-19  
 **Branch policy:** main protected; work on `phase/0-*` branches when git is initialized  
@@ -9,13 +9,14 @@
 
 ## In progress
 
-- [ ] Phase 3 kickoff (Parameter System, Expressions, Python 3.11 embed, pybind11 integration)
+- [ ] Phase 4 kickoff (TexOp Base Class, Render Target Pool, Texture Cache, 10 Core TexOps)
 
 ## Completed
 
 - [x] Phase 0: Repository, clean-room setup, roadmap, baseline CMake & dependencies
 - [x] Phase 1: GPU Foundation (Vulkan 1.3, Dynamic Rendering, VMA, Swapchain, Texture2D upload & present, Headless tests)
 - [x] Phase 2: Graph Runtime (Node, Pin, Wire, Graph, NodeRegistry, Topo sort, Cycle rejection, Hybrid dirty propagation, 4 starter operators, JSON roundtrip, 10/10 tests)
+- [x] Phase 3: Parameter System + Expressions + Python Embed (Dual-mode Param/Expr, pybind11 nodeforge module, GIL policy, exception recovery, 16/16 tests passing)
 
 ## Blocked
 
@@ -43,6 +44,7 @@
 - Phase 0 complete (2026-08-11)
 - Phase 1 complete (2026-08-18)
 - Phase 2 complete (2026-08-19)
+- Phase 3 complete (2026-08-19)
 
 ## Notes
 

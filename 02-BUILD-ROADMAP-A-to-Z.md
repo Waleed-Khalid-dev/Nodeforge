@@ -486,9 +486,9 @@ Expression languages v1:
 
 #### Definition of Done
 
-- [ ] Python REPL or script file can mutate graph safely  
-- [ ] Expression on a float param evaluates each cook when dirty  
-- [ ] Crashes in Python do not bring down process without log  
+- [x] Python REPL or script file can mutate graph safely (`nodeforge` pybind11 module: create_node, connect, disconnect, set_param, get_nodes)  
+- [x] Expression on a float param evaluates each cook when dirty (cross-node expressions `op('Node').get_param('val').as_float()`, `math.sin(time)`)  
+- [x] Crashes in Python do not bring down process without log (C++ exception boundary around `py::error_already_set` with spdlog error logging)  
 
 ---
 
