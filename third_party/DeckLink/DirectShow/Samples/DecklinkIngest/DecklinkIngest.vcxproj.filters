@@ -1,0 +1,275 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
+    </Filter>
+    <Filter Include="Resource Files\Bitmaps">
+      <UniqueIdentifier>{b671dc5c-510d-42c0-99ba-1aaacb65809d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BaseEDLReader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Clip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ClipList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CMX3600EDLReader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DecklinkIngest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DecklinkIngestDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DecklinkFilters\DecklinkInterface_i.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\DeviceInfoDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PreferencesDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\StaticURL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StillGrabber.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Timecode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TimecodeGrabber.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BaseEDLReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Clip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ClipList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CMX3600EDLReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DecklinkIngest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DecklinkIngestDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\DeviceInfoDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PreferencesDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\StaticURL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StillGrabber.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Timecode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TimecodeGrabber.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\BaseClasses\streams.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\DecklinkIngest.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\bitmapaddfiled.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapaddfilef.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapaddfileu.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapaddfilex.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapejectd.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapejectf.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapejectu.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapejectx.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapffwdd.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapffwdf.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapffwdu.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapffwdx.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapfrewd.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapfrewf.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapfrewu.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapfrewx.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapmovedownfiled.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapmovedownfilef.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapmovedownfileu.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapmovedownfilex.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapmoveupfiled.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapmoveupfilef.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapmoveupfileu.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapmoveupfilex.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapplayd.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapplayf.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapplayu.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapplayx.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapremovefiled.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapremovefilef.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapremovefileu.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapremovefilex.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapsetinpointd.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapsetinpointf.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapsetinpointu.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapsetinpointx.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapsetoutpointd.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapsetoutpointf.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapsetoutpointu.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapsetoutpointx.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapstopd.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapstopf.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapstopu.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\bitmapstopx.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+    <Image Include="res\buttons.bmp">
+      <Filter>Resource Files\Bitmaps</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DecklinkIngest.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\DecklinkIngest.rc2">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="res\DecklinkIngest.manifest">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

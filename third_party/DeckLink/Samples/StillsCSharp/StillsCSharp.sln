@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2003
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StillsCSharp", "StillsCSharp.csproj", "{024C7489-AEC7-49A4-B757-4DFCB045C275}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{024C7489-AEC7-49A4-B757-4DFCB045C275}.Debug|x64.ActiveCfg = Debug|x64
+		{024C7489-AEC7-49A4-B757-4DFCB045C275}.Debug|x64.Build.0 = Debug|x64
+		{024C7489-AEC7-49A4-B757-4DFCB045C275}.Debug|x86.ActiveCfg = Debug|x64
+		{024C7489-AEC7-49A4-B757-4DFCB045C275}.Release|x64.ActiveCfg = Release|x64
+		{024C7489-AEC7-49A4-B757-4DFCB045C275}.Release|x64.Build.0 = Release|x64
+		{024C7489-AEC7-49A4-B757-4DFCB045C275}.Release|x64.Deploy.0 = Release|x64
+		{024C7489-AEC7-49A4-B757-4DFCB045C275}.Release|x86.ActiveCfg = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AF29B838-81DF-49F4-B540-4EAD52991B8E}
+	EndGlobalSection
+EndGlobal

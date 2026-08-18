@@ -1,0 +1,93 @@
+﻿<Window x:Class="SignalGenCSharp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="clr-namespace:System.Windows.Interop;assembly=PresentationCore"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SignalGenCSharp"
+        mc:Ignorable="d"
+        Title="Signal Generator" Height="557" Width="1300" Loaded="Window_Loaded" Closing="Window_Closing">
+    <DockPanel LastChildFill="True">
+        <DockPanel LastChildFill="True">
+            <Button x:Name="buttonStartStop" Content="Start Playback" DockPanel.Dock="Bottom" VerticalAlignment="Center" Width="100" Height="20" Margin="5" Click="buttonStartStop_Click"/>
+            <Grid DockPanel.Dock="Left" Width="360" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <GroupBox x:Name="groupBoxOutputProperties" Header="Output Properties" >
+                    <Grid HorizontalAlignment="Left" Margin="5" Width="340">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label x:Name="labelDevice" Content="Playback Device:" Margin="3"/>
+                        <ComboBox x:Name="comboBoxDevice" Grid.Column="1" Margin="3" SelectionChanged="comboBoxDevice_SelectionChanged"/>
+                        <Label x:Name="labelLinkWidth" Content="Link Width:" Grid.Row="1" Margin="3" Visibility="Collapsed"/>
+                        <ComboBox x:Name="comboBoxLinkWidth" Grid.Row ="1" Grid.Column="1" Margin="3" SelectionChanged="comboBoxLinkWidth_SelectionChanged" Visibility="Collapsed"/>
+                        <Label x:Name="labelAudioChannels" Content="Audio Channels:" Grid.Row="2" Margin="3"/>
+                        <ComboBox x:Name="comboBoxAudioChannels" Grid.Row ="2" Grid.Column="1" Margin="3"/>
+                        <Label x:Name="labelAudioDepth" Content="Audio Depth:" Grid.Row="3" Margin="3"/>
+                        <WrapPanel Grid.Row="3" Grid.Column="1" Margin="3" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <RadioButton x:Name="radioButtonAudioDepth16Bit" Content="16-Bit" Grid.Row ="3" Grid.Column="1" Margin="0,0,10,0" IsChecked="True"/>
+                            <RadioButton x:Name="radioButtonAudioDepth32Bit" Content="32-Bit" Grid.Row ="3" Grid.Column="1" Margin="0,0,10,0"/>
+                        </WrapPanel>
+                        <Label x:Name="labelVideoFormat" Content="Video Format:" Grid.Row="4" Margin="3"/>
+                        <ComboBox x:Name="comboBoxVideoFormat" Grid.Row ="4" Grid.Column="1" Margin="3" SelectionChanged="comboBoxVideoFormat_SelectionChanged"/>
+                        <Label x:Name="labelPixelFormat" Content="Pixel Format:" Grid.Row="5" Margin="3"/>
+                        <ComboBox x:Name="comboBoxPixelFormat" Grid.Row ="5" Grid.Column="1" Margin="3"/>
+                        <Label x:Name="labelColorspace" Content="Colorspace:" Grid.Row="6" Margin="3" Visibility="Collapsed"/>
+                        <ComboBox x:Name="comboBoxColorspace" Grid.Row ="6" Grid.Column="1" Margin="3" Visibility="Collapsed"/>
+                    </Grid>
+                </GroupBox>
+                <GroupBox x:Name="groupBoxSignalProperties" Header="Signal Properties"  Grid.Row="1">
+                    <Grid HorizontalAlignment="Left" Margin="5" Width="340">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label x:Name="labelSignal" Content="Output Signal:" Margin="3"/>
+                        <ComboBox x:Name="comboBoxSignal" Grid.Column="1" Margin="3"/>
+                        <Label x:Name="labelOutput3D" Content="Output 3D:" Grid.Row="1" Margin="3" Visibility="Collapsed"/>
+                        <CheckBox x:Name="checkBoxOutput3D" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3" Checked="checkBoxOutput3D_CheckedChanged" Unchecked="checkBoxOutput3D_CheckedChanged" Visibility="Collapsed"/>
+                        <Label x:Name="label3DPreview" Content="3D Preview Format:" Grid.Row="2" Margin="3" Visibility="Collapsed"/>
+                        <ComboBox x:Name="comboBox3DPreviewFormat" Grid.Row ="2" Grid.Column="1" Margin="3" SelectionChanged="comboBox3DPreviewFormat_SelectionChanged" Visibility="Collapsed" IsEnabled="False"/>
+                    </Grid>
+                </GroupBox>
+                <GroupBox x:Name="groupBoxTimecode" Header="Timecode" Grid.Row="2">
+                    <DataGrid Name="dataGridTimecode" ItemsSource="{Binding TimecodeData}" AutoGenerateColumns="False" GridLinesVisibility="None" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" HeadersVisibility="Column" Background="Transparent" RowBackground="Transparent" CanUserAddRows="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Format" Binding="{Binding Format}" Width="125" />
+                            <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="125" />
+                            <DataGridTextColumn Header="User Bits" Binding="{Binding UserBits}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </GroupBox>
+            </Grid>
+        </DockPanel>
+        <GroupBox x:Name="groupBoxPreview" Header="Preview" >
+            <Grid x:Name="gridPreview" Margin="5">
+                <Image x:Name="imagePreview">
+                    <Image.Source>
+                        <i:D3DImage x:Name="d3dPreview" />
+                    </Image.Source>
+                </Image>
+            </Grid>
+        </GroupBox>
+    </DockPanel>
+</Window>

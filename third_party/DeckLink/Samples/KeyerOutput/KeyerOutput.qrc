@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+	    <file>bmd-1080-clean.png</file>
+	</qresource>
+</RCC>

@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="DecklinkFieldSwap">
+      <UniqueIdentifier>{e6202a66-074e-44e6-b510-9a7a4388aae3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DLL Source Files">
+      <UniqueIdentifier>{ea2e3001-db61-46ec-962a-5c933895c8c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DLL Source Files\Interface">
+      <UniqueIdentifier>{9286c21f-043b-40dc-9608-bf81ab4997a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DecklinkPushSource">
+      <UniqueIdentifier>{a2b0a125-4418-4c94-8af7-74a6021d559e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DecklinkStillSource">
+      <UniqueIdentifier>{864144dc-c9f2-4ec9-a342-cd47c76d2abe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DecklinkComposite">
+      <UniqueIdentifier>{898d137a-1eaf-4fbf-8a0d-2ca04fa1d6e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DecklinkToneSource">
+      <UniqueIdentifier>{e58c58bb-03be-4ba8-8268-5e614304da3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WAVDest">
+      <UniqueIdentifier>{7a2770b0-1fbe-4b0e-a974-0f3d83906250}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DecklinkFieldSwap\DecklinkFieldSwap.cpp">
+      <Filter>DecklinkFieldSwap</Filter>
+    </ClCompile>
+    <ClCompile Include="setup.cpp">
+      <Filter>DLL Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DecklinkFilters_i.c">
+      <Filter>DLL Source Files\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="DecklinkInterface_i.c">
+      <Filter>DLL Source Files\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="DecklinkPushSource\CustomAllocator.cpp">
+      <Filter>DecklinkPushSource</Filter>
+    </ClCompile>
+    <ClCompile Include="DecklinkPushSource\DecklinkAudioSource.cpp">
+      <Filter>DecklinkPushSource</Filter>
+    </ClCompile>
+    <ClCompile Include="DecklinkPushSource\DecklinkPushSource.cpp">
+      <Filter>DecklinkPushSource</Filter>
+    </ClCompile>
+    <ClCompile Include="DecklinkPushSource\DecklinkVideoSource.cpp">
+      <Filter>DecklinkPushSource</Filter>
+    </ClCompile>
+    <ClCompile Include="DecklinkStillSource\DecklinkStillSource.cpp">
+      <Filter>DecklinkStillSource</Filter>
+    </ClCompile>
+    <ClCompile Include="DecklinkComposite\DecklinkComposite.cpp">
+      <Filter>DecklinkComposite</Filter>
+    </ClCompile>
+    <ClCompile Include="DecklinkComposite\DecklinkCompositeProp.cpp">
+      <Filter>DecklinkComposite</Filter>
+    </ClCompile>
+    <ClCompile Include="DecklinkToneSource\DecklinkToneSource.cpp">
+      <Filter>DecklinkToneSource</Filter>
+    </ClCompile>
+    <ClCompile Include="WAVDest\wavdest.cpp">
+      <Filter>WAVDest</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="..\common\Utils.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DecklinkFieldSwap\DecklinkFieldSwap.h">
+      <Filter>DecklinkFieldSwap</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>DLL Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DecklinkFilters_h.h">
+      <Filter>DLL Source Files\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="DecklinkPushSource\CustomAllocator.h">
+      <Filter>DecklinkPushSource</Filter>
+    </ClInclude>
+    <ClInclude Include="DecklinkPushSource\DecklinkAudioSource.h">
+      <Filter>DecklinkPushSource</Filter>
+    </ClInclude>
+    <ClInclude Include="DecklinkPushSource\DecklinkPushSource.h">
+      <Filter>DecklinkPushSource</Filter>
+    </ClInclude>
+    <ClInclude Include="DecklinkPushSource\DecklinkVideoSource.h">
+      <Filter>DecklinkPushSource</Filter>
+    </ClInclude>
+    <ClInclude Include="DecklinkStillSource\DecklinkStillSource.h">
+      <Filter>DecklinkStillSource</Filter>
+    </ClInclude>
+    <ClInclude Include="DecklinkComposite\DecklinkComposite.h">
+      <Filter>DecklinkComposite</Filter>
+    </ClInclude>
+    <ClInclude Include="DecklinkComposite\DecklinkCompositeProp.h">
+      <Filter>DecklinkComposite</Filter>
+    </ClInclude>
+    <ClInclude Include="DecklinkToneSource\DecklinkToneSource.h">
+      <Filter>DecklinkToneSource</Filter>
+    </ClInclude>
+    <ClInclude Include="WAVDest\wavdest.h">
+      <Filter>WAVDest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\DecklinkSample_uuids.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="..\include\Utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="DecklinkFieldSwap\readme.txt">
+      <Filter>DecklinkFieldSwap</Filter>
+    </Text>
+    <Text Include="DecklinkPushSource\readme.txt">
+      <Filter>DecklinkPushSource</Filter>
+    </Text>
+    <Text Include="DecklinkStillSource\readme.txt">
+      <Filter>DecklinkStillSource</Filter>
+    </Text>
+    <Text Include="DecklinkComposite\readme.txt">
+      <Filter>DecklinkComposite</Filter>
+    </Text>
+    <Text Include="DecklinkToneSource\readme.txt">
+      <Filter>DecklinkToneSource</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DecklinkFilters.def">
+      <Filter>DLL Source Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DecklinkFilters.rc">
+      <Filter>DLL Source Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="DecklinkFilters.idl">
+      <Filter>DLL Source Files\Interface</Filter>
+    </Midl>
+    <Midl Include="..\include\DecklinkInterface.idl">
+      <Filter>DLL Source Files\Interface</Filter>
+    </Midl>
+  </ItemGroup>
+</Project>
