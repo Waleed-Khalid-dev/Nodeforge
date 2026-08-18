@@ -32,6 +32,7 @@ find_package(Stb           REQUIRED)
 find_package(GTest         CONFIG REQUIRED)
 find_package(benchmark     CONFIG REQUIRED)
 find_package(unofficial-shaderc CONFIG REQUIRED)
+find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
 
 # ─── Core Library ───────────────────────────────────────────────────────────
 add_library(nodeforge_core STATIC
@@ -47,6 +48,10 @@ add_library(nodeforge_core STATIC
     src/graph/GraphSerializer.cpp
     src/graph/NodeRegistry.cpp
     src/graph/CoreNodes.cpp
+    src/param/Parameter.cpp
+    src/param/ParameterGroup.cpp
+    src/python/PythonEngine.cpp
+    src/python/PyNodeForge.cpp
     src/operators/chan/ConstantChanOp.cpp
     src/operators/chan/MathChanOp.cpp
     src/operators/tex/ConstantTexOp.cpp
@@ -55,7 +60,9 @@ add_library(nodeforge_core STATIC
 
 target_include_directories(nodeforge_core PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/third_party/pybind11/include
     ${Stb_INCLUDE_DIR}
+    ${Python3_INCLUDE_DIRS}
 )
 
 target_link_libraries(nodeforge_core PUBLIC
@@ -69,17 +76,22 @@ target_link_libraries(nodeforge_core PUBLIC
     vk-bootstrap::vk-bootstrap
     GPUOpen::VulkanMemoryAllocator
     unofficial::shaderc::shaderc
+    Python3::Python
 )
 
 target_compile_options(nodeforge_core PUBLIC
-    $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX /utf-8 /wd4996 /wd4251 /wd4275>
+    $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX /utf-8 /wd4996 /wd4251 /wd4275 /wd4127 /wd4244 /wd4267>
     $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Werror -Wpedantic>
 )
+
+get_filename_component(PY_HOME "${Python3_INCLUDE_DIRS}" DIRECTORY)
+message(STATUS "Python Home configured as: ${PY_HOME}")
 
 target_compile_definitions(nodeforge_core PUBLIC
     NF_VERSION_MAJOR=${PROJECT_VERSION_MAJOR}
     NF_VERSION_MINOR=${PROJECT_VERSION_MINOR}
     NF_VERSION_PATCH=${PROJECT_VERSION_PATCH}
+    NF_PYTHON_HOME=\"${PY_HOME}\"
     $<$<CONFIG:Debug>:NF_DEBUG=1>
 )
 

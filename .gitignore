@@ -40,6 +40,11 @@ Thumbs.db
 .DS_Store
 desktop.ini
 
+# Archives & temporary scripts
+*.zip
+setup_pybind11.py
+pre_download_vcpkg.py
+
 # Tracy profiler capture
 *.tracy
 
