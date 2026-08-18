@@ -2,6 +2,8 @@ add_executable(nodeforge_tests
     unit/gpu_device_test.cpp
     unit/graph_dag_test.cpp
     unit/operators_test.cpp
+    unit/parameter_test.cpp
+    unit/python_embed_test.cpp
     benchmark/graph_benchmark.cpp
 )
 
