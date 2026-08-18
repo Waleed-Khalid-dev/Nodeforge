@@ -5,9 +5,10 @@ add_executable(nodeforge_tests
 
 target_link_libraries(nodeforge_tests PRIVATE
     GTest::gtest_main
+    glfw
     Vulkan::Vulkan
     vk-bootstrap::vk-bootstrap
-    vulkan-memory-allocator::vulkan-memory-allocator
+    GPUOpen::VulkanMemoryAllocator
     spdlog::spdlog
 )
 
