@@ -1,15 +1,20 @@
 # NodeForge Status
 
-**Active phase:** 1  
-**Phase name:** GPU Foundation (Vulkan)  
+**Active phase:** 2  
+**Phase name:** Graph Runtime (Heart of the Product)  
 
-**Updated:** 2026-08-12  
+**Updated:** 2026-08-18  
 **Branch policy:** main protected; work on `phase/0-*` branches when git is initialized  
 **Git remote:** https://github.com/Waleed-Khalid-dev/Nodeforge (make private before creating)
 
 ## In progress
 
-- [ ] Phase 1 kickoff (Vulkan device, swapchain, texture upload)
+- [ ] Phase 2 kickoff (Node, Pin, Wire, Graph runtime, dirty propagation, topo sort, cook context)
+
+## Completed
+
+- [x] Phase 0: Repository, clean-room setup, roadmap, baseline CMake & dependencies
+- [x] Phase 1: GPU Foundation (Vulkan 1.3, Dynamic Rendering, VMA, Swapchain, Texture2D upload & present, Headless tests)
 
 ## Blocked
 
@@ -25,10 +30,12 @@
 - [x] `docs/adr/ADR-0001-stack.md`
 - [x] `docs/adr/ADR-0002-file-formats.md`
 - [x] `docs/adr/ADR-0003-naming.md`
+- [x] `docs/api/gpu-api.md`
 
 ## Last DoD sign-off
 
 - Phase 0 complete (2026-08-11)
+- Phase 1 complete (2026-08-18)
 
 ## Notes
 

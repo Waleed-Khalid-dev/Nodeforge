@@ -419,10 +419,10 @@ Expression languages v1:
 
 #### Definition of Done
 
-- [ ] App shows a loaded image in a Vulkan window  
-- [ ] Resize does not crash  
-- [ ] Validation layers clean on happy path  
-- [ ] Documented `gpu::Device` / `gpu::Texture` API in `docs/api/`  
+- [x] App shows a loaded image in a Vulkan window  
+- [x] Resize does not crash  
+- [x] Validation layers clean on happy path  
+- [x] Documented `gpu::Device` / `gpu::Texture` API in `docs/api/`  
 
 #### Forbidden this phase
 
