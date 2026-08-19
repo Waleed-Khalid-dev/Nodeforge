@@ -1,4 +1,5 @@
 #include "Node.h"
+#include "NodeRegistry.h"
 #include "../python/PythonEngine.h"
 #include <spdlog/spdlog.h>
 
@@ -6,6 +7,12 @@ namespace nf {
 
 Node::Node(NodeId id, const std::string& name, const std::string& typeName)
     : m_id(id), m_name(name), m_typeName(typeName), m_params(this) {
+}
+
+NodeFamily Node::GetFamily() const {
+    const auto* info = NodeRegistry::Instance().GetTypeInfo(m_typeName);
+    if (info) return info->family;
+    return NodeFamily::DataOp;
 }
 
 Pin* Node::AddInputPin(const std::string& name, PinType type, const PinValue& defaultValue) {
