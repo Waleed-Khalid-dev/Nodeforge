@@ -1,19 +1,17 @@
 #pragma once
 
-#include "../../graph/Node.h"
-#include "../../gpu/Texture.h"
+#include "TexOp.h"
+#include "../../render/FullscreenPass.h"
 
 namespace nf {
 
-class ConstantTexOp : public Node {
+class ConstantTexOp : public TexOp {
 public:
     ConstantTexOp(NodeId id, const std::string& name);
-
-    bool Cook(const CookContext& context) override;
+    virtual bool Cook(const CookContext& context) override;
 
 private:
-    Pin* m_outPin = nullptr;
-    std::shared_ptr<gpu::Texture2D> m_texture;
+    std::unique_ptr<render::FullscreenPass> m_pass;
 };
 
 } // namespace nf

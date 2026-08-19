@@ -5,9 +5,9 @@
 
 namespace nf {
 
-class TransformTexOp : public TexOp {
+class LevelTexOp : public TexOp {
 public:
-    TransformTexOp(NodeId id, const std::string& name);
+    LevelTexOp(NodeId id, const std::string& name);
     virtual bool Cook(const CookContext& context) override;
 
 private:
