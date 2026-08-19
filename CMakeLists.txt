@@ -69,10 +69,26 @@ add_library(nodeforge_core STATIC
     src/operators/tex/LevelTexOp.cpp
     src/operators/tex/ResolutionTexOp.cpp
     src/operators/tex/ToWindowTexOp.cpp
+    third_party/imgui_backends/imgui_impl_glfw.cpp
+    third_party/imgui_backends/imgui_impl_vulkan.cpp
+    src/ui/EditorTheme.cpp
+    src/ui/EditorContext.cpp
+    src/ui/UndoManager.cpp
+    src/ui/commands/NodeCommands.cpp
+    src/ui/commands/WireCommands.cpp
+    src/ui/commands/ParamCommands.cpp
+    src/ui/canvas/NodeCanvas.cpp
+    src/ui/panels/OpPaletteModal.cpp
+    src/ui/panels/ParameterPanel.cpp
+    src/ui/panels/ViewerPanel.cpp
+    src/ui/panels/ConsolePanel.cpp
+    src/ui/panels/TimelinePanel.cpp
+    src/ui/MainMenuBar.cpp
 )
 
 target_include_directories(nodeforge_core PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/third_party/imgui_backends
     ${CMAKE_CURRENT_SOURCE_DIR}/third_party/pybind11/include
     ${Stb_INCLUDE_DIR}
     ${Python3_INCLUDE_DIRS}
