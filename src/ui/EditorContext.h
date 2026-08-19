@@ -1,22 +1,58 @@
 #pragma once
 
 #include "../graph/Graph.h"
+#include "../project/ProjectFile.h"
+#include "../project/AutosaveManager.h"
 #include "UndoManager.h"
 #include <glm/vec2.hpp>
 #include <unordered_set>
 #include <unordered_map>
+#include <vector>
 #include <string>
 
+namespace nf {
+class ContainerComp;
+}
+
 namespace nf::ui {
+
+struct NavLevel {
+    Graph* graph = nullptr;
+    ContainerComp* container = nullptr;
+    std::string name = "/";
+};
 
 class EditorContext {
 public:
     EditorContext();
+    ~EditorContext() = default;
 
     void SetGraph(Graph* graph);
-    Graph* GetGraph() const { return m_graph; }
+    Graph* GetGraph() const;
+    Graph* GetRootGraph() const { return m_project.rootGraph.get(); }
+
+    project::ProjectData& GetProject() { return m_project; }
+    const project::ProjectData& GetProject() const { return m_project; }
+    project::AutosaveManager& GetAutosaveManager() { return m_autosave; }
 
     UndoManager& GetUndoManager() { return m_undoManager; }
+
+    // Hierarchy / Subnetwork Navigation
+    void EnterContainer(ContainerComp* container);
+    void ExitContainer();
+    void NavigateToLevel(size_t levelIndex);
+    const std::vector<NavLevel>& GetNavStack() const { return m_navStack; }
+    std::string GetCurrentPath() const;
+
+    // Project Lifecycle
+    void NewProject();
+    bool OpenProject(const std::string& filePath, std::string* outError = nullptr);
+    bool SaveProject(const std::string& filePath = "", std::string* outError = nullptr);
+    bool ExportComponent(const std::string& filePath, ContainerComp* comp, std::string* outError = nullptr);
+    ContainerComp* ImportComponent(const std::string& filePath, const glm::vec2& spawnPos, std::string* outError = nullptr);
+
+    bool IsDirty() const { return m_project.isDirty; }
+    void MarkDirty(bool dirty = true) { m_project.isDirty = dirty; }
 
     // Selection management
     void SelectNode(NodeId id, bool addToSelection = false);
@@ -30,6 +66,7 @@ public:
     // Node Positions (Canvas space)
     void SetNodePosition(NodeId id, const glm::vec2& pos);
     glm::vec2 GetNodePosition(NodeId id) const;
+    const std::unordered_map<NodeId, glm::vec2>& GetAllNodePositions() const { return m_nodePositions; }
 
     // View Navigation
     glm::vec2& GetCanvasPan() { return m_canvasPan; }
@@ -56,7 +93,11 @@ public:
     float GetPlaybackFps() const { return m_playbackFps; }
 
 private:
-    Graph* m_graph = nullptr;
+    project::ProjectData m_project;
+    project::AutosaveManager m_autosave;
+    std::vector<NavLevel> m_navStack;
+
+    Graph* m_currentGraph = nullptr;
     UndoManager m_undoManager;
 
     std::unordered_set<NodeId> m_selectedNodes;

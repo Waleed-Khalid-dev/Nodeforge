@@ -1,16 +1,20 @@
 #include "NodeCanvas.h"
+#include "BreadcrumbBar.h"
 #include "../EditorTheme.h"
 #include "../commands/NodeCommands.h"
 #include "../commands/WireCommands.h"
 #include "../../operators/tex/TexOp.h"
+#include "../../operators/comp/ContainerComp.h"
 #include <algorithm>
 #include <cmath>
 
 namespace nf::ui {
 
 NodeCanvas::NodeCanvas(EditorContext* ctx)
-    : m_ctx(ctx) {
+    : m_ctx(ctx), m_breadcrumbBar(std::make_unique<BreadcrumbBar>(ctx)) {
 }
+
+NodeCanvas::~NodeCanvas() = default;
 
 ImVec2 NodeCanvas::CanvasToScreen(const glm::vec2& canvasPos) const {
     float zoom = m_ctx->GetCanvasZoom();
@@ -70,6 +74,10 @@ ImVec2 NodeCanvas::GetPinScreenPos(Node* node, Pin* pin, bool isInput) const {
 void NodeCanvas::Render() {
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
     ImGui::Begin("Node Graph", nullptr, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+
+    if (m_breadcrumbBar) {
+        m_breadcrumbBar->Render();
+    }
 
     m_canvasOrigin = ImGui::GetCursorScreenPos();
     m_canvasSize = ImGui::GetContentRegionAvail();
@@ -325,6 +333,14 @@ void NodeCanvas::HandleInput() {
 
                 if (mousePos.x >= screenPos.x && mousePos.x <= screenPos.x + nodeSize.x &&
                     mousePos.y >= screenPos.y && mousePos.y <= screenPos.y + nodeSize.y) {
+                    
+                    if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left)) {
+                        if (auto* comp = dynamic_cast<ContainerComp*>(node.get())) {
+                            m_ctx->EnterContainer(comp);
+                            return;
+                        }
+                    }
+
                     bool multi = io.KeyCtrl || io.KeyShift;
                     if (!m_ctx->IsNodeSelected(nodeId)) {
                         m_ctx->SelectNode(nodeId, multi);
@@ -420,10 +436,13 @@ void NodeCanvas::HandleInput() {
 
     // 7. Global Canvas Hotkeys
     if (isHovered) {
-        if (ImGui::IsKeyPressed(ImGuiKey_Tab) || ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left)) {
+        if (ImGui::IsKeyPressed(ImGuiKey_Tab)) {
             m_ctx->OpenOpPalette(glm::vec2(mousePos.x, mousePos.y));
         }
-        if (ImGui::IsKeyPressed(ImGuiKey_Delete) || ImGui::IsKeyPressed(ImGuiKey_Backspace)) {
+        if (ImGui::IsKeyPressed(ImGuiKey_U) || (ImGui::IsKeyPressed(ImGuiKey_Backspace) && m_ctx->GetSelectedNodes().empty())) {
+            m_ctx->ExitContainer();
+        }
+        if (ImGui::IsKeyPressed(ImGuiKey_Delete) || (ImGui::IsKeyPressed(ImGuiKey_Backspace) && !m_ctx->GetSelectedNodes().empty())) {
             for (NodeId selId : m_ctx->GetSelectedNodes()) {
                 m_ctx->GetUndoManager().ExecuteCommand(std::make_unique<DeleteNodeCommand>(m_ctx, selId));
             }

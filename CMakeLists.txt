@@ -69,6 +69,15 @@ add_library(nodeforge_core STATIC
     src/operators/tex/LevelTexOp.cpp
     src/operators/tex/ResolutionTexOp.cpp
     src/operators/tex/ToWindowTexOp.cpp
+    src/operators/comp/ContainerComp.cpp
+    src/operators/comp/InOp.cpp
+    src/operators/comp/OutOp.cpp
+    src/project/PathUtils.cpp
+    src/project/ProjectFile.cpp
+    src/project/ProjectSerializer.cpp
+    src/project/ComponentSerializer.cpp
+    src/project/AutosaveManager.cpp
+    src/project/RecentProjectsManager.cpp
     third_party/imgui_backends/imgui_impl_glfw.cpp
     third_party/imgui_backends/imgui_impl_vulkan.cpp
     src/ui/EditorTheme.cpp
@@ -78,6 +87,7 @@ add_library(nodeforge_core STATIC
     src/ui/commands/WireCommands.cpp
     src/ui/commands/ParamCommands.cpp
     src/ui/canvas/NodeCanvas.cpp
+    src/ui/canvas/BreadcrumbBar.cpp
     src/ui/panels/OpPaletteModal.cpp
     src/ui/panels/ParameterPanel.cpp
     src/ui/panels/ViewerPanel.cpp

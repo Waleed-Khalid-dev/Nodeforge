@@ -1,15 +1,18 @@
 #pragma once
 
 #include "../EditorContext.h"
+#include "BreadcrumbBar.h"
 #include <imgui.h>
 #include <glm/vec2.hpp>
 #include <vector>
+#include <memory>
 
 namespace nf::ui {
 
 class NodeCanvas {
 public:
     explicit NodeCanvas(EditorContext* ctx);
+    ~NodeCanvas();
 
     void Render();
 
@@ -44,6 +47,8 @@ private:
 
     bool m_isDraggingNodes = false;
     std::unordered_map<NodeId, glm::vec2> m_dragStartPositions;
+
+    std::unique_ptr<class BreadcrumbBar> m_breadcrumbBar;
 };
 
 } // namespace nf::ui
