@@ -11,6 +11,9 @@
 #include "../operators/tex/LevelTexOp.h"
 #include "../operators/tex/ResolutionTexOp.h"
 #include "../operators/tex/ToWindowTexOp.h"
+#include "../operators/comp/ContainerComp.h"
+#include "../operators/comp/InOp.h"
+#include "../operators/comp/OutOp.h"
 
 namespace nf {
 
@@ -99,6 +102,28 @@ void RegisterCoreNodes(NodeRegistry& registry) {
         NodeFamily::TexOp,
         "Presentation",
         "Presents the texture directly to the GLFW Vulkan swapchain."
+    );
+
+    // Comp
+    registry.RegisterNodeType<ContainerComp>(
+        "ContainerComp",
+        NodeFamily::Comp,
+        "Container",
+        "Subnetwork container operator encapsulating an inner node graph."
+    );
+
+    registry.RegisterNodeType<InOp>(
+        "InOp",
+        NodeFamily::Comp,
+        "Boundary",
+        "Boundary input operator exposing a parent container input pin."
+    );
+
+    registry.RegisterNodeType<OutOp>(
+        "OutOp",
+        NodeFamily::Comp,
+        "Boundary",
+        "Boundary output operator exposing a parent container output pin."
     );
 }
 
