@@ -630,8 +630,8 @@ Expression languages v1:
 
 #### Definition of Done
 
-- [ ] Script node creates nodes or sets params on pulse  
-- [ ] Table drives Replicator later (or simple select)  
+- [x] Script node creates nodes or sets params on pulse (ScriptDataOp onCook & onPulse Python hooks with exception safety and live DataTable manipulation)  
+- [x] Table drives Replicator later or simple select (SelectDataOp, MergeDataOp, JSONDataOp, WebDataOp, OSCInOp, OSCOutOp, ChanToDataOp, DataToChanOp; 69/69 tests passing)  
 
 ---
 

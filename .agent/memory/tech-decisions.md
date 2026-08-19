@@ -1,7 +1,7 @@
 ---
 type: project
 created: 2026-08-18
-updated: 2026-08-18
+updated: 2026-08-20
 ---
 
 # Technical Decisions & Environment Constraints
@@ -21,3 +21,9 @@ The workspace directory path contains brackets: `D:\[Project]\Touch Designer`.
 - **Root cause:** CMake's `file(GLOB ...)` interprets brackets `[...]` as regular expression character classes. As a result, standard vcpkg target export files (e.g. `ZLIB-shared.cmake`, `pugixml-targets.cmake`, `minizip-shared.cmake`) that use `file(GLOB _cmake_config_files "${CMAKE_CURRENT_LIST_DIR}/...-*.cmake")` fail to find any debug/release configuration files, leaving `IMPORTED_CONFIGURATIONS` and `IMPORTED_IMPLIB` empty.
 - **Solution (Option B):** `patch_cmake.py` scans `vcpkg_installed` and replaces `file(GLOB)` loops with literal `if(EXISTS ...)` and `include(...)` calls, and injects missing `IMPORTED_IMPLIB_<CONFIG>` properties for CMake 4.x. This script runs automatically during setup/build.
 - **PowerShell / Git rule:** In PowerShell, always use `Set-Location -LiteralPath` or `git -C "D:\[Project]\Touch Designer"` to avoid PowerShell wildcard expansion on `[Project]`.
+
+## 5. Phase 8 DataOp & Scripting Architecture (ADR-0008)
+- **Unified 2D DataTable:** Stores cells in dynamic string vectors with typed conversion helpers, named column/row headers, and RFC 4180 CSV/TSV parser/serializer.
+- **Dual Cooking & Event Hooks:** `ScriptDataOp` executes Python scripts on DAG cook (`onCook(dat)`) or parameter pulse (`onPulse(dat, param)`), with full GIL safety and try-catch error boundary.
+- **Non-blocking UDP & HTTP Network I/O:** `OSCInOp` listens on dedicated background UDP thread into a thread-safe ring buffer; `WebDataOp` uses async worker thread to ensure the rendering loop never drops frames on network latency.
+- **Bi-directional Bridges:** `ChanToDataOp` (ChopToDat) and `DataToChanOp` (DatToChop) allow seamless conversion between numerical waveforms and tabular spreadsheets.

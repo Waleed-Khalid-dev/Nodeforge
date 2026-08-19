@@ -258,14 +258,67 @@ void ViewerPanel::RenderChanViewer(Node* node) {
 }
 
 void ViewerPanel::RenderDataViewer(Node* node) {
-    ImGui::Text("Data / Script Outputs:");
+    const DataTable* dataTable = nullptr;
     for (const auto& pin : node->GetOutputPins()) {
-        const auto& val = pin->GetValue();
-        if (val.Is<std::string>()) {
-            ImGui::BulletText("%s: %s", pin->GetName().c_str(), val.Get<std::string>().c_str());
-        } else {
-            ImGui::BulletText("%s", pin->GetName().c_str());
+        if (pin->GetValue().Is<DataTable>()) {
+            dataTable = &pin->GetValue().Get<DataTable>();
+            break;
         }
+    }
+
+    if (!dataTable || dataTable->IsEmpty()) {
+        ImGui::TextDisabled("Table is empty or not cooked");
+        return;
+    }
+
+    size_t numRows = dataTable->GetRowCount();
+    size_t numCols = dataTable->GetColumnCount();
+    const auto& headers = dataTable->GetColumnHeaders();
+
+    // Header Toolbar
+    ImGui::TextColored(ImVec4(0.95f, 0.55f, 0.2f, 1.0f), "Table: %zu Rows x %zu Columns", numRows, numCols);
+    ImGui::SameLine();
+    if (ImGui::SmallButton("Copy CSV")) {
+        std::string csvStr = dataTable->ToCSV();
+        ImGui::SetClipboardText(csvStr.c_str());
+    }
+
+    // Interactive ImGui Table Spreadsheet
+    ImGuiTableFlags flags = ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable |
+                            ImGuiTableFlags_Hideable | ImGuiTableFlags_RowBg |
+                            ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersV |
+                            ImGuiTableFlags_BordersH | ImGuiTableFlags_ScrollY |
+                            ImGuiTableFlags_ScrollX;
+
+    ImVec2 avail = ImGui::GetContentRegionAvail();
+    if (ImGui::BeginTable("##DataTableGrid", static_cast<int>(numCols + 1), flags, avail)) {
+        // Setup row index header
+        ImGui::TableSetupColumn("#", ImGuiTableColumnFlags_WidthFixed, 35.0f);
+        for (size_t c = 0; c < numCols; ++c) {
+            std::string headerName = (c < headers.size()) ? headers[c] : ("col" + std::to_string(c));
+            ImGui::TableSetupColumn(headerName.c_str(), ImGuiTableColumnFlags_WidthStretch);
+        }
+        ImGui::TableHeadersRow();
+
+        // Virtualized rows with clipper
+        ImGuiListClipper clipper;
+        clipper.Begin(static_cast<int>(numRows));
+        while (clipper.Step()) {
+            for (int r = clipper.DisplayStart; r < clipper.DisplayEnd; ++r) {
+                ImGui::TableNextRow();
+                // Row number
+                ImGui::TableSetColumnIndex(0);
+                ImGui::TextDisabled("%d", r);
+
+                // Row cells
+                for (size_t c = 0; c < numCols; ++c) {
+                    ImGui::TableSetColumnIndex(static_cast<int>(c + 1));
+                    std::string cellVal = dataTable->GetCell(static_cast<size_t>(r), c);
+                    ImGui::TextUnformatted(cellVal.c_str());
+                }
+            }
+        }
+        ImGui::EndTable();
     }
 }
 

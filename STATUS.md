@@ -1,7 +1,7 @@
 # NodeForge Status
 
 **Active phase:** 8  
-**Phase name:** GeomOp & 3D Engine (SOP 3D Primitives, Transforms & Vulkan Geometry Pipeline)  
+**Phase name:** DataOps + Script Nodes (DAT Text, Table, Script, JSON, OSC & Web I/O)  
 
 **Updated:** 2026-08-19  
 **Branch policy:** main protected; work on `phase/0-*` branches when git is initialized  
@@ -9,7 +9,7 @@
 
 ## In progress
 
-- [ ] Phase 8 kickoff (GeomOp 3D pipeline, MeshHandle, OBJ/glTF loader, procedural generators, 3D transform, MAT shaders, render TOP)
+- [ ] Phase 8 kickoff (DataOp runtime table/text model, DataTable, ScriptDataOp python hooks, JSONDataOp, OSC In/Out UDP server/client, WebDataOp HTTP async, Table/Text spreadsheet UI viewer)
 
 ## Completed
 
@@ -20,7 +20,7 @@
 - [x] Phase 4: TexOp Pipeline (GPU Nodes) (Base TexOp, lease-based TexturePool, runtime GLSL ShaderCompiler with embedded SPIR-V, FullscreenPass dynamic rasterizer, ComputePass compute dispatcher, 10 core TexOps: Null, Constant, Noise, LoadImage, Transform, Composite, Blur, Level, Resolution, ToWindow, 29/29 tests passing, 0 leaks across 10,000 frames)
 - [x] Phase 5: Editor UI (Node Graph IDE) (Custom ImDrawList infinite canvas with 0.2x-2.5x pan/zoom & bezier wires, multi-node selection & move, TAB OP Create palette with fuzzy search & family filtering, multi-page Parameter Inspector with dynamic C/E toggle, live GPU Texture & Channel Viewer, Log Console & Python REPL prompt, Timeline transport bar with frame scrubber, Main Menu Bar, full Command Pattern Undo/Redo history, 35/35 unit and benchmark tests passing)
 - [x] Phase 6: Project System & Components (Complete `.nfp` JSON v1 schema roundtrip, relative path resolution, ContainerComp nested subnetwork execution, InOp/OutOp boundary pin sync, `.nfc` Component import/export, 60s background autosave & crash recovery detection, interactive breadcrumb navigation bar, 41/41 unit & benchmark tests passing)
-- [x] Phase 7: ChanOp Pipeline (CPU/SIMD Audio, Math & Channels) (SIMD-aligned planar ChannelBuffer, dual-mode time slicing, direct C++ parameter-channel binding & python subscripts, 12 ChanOps: Constant, Time, LFO, Noise, Math, Filter, Merge, Select, Trail, AudioFileIn, ChanToTex, TexToChan, vector oscilloscope viewer & canvas preview, 57/57 unit and benchmark tests passing, >40M sample ops/sec throughput)
+- [x] Phase 8: DataOps + Script Nodes (DAT) (Unified 2D DataTable, RFC 4180 CSV/TSV parser/serializer, raw text, JSON Pointer parsing, dual-trigger ScriptDataOp Python hooks, non-blocking UDP OSC In/Out receiver/sender, async WebDataOp HTTP client, ChanToData & DataToChan interop bridges, interactive ImGui spreadsheet table with virtual scrolling clipper, 69/69 tests passing, >100k cells/sec benchmark, 0 leaks across 10,000 frames)
 
 ## Blocked
 
@@ -39,6 +39,18 @@
 - [x] `docs/adr/ADR-0004-graph-runtime.md`
 - [x] `docs/adr/ADR-0006-gpu-texop-pipeline.md`
 - [x] `docs/adr/ADR-0007-chanop-pipeline-and-audio.md`
+- [x] `docs/adr/ADR-0008-dataop-pipeline-and-scripting.md`
+- [x] `docs/operator-spec/TextDataOp.md`
+- [x] `docs/operator-spec/TableDataOp.md`
+- [x] `docs/operator-spec/ScriptDataOp.md`
+- [x] `docs/operator-spec/JSONDataOp.md`
+- [x] `docs/operator-spec/WebDataOp.md`
+- [x] `docs/operator-spec/OSCInOp.md`
+- [x] `docs/operator-spec/OSCOutOp.md`
+- [x] `docs/operator-spec/SelectDataOp.md`
+- [x] `docs/operator-spec/MergeDataOp.md`
+- [x] `docs/operator-spec/ChanToDataOp.md`
+- [x] `docs/operator-spec/DataToChanOp.md`
 - [x] `docs/operator-spec/ConstantChanOp.md`
 - [x] `docs/operator-spec/TimeChanOp.md`
 - [x] `docs/operator-spec/LFOChanOp.md`
@@ -73,6 +85,7 @@
 - Phase 5 complete (2026-08-19)
 - Phase 6 complete (2026-08-19)
 - Phase 7 complete (2026-08-19)
+- Phase 8 complete (2026-08-19)
 
 ## Notes
 

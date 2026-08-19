@@ -283,6 +283,37 @@ void NodeCanvas::DrawNodes(ImDrawList* drawList) {
                 }
             }
         }
+
+        // Mini table preview for DataOp nodes
+        if (zoom > 0.5f && node->GetFamily() == NodeFamily::DataOp) {
+            for (const auto& pin : node->GetOutputPins()) {
+                if (pin->GetValue().Is<DataTable>()) {
+                    const auto& dt = pin->GetValue().Get<DataTable>();
+                    if (!dt.IsEmpty()) {
+                        float previewX = screenPos.x + 12.0f * zoom;
+                        float previewW = nodeSize.x - 24.0f * zoom;
+                        float previewH = 28.0f * zoom;
+                        float previewY = nodeMax.y - previewH - 8.0f * zoom;
+
+                        if (previewH > 10.0f * zoom && previewW > 20.0f * zoom) {
+                            drawList->AddRectFilled(ImVec2(previewX, previewY), ImVec2(previewX + previewW, previewY + previewH), IM_COL32(18, 14, 10, 220), 3.0f * zoom);
+                            drawList->AddRect(ImVec2(previewX, previewY), ImVec2(previewX + previewW, previewY + previewH), IM_COL32(75, 45, 20, 200), 3.0f * zoom);
+
+                            // Draw mini grid lines
+                            float midX = previewX + previewW * 0.5f;
+                            float midY = previewY + previewH * 0.5f;
+                            drawList->AddLine(ImVec2(midX, previewY), ImVec2(midX, previewY + previewH), IM_COL32(90, 55, 30, 150), 1.0f * zoom);
+                            drawList->AddLine(ImVec2(previewX, midY), ImVec2(previewX + previewW, midY), IM_COL32(90, 55, 30, 150), 1.0f * zoom);
+
+                            // Draw table dimension label
+                            std::string snippet = std::to_string(dt.GetRowCount()) + "x" + std::to_string(dt.GetColumnCount());
+                            drawList->AddText(ImVec2(previewX + 4.0f * zoom, previewY + 2.0f * zoom), IM_COL32(255, 170, 80, 220), snippet.c_str());
+                        }
+                    }
+                    break;
+                }
+            }
+        }
     }
 }
 

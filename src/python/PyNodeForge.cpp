@@ -133,6 +133,23 @@ PYBIND11_EMBEDDED_MODULE(nodeforge, m) {
                 }
             }
             return 0.0f;
+        })
+        .def_property_readonly("table", [](Node* self) -> py::object {
+            for (const auto& pin : self->GetOutputPins()) {
+                if (pin->GetValue().Is<DataTable>()) {
+                    return py::cast(pin->GetValue().Get<DataTable>());
+                }
+            }
+            return py::none();
+        })
+        .def("cell", [](Node* self, size_t row, size_t col) -> std::string {
+            for (const auto& pin : self->GetOutputPins()) {
+                if (pin->GetValue().Is<DataTable>()) {
+                    const auto& dt = pin->GetValue().Get<DataTable>();
+                    return dt.GetCell(row, col);
+                }
+            }
+            return "";
         });
 
     // Bind ChannelBuffer
@@ -140,10 +157,47 @@ PYBIND11_EMBEDDED_MODULE(nodeforge, m) {
         .def(py::init<>())
         .def_property_readonly("num_channels", &ChannelBuffer::GetChannelCount)
         .def_property_readonly("num_samples", &ChannelBuffer::GetSampleCount)
-        .def_property_readonly("sample_rate", &ChannelBuffer::GetSampleRate)
+        .def_property_readonly("rate", &ChannelBuffer::GetSampleRate)
         .def_property_readonly("channel_names", &ChannelBuffer::GetChannelNames)
-        .def("get_sample", [](const ChannelBuffer& self, const std::string& name, size_t sampleIdx) {
-            return self.GetSample(name, sampleIdx);
+        .def("sample", py::overload_cast<size_t, size_t>(&ChannelBuffer::GetSample, py::const_))
+        .def("sample", py::overload_cast<const std::string&, size_t>(&ChannelBuffer::GetSample, py::const_), py::arg("name"), py::arg("sampleIdx") = 0)
+        .def("__getitem__", [](const ChannelBuffer& buf, const std::string& name) -> float {
+            return buf.GetSample(name, 0);
+        });
+
+    // Bind DataTable
+    py::class_<DataTable>(m, "DataTable")
+        .def(py::init<>())
+        .def_property_readonly("num_rows", &DataTable::GetRowCount)
+        .def_property_readonly("num_cols", &DataTable::GetColumnCount)
+        .def_property_readonly("headers", &DataTable::GetColumnHeaders)
+        .def("cell", py::overload_cast<size_t, size_t>(&DataTable::GetCell, py::const_))
+        .def("cell", py::overload_cast<const std::string&, const std::string&>(&DataTable::GetCell, py::const_))
+        .def("set_cell", py::overload_cast<size_t, size_t, const std::string&>(&DataTable::SetCell))
+        .def("set_cell", py::overload_cast<const std::string&, const std::string&, const std::string&>(&DataTable::SetCell))
+        .def("cell_float", &DataTable::GetCellFloat, py::arg("row"), py::arg("col"), py::arg("default") = 0.0f)
+        .def("cell_int", &DataTable::GetCellInt, py::arg("row"), py::arg("col"), py::arg("default") = 0)
+        .def("cell_bool", &DataTable::GetCellBool, py::arg("row"), py::arg("col"), py::arg("default") = false)
+        .def("append_row", &DataTable::AppendRow)
+        .def("append_col", &DataTable::AppendColumn, py::arg("header"), py::arg("columnData") = std::vector<std::string>{})
+        .def("clear", &DataTable::Clear)
+        .def("to_csv", &DataTable::ToCSV, py::arg("delimiter") = ',', py::arg("includeHeaders") = true)
+        .def("to_text", &DataTable::ToText)
+        .def("to_json", &DataTable::ToJSON, py::arg("pretty") = true)
+        .def("__getitem__", [](const DataTable& dt, py::handle key) -> std::string {
+            if (py::isinstance<py::tuple>(key)) {
+                auto tup = key.cast<py::tuple>();
+                if (tup.size() == 2) {
+                    if (py::isinstance<py::int_>(tup[0]) && py::isinstance<py::int_>(tup[1])) {
+                        return dt.GetCell(tup[0].cast<size_t>(), tup[1].cast<size_t>());
+                    } else if (py::isinstance<py::str>(tup[0]) && py::isinstance<py::str>(tup[1])) {
+                        return dt.GetCell(tup[0].cast<std::string>(), tup[1].cast<std::string>());
+                    }
+                }
+            } else if (py::isinstance<py::int_>(key)) {
+                return dt.GetCell(key.cast<size_t>(), 0);
+            }
+            return "";
         });
 
     py::class_<ConstantChanOp, Node>(m, "ConstantChanOp");

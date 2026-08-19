@@ -24,6 +24,17 @@
 #include "../operators/comp/ContainerComp.h"
 #include "../operators/comp/InOp.h"
 #include "../operators/comp/OutOp.h"
+#include "../operators/data/TextDataOp.h"
+#include "../operators/data/TableDataOp.h"
+#include "../operators/data/ScriptDataOp.h"
+#include "../operators/data/JSONDataOp.h"
+#include "../operators/data/WebDataOp.h"
+#include "../operators/data/OSCInOp.h"
+#include "../operators/data/OSCOutOp.h"
+#include "../operators/data/SelectDataOp.h"
+#include "../operators/data/MergeDataOp.h"
+#include "../operators/data/ChanToDataOp.h"
+#include "../operators/data/DataToChanOp.h"
 
 namespace nf {
 
@@ -204,6 +215,84 @@ void RegisterCoreNodes(NodeRegistry& registry) {
         NodeFamily::Comp,
         "Boundary",
         "Boundary output operator exposing a parent container output pin."
+    );
+
+    // DataOps (DAT)
+    registry.RegisterNodeType<TextDataOp>(
+        "TextDataOp",
+        NodeFamily::DataOp,
+        "Text",
+        "Stores, loads, and edits raw multiline UTF-8 text strings."
+    );
+
+    registry.RegisterNodeType<TableDataOp>(
+        "TableDataOp",
+        NodeFamily::DataOp,
+        "Table",
+        "Generates, imports, and manages 2D tabular CSV/TSV data."
+    );
+
+    registry.RegisterNodeType<ScriptDataOp>(
+        "ScriptDataOp",
+        NodeFamily::DataOp,
+        "Scripting",
+        "Executes embedded Python code on cook and pulse triggers."
+    );
+
+    registry.RegisterNodeType<JSONDataOp>(
+        "JSONDataOp",
+        NodeFamily::DataOp,
+        "Parsing",
+        "Parses JSON documents and performs JSON Pointer queries."
+    );
+
+    registry.RegisterNodeType<WebDataOp>(
+        "WebDataOp",
+        NodeFamily::DataOp,
+        "Network",
+        "Performs non-blocking asynchronous HTTP REST requests."
+    );
+
+    registry.RegisterNodeType<OSCInOp>(
+        "OSCInOp",
+        NodeFamily::DataOp,
+        "Network",
+        "Receives UDP Open Sound Control packets over local network."
+    );
+
+    registry.RegisterNodeType<OSCOutOp>(
+        "OSCOutOp",
+        NodeFamily::DataOp,
+        "Network",
+        "Transmits UDP Open Sound Control packets to remote endpoints."
+    );
+
+    registry.RegisterNodeType<SelectDataOp>(
+        "SelectDataOp",
+        NodeFamily::DataOp,
+        "Utility",
+        "Filters and slices specific rows and columns from tables."
+    );
+
+    registry.RegisterNodeType<MergeDataOp>(
+        "MergeDataOp",
+        NodeFamily::DataOp,
+        "Combine",
+        "Concatenates tables horizontally or vertically with header alignment."
+    );
+
+    registry.RegisterNodeType<ChanToDataOp>(
+        "ChanToDataOp",
+        NodeFamily::DataOp,
+        "Interop",
+        "Converts numeric channel buffers into tabular sample tracks."
+    );
+
+    registry.RegisterNodeType<DataToChanOp>(
+        "DataToChanOp",
+        NodeFamily::ChanOp,
+        "Interop",
+        "Extracts numeric table columns/rows into channel buffers."
     );
 }
 

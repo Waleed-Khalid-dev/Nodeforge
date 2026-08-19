@@ -45,6 +45,7 @@ add_library(nodeforge_core STATIC
     src/render/FullscreenPass.cpp
     src/render/ComputePass.cpp
     src/core/ChannelBuffer.cpp
+    src/core/DataTable.cpp
     src/graph/PinValue.cpp
     src/graph/Pin.cpp
     src/graph/Wire.cpp
@@ -70,6 +71,18 @@ add_library(nodeforge_core STATIC
     src/operators/chan/AudioFileInChanOp.cpp
     src/operators/chan/ChanToTexOp.cpp
     src/operators/chan/TexToChanOp.cpp
+    src/operators/data/DataOp.cpp
+    src/operators/data/TextDataOp.cpp
+    src/operators/data/TableDataOp.cpp
+    src/operators/data/ScriptDataOp.cpp
+    src/operators/data/JSONDataOp.cpp
+    src/operators/data/SelectDataOp.cpp
+    src/operators/data/MergeDataOp.cpp
+    src/operators/data/OSCInOp.cpp
+    src/operators/data/OSCOutOp.cpp
+    src/operators/data/WebDataOp.cpp
+    src/operators/data/ChanToDataOp.cpp
+    src/operators/data/DataToChanOp.cpp
     src/operators/tex/TexOp.cpp
     src/operators/tex/NullTexOp.cpp
     src/operators/tex/ConstantTexOp.cpp

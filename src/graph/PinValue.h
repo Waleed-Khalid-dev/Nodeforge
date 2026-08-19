@@ -7,6 +7,7 @@
 #include <glm/glm.hpp>
 
 #include "../core/ChannelBuffer.h"
+#include "../core/DataTable.h"
 
 namespace gpu {
     class Texture2D;
@@ -27,6 +28,7 @@ public:
         glm::vec3,
         glm::vec4,
         ChannelBuffer,
+        DataTable,
         std::shared_ptr<gpu::Texture2D>
     >;
 
