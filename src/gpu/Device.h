@@ -28,6 +28,10 @@ public:
     VkQueue GetPresentQueue() const { return m_presentQueue; }
     uint32_t GetPresentQueueIndex() const { return m_presentQueueIndex; }
 
+    VkCommandPool GetCommandPool() const { return m_commandPool; }
+    VkCommandBuffer BeginSingleTimeCommands();
+    void EndSingleTimeCommands(VkCommandBuffer cmd);
+
 private:
     VkInstance m_instance = VK_NULL_HANDLE;
     VkDebugUtilsMessengerEXT m_debugMessenger = VK_NULL_HANDLE;
@@ -35,6 +39,7 @@ private:
     VkDevice m_device = VK_NULL_HANDLE;
     VkSurfaceKHR m_surface = VK_NULL_HANDLE;
     VmaAllocator m_allocator = VK_NULL_HANDLE;
+    VkCommandPool m_commandPool = VK_NULL_HANDLE;
 
     VkQueue m_graphicsQueue = VK_NULL_HANDLE;
     uint32_t m_graphicsQueueIndex = 0;
