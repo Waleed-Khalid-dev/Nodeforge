@@ -4,7 +4,10 @@ add_executable(nodeforge_tests
     unit/operators_test.cpp
     unit/parameter_test.cpp
     unit/python_embed_test.cpp
+    unit/texop_test.cpp
+    unit/texop_integration_test.cpp
     benchmark/graph_benchmark.cpp
+    benchmark/texop_benchmark.cpp
 )
 
 target_link_libraries(nodeforge_tests PRIVATE
