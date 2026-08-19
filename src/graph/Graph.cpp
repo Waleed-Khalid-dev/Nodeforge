@@ -1,4 +1,5 @@
 #include "Graph.h"
+#include "../gpu/Device.h"
 #include <spdlog/spdlog.h>
 #include <queue>
 #include <unordered_set>
@@ -211,6 +212,21 @@ bool Graph::CookAll(const CookContext& context) {
     auto topoOrder = GetTopologicalOrder();
     bool allSuccess = true;
 
+    if (context.gpuDevice && context.commandBuffer == VK_NULL_HANDLE) {
+        VkCommandBuffer cmd = context.gpuDevice->BeginSingleTimeCommands();
+        CookContext gpuCtx = context;
+        gpuCtx.commandBuffer = cmd;
+
+        for (Node* node : topoOrder) {
+            if (!node->EnsureCooked(gpuCtx)) {
+                allSuccess = false;
+            }
+        }
+
+        context.gpuDevice->EndSingleTimeCommands(cmd);
+        return allSuccess;
+    }
+
     for (Node* node : topoOrder) {
         if (!node->EnsureCooked(context)) {
             allSuccess = false;
@@ -222,6 +238,15 @@ bool Graph::CookAll(const CookContext& context) {
 
 bool Graph::CookNode(Node* node, const CookContext& context) {
     if (!node) return false;
+    if (context.gpuDevice && context.commandBuffer == VK_NULL_HANDLE) {
+        VkCommandBuffer cmd = context.gpuDevice->BeginSingleTimeCommands();
+        CookContext gpuCtx = context;
+        gpuCtx.commandBuffer = cmd;
+
+        bool success = node->EnsureCooked(gpuCtx);
+        context.gpuDevice->EndSingleTimeCommands(cmd);
+        return success;
+    }
     return node->EnsureCooked(context);
 }
 

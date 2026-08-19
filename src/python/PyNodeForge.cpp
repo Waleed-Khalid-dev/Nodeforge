@@ -6,8 +6,16 @@
 #include "PythonEngine.h"
 #include "../operators/chan/ConstantChanOp.h"
 #include "../operators/chan/MathChanOp.h"
+#include "../operators/tex/NullTexOp.h"
 #include "../operators/tex/ConstantTexOp.h"
+#include "../operators/tex/NoiseTexOp.h"
+#include "../operators/tex/LoadImageTexOp.h"
 #include "../operators/tex/TransformTexOp.h"
+#include "../operators/tex/CompositeTexOp.h"
+#include "../operators/tex/BlurTexOp.h"
+#include "../operators/tex/LevelTexOp.h"
+#include "../operators/tex/ResolutionTexOp.h"
+#include "../operators/tex/ToWindowTexOp.h"
 #include <pybind11/embed.h>
 #include <pybind11/stl.h>
 
@@ -111,8 +119,16 @@ PYBIND11_EMBEDDED_MODULE(nodeforge, m) {
 
     py::class_<ConstantChanOp, Node>(m, "ConstantChanOp");
     py::class_<MathChanOp, Node>(m, "MathChanOp");
+    py::class_<NullTexOp, Node>(m, "NullTexOp");
     py::class_<ConstantTexOp, Node>(m, "ConstantTexOp");
+    py::class_<NoiseTexOp, Node>(m, "NoiseTexOp");
+    py::class_<LoadImageTexOp, Node>(m, "LoadImageTexOp");
     py::class_<TransformTexOp, Node>(m, "TransformTexOp");
+    py::class_<CompositeTexOp, Node>(m, "CompositeTexOp");
+    py::class_<BlurTexOp, Node>(m, "BlurTexOp");
+    py::class_<LevelTexOp, Node>(m, "LevelTexOp");
+    py::class_<ResolutionTexOp, Node>(m, "ResolutionTexOp");
+    py::class_<ToWindowTexOp, Node>(m, "ToWindowTexOp");
 
     // Module functions
     m.def("op", [](const std::string& name) -> Node* {

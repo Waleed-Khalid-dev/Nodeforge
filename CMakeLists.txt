@@ -39,7 +39,11 @@ add_library(nodeforge_core STATIC
     src/gpu/Device.cpp
     src/gpu/Swapchain.cpp
     src/gpu/Texture.cpp
+    src/gpu/TexturePool.cpp
+    src/gpu/ShaderCompiler.cpp
     src/gpu/FrameResources.cpp
+    src/render/FullscreenPass.cpp
+    src/render/ComputePass.cpp
     src/graph/PinValue.cpp
     src/graph/Pin.cpp
     src/graph/Wire.cpp
@@ -54,8 +58,17 @@ add_library(nodeforge_core STATIC
     src/python/PyNodeForge.cpp
     src/operators/chan/ConstantChanOp.cpp
     src/operators/chan/MathChanOp.cpp
+    src/operators/tex/TexOp.cpp
+    src/operators/tex/NullTexOp.cpp
     src/operators/tex/ConstantTexOp.cpp
+    src/operators/tex/NoiseTexOp.cpp
+    src/operators/tex/LoadImageTexOp.cpp
     src/operators/tex/TransformTexOp.cpp
+    src/operators/tex/CompositeTexOp.cpp
+    src/operators/tex/BlurTexOp.cpp
+    src/operators/tex/LevelTexOp.cpp
+    src/operators/tex/ResolutionTexOp.cpp
+    src/operators/tex/ToWindowTexOp.cpp
 )
 
 target_include_directories(nodeforge_core PUBLIC
