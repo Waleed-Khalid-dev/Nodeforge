@@ -1,6 +1,6 @@
 # NodeForge Status
 
-**Active phase:** 6  
+**Active phase:** 7  
 **Phase name:** ChanOp Pipeline (CPU/SIMD Audio, Math & Channels)  
 
 **Updated:** 2026-08-19  
@@ -9,7 +9,7 @@
 
 ## In progress
 
-- [ ] Phase 6 kickoff (ChanOp audio/math channels, SIMD buffers, oscillators, filters, resamplers, lag/spring, chop-to/from-top)
+- [ ] Phase 7 kickoff (ChanOp audio/math channels, SIMD buffers, oscillators, filters, resamplers, lag/spring, chop-to/from-top)
 
 ## Completed
 
@@ -19,6 +19,7 @@
 - [x] Phase 3: Parameter System + Expressions + Python Embed (Dual-mode Param/Expr, pybind11 nodeforge module, GIL policy, exception recovery, 16/16 tests passing)
 - [x] Phase 4: TexOp Pipeline (GPU Nodes) (Base TexOp, lease-based TexturePool, runtime GLSL ShaderCompiler with embedded SPIR-V, FullscreenPass dynamic rasterizer, ComputePass compute dispatcher, 10 core TexOps: Null, Constant, Noise, LoadImage, Transform, Composite, Blur, Level, Resolution, ToWindow, 29/29 tests passing, 0 leaks across 10,000 frames)
 - [x] Phase 5: Editor UI (Node Graph IDE) (Custom ImDrawList infinite canvas with 0.2x-2.5x pan/zoom & bezier wires, multi-node selection & move, TAB OP Create palette with fuzzy search & family filtering, multi-page Parameter Inspector with dynamic C/E toggle, live GPU Texture & Channel Viewer, Log Console & Python REPL prompt, Timeline transport bar with frame scrubber, Main Menu Bar, full Command Pattern Undo/Redo history, 35/35 unit and benchmark tests passing)
+- [x] Phase 6: Project System & Components (Complete `.nfp` JSON v1 schema roundtrip, relative path resolution, ContainerComp nested subnetwork execution, InOp/OutOp boundary pin sync, `.nfc` Component import/export, 60s background autosave & crash recovery detection, interactive breadcrumb navigation bar, 41/41 unit & benchmark tests passing)
 
 ## Blocked
 
@@ -58,6 +59,7 @@
 - Phase 3 complete (2026-08-19)
 - Phase 4 complete (2026-08-19)
 - Phase 5 complete (2026-08-19)
+- Phase 6 complete (2026-08-19)
 
 ## Notes
 

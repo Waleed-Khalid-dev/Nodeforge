@@ -8,6 +8,8 @@ add_executable(nodeforge_tests
     unit/texop_integration_test.cpp
     unit/ui_undo_test.cpp
     unit/ui_canvas_math_test.cpp
+    unit/project_serialization_test.cpp
+    unit/component_hierarchy_test.cpp
     benchmark/graph_benchmark.cpp
     benchmark/texop_benchmark.cpp
 )
