@@ -5,6 +5,7 @@
 #include "../commands/WireCommands.h"
 #include "../../operators/tex/TexOp.h"
 #include "../../operators/comp/ContainerComp.h"
+#include "../../core/ChannelBuffer.h"
 #include <algorithm>
 #include <cmath>
 
@@ -42,8 +43,8 @@ ImVec2 NodeCanvas::GetNodeSize(Node* node) const {
     size_t pinCount = std::max(node->GetInputPins().size(), node->GetOutputPins().size());
     float baseHeight = 50.0f + static_cast<float>(pinCount) * 22.0f;
 
-    // Additional height if node has preview thumbnail
-    if (node->GetFamily() == NodeFamily::TexOp) {
+    // Additional height if node has preview thumbnail or waveform
+    if (node->GetFamily() == NodeFamily::TexOp || node->GetFamily() == NodeFamily::ChanOp) {
         baseHeight += 40.0f;
     }
     return ImVec2(width, baseHeight * zoom);
@@ -246,6 +247,40 @@ void NodeCanvas::DrawNodes(ImDrawList* drawList) {
             if (zoom > 0.5f) {
                 ImVec2 textSize = ImGui::CalcTextSize(pin->GetName().c_str());
                 drawList->AddText(ImVec2(pinPos.x - 8.0f * zoom - textSize.x, pinPos.y - 7.0f * zoom), IM_COL32(200, 205, 215, 230), pin->GetName().c_str());
+            }
+        }
+
+        // Mini waveform preview for ChanOp nodes
+        if (zoom > 0.5f && node->GetFamily() == NodeFamily::ChanOp) {
+            for (const auto& pin : node->GetOutputPins()) {
+                if (pin->GetValue().Is<ChannelBuffer>()) {
+                    const auto& buf = pin->GetValue().Get<ChannelBuffer>();
+                    if (!buf.IsEmpty()) {
+                        float previewX = screenPos.x + 12.0f * zoom;
+                        float previewW = nodeSize.x - 24.0f * zoom;
+                        float previewH = 28.0f * zoom;
+                        float previewY = nodeMax.y - previewH - 8.0f * zoom;
+
+                        if (previewH > 10.0f * zoom && previewW > 20.0f * zoom) {
+                            drawList->AddRectFilled(ImVec2(previewX, previewY), ImVec2(previewX + previewW, previewY + previewH), IM_COL32(10, 12, 16, 200), 3.0f * zoom);
+                            drawList->AddRect(ImVec2(previewX, previewY), ImVec2(previewX + previewW, previewY + previewH), IM_COL32(40, 50, 65, 200), 3.0f * zoom);
+
+                            const float* d = buf.GetChannelData(0);
+                            size_t samples = buf.GetSampleCount();
+                            if (d && samples > 1) {
+                                float dx = previewW / static_cast<float>(samples - 1);
+                                for (size_t s = 0; s < samples - 1; ++s) {
+                                    float x0 = previewX + static_cast<float>(s) * dx;
+                                    float y0 = previewY + previewH * (1.0f - std::clamp((d[s] + 1.0f) * 0.5f, 0.0f, 1.0f));
+                                    float x1 = previewX + static_cast<float>(s + 1) * dx;
+                                    float y1 = previewY + previewH * (1.0f - std::clamp((d[s + 1] + 1.0f) * 0.5f, 0.0f, 1.0f));
+                                    drawList->AddLine(ImVec2(x0, y0), ImVec2(x1, y1), IM_COL32(0, 220, 255, 230), 1.5f * zoom);
+                                }
+                            }
+                        }
+                    }
+                    break;
+                }
             }
         }
     }

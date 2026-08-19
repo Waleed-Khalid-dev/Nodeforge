@@ -6,27 +6,13 @@
 #include <memory>
 #include <glm/glm.hpp>
 
+#include "../core/ChannelBuffer.h"
+
 namespace gpu {
     class Texture2D;
 }
 
 namespace nf {
-
-/// Multi-channel sample buffer representing numeric data streams (audio, animation, sensor data).
-struct ChannelBuffer {
-    std::vector<std::string> names;
-    std::vector<std::vector<float>> data;
-    float sampleRate = 60.0f;
-
-    size_t GetChannelCount() const { return names.size(); }
-    size_t GetSampleCount() const { return data.empty() ? 0 : data[0].size(); }
-    bool IsEmpty() const { return names.empty() || data.empty(); }
-
-    void AddChannel(const std::string& name, const std::vector<float>& samples) {
-        names.push_back(name);
-        data.push_back(samples);
-    }
-};
 
 /// Type-safe data payload passed across node pins.
 class PinValue {

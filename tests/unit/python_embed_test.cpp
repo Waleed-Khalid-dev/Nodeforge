@@ -50,7 +50,7 @@ math.set_param("scalar", 3.0)
     const auto& outVal = pyMath->GetOutputPin("output")->GetValue();
     ASSERT_TRUE(outVal.Is<nf::ChannelBuffer>());
     // 15.0 * 3.0 = 45.0
-    EXPECT_FLOAT_EQ(outVal.Get<nf::ChannelBuffer>().data[0][0], 45.0f);
+    EXPECT_FLOAT_EQ(outVal.Get<nf::ChannelBuffer>().GetSample(0, 0), 45.0f);
 }
 
 TEST(PythonEmbedTest, ParameterExpressionsReferencingOtherNodes) {

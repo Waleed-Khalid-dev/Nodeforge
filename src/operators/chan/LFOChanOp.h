@@ -4,10 +4,13 @@
 
 namespace nf {
 
-class ConstantChanOp : public ChanOp {
+class LFOChanOp : public ChanOp {
 public:
-    ConstantChanOp(NodeId id, const std::string& name);
+    LFOChanOp(NodeId id, const std::string& name);
     bool Cook(const CookContext& context) override;
+
+private:
+    double m_phaseAccum = 0.0;
 };
 
 } // namespace nf

@@ -10,8 +10,12 @@ add_executable(nodeforge_tests
     unit/ui_canvas_math_test.cpp
     unit/project_serialization_test.cpp
     unit/component_hierarchy_test.cpp
+    unit/channel_buffer_test.cpp
+    unit/chanop_pipeline_test.cpp
+    unit/chan_param_bind_test.cpp
     benchmark/graph_benchmark.cpp
     benchmark/texop_benchmark.cpp
+    benchmark/chanop_benchmark.cpp
 )
 
 target_link_libraries(nodeforge_tests PRIVATE

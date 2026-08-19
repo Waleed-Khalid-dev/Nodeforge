@@ -101,8 +101,8 @@ TEST_F(ComponentHierarchyTest, ContainerSubnetworkCook) {
     ASSERT_TRUE(resultVal.Is<ChannelBuffer>());
     const auto& buffer = resultVal.Get<ChannelBuffer>();
     ASSERT_EQ(buffer.GetChannelCount(), 2u);
-    EXPECT_FLOAT_EQ(buffer.data[0][0], 15.0f); // 5.0 * 3
-    EXPECT_FLOAT_EQ(buffer.data[1][0], 30.0f); // 10.0 * 3
+    EXPECT_FLOAT_EQ(buffer.GetSample(0, 0), 15.0f); // 5.0 * 3
+    EXPECT_FLOAT_EQ(buffer.GetSample(1, 0), 30.0f); // 10.0 * 3
 }
 
 TEST_F(ComponentHierarchyTest, ComponentExportAndImport) {

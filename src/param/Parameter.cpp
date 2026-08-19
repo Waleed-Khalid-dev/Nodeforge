@@ -16,7 +16,7 @@ void Parameter::SetMode(ParamMode mode) {
 }
 
 const PinValue& Parameter::GetValue() const {
-    if (m_mode == ParamMode::Expression) {
+    if (m_mode == ParamMode::Expression || m_mode == ParamMode::BoundChannel) {
         return m_evaluatedValue;
     }
     return m_constantValue;
@@ -25,12 +25,30 @@ const PinValue& Parameter::GetValue() const {
 void Parameter::SetValue(const PinValue& value) {
     m_constantValue = ClampValue(value);
     m_mode = ParamMode::Constant;
+    m_boundNodeName.clear();
+    m_boundChannelName.clear();
     NotifyChanged();
 }
 
 void Parameter::SetExpression(const std::string& expr) {
     m_expression = expr;
     m_mode = ParamMode::Expression;
+    m_boundNodeName.clear();
+    m_boundChannelName.clear();
+    NotifyChanged();
+}
+
+void Parameter::SetBoundChannel(const std::string& nodeName, const std::string& channelName) {
+    m_boundNodeName = nodeName;
+    m_boundChannelName = channelName;
+    m_mode = ParamMode::BoundChannel;
+    NotifyChanged();
+}
+
+void Parameter::ClearBoundChannel() {
+    m_boundNodeName.clear();
+    m_boundChannelName.clear();
+    m_mode = ParamMode::Constant;
     NotifyChanged();
 }
 

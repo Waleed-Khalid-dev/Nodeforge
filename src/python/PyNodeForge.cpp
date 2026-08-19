@@ -115,6 +115,35 @@ PYBIND11_EMBEDDED_MODULE(nodeforge, m) {
         .def("cook", [](Node* self) {
             CookContext ctx{ .frameIndex = 1 };
             return self->EnsureCooked(ctx);
+        })
+        .def("__getitem__", [](Node* self, const std::string& chanName) -> float {
+            for (const auto& pin : self->GetOutputPins()) {
+                if (pin->GetValue().Is<ChannelBuffer>()) {
+                    const auto& buf = pin->GetValue().Get<ChannelBuffer>();
+                    return buf.GetSample(chanName, 0);
+                }
+            }
+            return 0.0f;
+        })
+        .def("chan", [](Node* self, const std::string& chanName) -> float {
+            for (const auto& pin : self->GetOutputPins()) {
+                if (pin->GetValue().Is<ChannelBuffer>()) {
+                    const auto& buf = pin->GetValue().Get<ChannelBuffer>();
+                    return buf.GetSample(chanName, 0);
+                }
+            }
+            return 0.0f;
+        });
+
+    // Bind ChannelBuffer
+    py::class_<ChannelBuffer>(m, "ChannelBuffer")
+        .def(py::init<>())
+        .def_property_readonly("num_channels", &ChannelBuffer::GetChannelCount)
+        .def_property_readonly("num_samples", &ChannelBuffer::GetSampleCount)
+        .def_property_readonly("sample_rate", &ChannelBuffer::GetSampleRate)
+        .def_property_readonly("channel_names", &ChannelBuffer::GetChannelNames)
+        .def("get_sample", [](const ChannelBuffer& self, const std::string& name, size_t sampleIdx) {
+            return self.GetSample(name, sampleIdx);
         });
 
     py::class_<ConstantChanOp, Node>(m, "ConstantChanOp");

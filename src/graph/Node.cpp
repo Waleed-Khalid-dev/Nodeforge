@@ -1,4 +1,5 @@
 #include "Node.h"
+#include "Graph.h"
 #include "NodeRegistry.h"
 #include "../python/PythonEngine.h"
 #include <spdlog/spdlog.h>
@@ -32,6 +33,15 @@ Pin* Node::AddOutputPin(const std::string& name, PinType type, const PinValue& d
 Pin* Node::GetInputPin(const std::string& name) {
     for (auto& pin : m_inputPins) {
         if (pin->GetName() == name) return pin.get();
+    }
+    if (name == "input1") {
+        for (auto& pin : m_inputPins) {
+            if (pin->GetName() == "input") return pin.get();
+        }
+    } else if (name == "input") {
+        for (auto& pin : m_inputPins) {
+            if (pin->GetName() == "input1") return pin.get();
+        }
     }
     return nullptr;
 }
@@ -120,12 +130,25 @@ bool Node::EnsureCooked(const CookContext& context) {
         }
     }
 
-    // Evaluate dynamic parameter expressions
+    // Evaluate dynamic parameter expressions & bound channels
     for (const auto& param : m_params.GetAll()) {
         if (param->GetMode() == ParamMode::Expression && !param->GetExpression().empty()) {
             std::string exprErr;
             PinValue evalResult = PythonEngine::Instance().EvaluateExpression(param->GetExpression(), this, context, &exprErr);
             param->SetEvaluatedValue(evalResult);
+        } else if (param->GetMode() == ParamMode::BoundChannel && !param->GetBoundNodeName().empty() && m_graph) {
+            Node* boundNode = m_graph->FindNode(param->GetBoundNodeName());
+            if (boundNode) {
+                boundNode->EnsureCooked(context);
+                for (const auto& outPin : boundNode->GetOutputPins()) {
+                    if (outPin->GetValue().Is<ChannelBuffer>()) {
+                        const auto& buf = outPin->GetValue().Get<ChannelBuffer>();
+                        float sampleVal = buf.GetSample(param->GetBoundChannelName(), 0);
+                        param->SetEvaluatedValue(PinValue(sampleVal));
+                        break;
+                    }
+                }
+            }
         }
     }
 

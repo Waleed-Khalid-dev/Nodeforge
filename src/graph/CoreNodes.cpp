@@ -1,6 +1,16 @@
 #include "CoreNodes.h"
 #include "../operators/chan/ConstantChanOp.h"
+#include "../operators/chan/TimeChanOp.h"
+#include "../operators/chan/LFOChanOp.h"
+#include "../operators/chan/NoiseChanOp.h"
 #include "../operators/chan/MathChanOp.h"
+#include "../operators/chan/FilterChanOp.h"
+#include "../operators/chan/MergeChanOp.h"
+#include "../operators/chan/SelectChanOp.h"
+#include "../operators/chan/TrailChanOp.h"
+#include "../operators/chan/AudioFileInChanOp.h"
+#include "../operators/chan/ChanToTexOp.h"
+#include "../operators/chan/TexToChanOp.h"
 #include "../operators/tex/NullTexOp.h"
 #include "../operators/tex/ConstantTexOp.h"
 #include "../operators/tex/NoiseTexOp.h"
@@ -26,14 +36,84 @@ void RegisterCoreNodes(NodeRegistry& registry) {
         "Generates constant multi-channel numeric streams."
     );
 
+    registry.RegisterNodeType<TimeChanOp>(
+        "TimeChanOp",
+        NodeFamily::ChanOp,
+        "Generators",
+        "Generates continuous timeline, clock, frame index, and playback progress channels."
+    );
+
+    registry.RegisterNodeType<LFOChanOp>(
+        "LFOChanOp",
+        NodeFamily::ChanOp,
+        "Generators",
+        "Low-frequency oscillator generating periodic waveforms (Sine, Tri, Saw, Square, Pulse)."
+    );
+
+    registry.RegisterNodeType<NoiseChanOp>(
+        "NoiseChanOp",
+        NodeFamily::ChanOp,
+        "Generators",
+        "Procedural 1D Perlin / Simplex smooth noise channel generator."
+    );
+
     registry.RegisterNodeType<MathChanOp>(
         "MathChanOp",
         NodeFamily::ChanOp,
         "Math",
-        "Performs arithmetic and trigonometric operations on channels."
+        "Performs arithmetic, trigonometric, combine, and range remapping operations on channels."
+    );
+
+    registry.RegisterNodeType<FilterChanOp>(
+        "FilterChanOp",
+        NodeFamily::ChanOp,
+        "Filter",
+        "Applies lag, spring dynamics, damping, and moving average smoothing to channels."
+    );
+
+    registry.RegisterNodeType<MergeChanOp>(
+        "MergeChanOp",
+        NodeFamily::ChanOp,
+        "Combine",
+        "Merges multiple channel sets into a single unified multi-channel buffer."
+    );
+
+    registry.RegisterNodeType<SelectChanOp>(
+        "SelectChanOp",
+        NodeFamily::ChanOp,
+        "Utility",
+        "Filters, selects, reorders, and renames channels using pattern matching."
+    );
+
+    registry.RegisterNodeType<TrailChanOp>(
+        "TrailChanOp",
+        NodeFamily::ChanOp,
+        "Utility",
+        "Records a continuous sliding history ring buffer of time-sliced samples."
+    );
+
+    registry.RegisterNodeType<AudioFileInChanOp>(
+        "AudioFileInChanOp",
+        NodeFamily::ChanOp,
+        "File I/O",
+        "Decodes audio files (WAV, PCM) into streaming multi-channel audio buffers."
+    );
+
+    registry.RegisterNodeType<TexToChanOp>(
+        "TexToChanOp",
+        NodeFamily::ChanOp,
+        "Interop",
+        "Extracts pixel data from a GPU Texture2D into CPU RGBA channel buffers."
     );
 
     // TexOps
+    registry.RegisterNodeType<ChanToTexOp>(
+        "ChanToTexOp",
+        NodeFamily::TexOp,
+        "Interop",
+        "Converts numeric multi-channel buffer data into a 1D/2D GPU Texture2D."
+    );
+
     registry.RegisterNodeType<NullTexOp>(
         "NullTexOp",
         NodeFamily::TexOp,

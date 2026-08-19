@@ -30,7 +30,13 @@ public:
     const std::string& GetExpression() const { return m_expression; }
     void SetExpression(const std::string& expr);
 
-    // Evaluated cache update (called by engine during cook)
+    // Channel Binding (switches mode to BoundChannel and marks dirty)
+    void SetBoundChannel(const std::string& nodeName, const std::string& channelName);
+    const std::string& GetBoundNodeName() const { return m_boundNodeName; }
+    const std::string& GetBoundChannelName() const { return m_boundChannelName; }
+    void ClearBoundChannel();
+
+    // Evaluated cache update (called by engine during cook or channel bind update)
     void SetEvaluatedValue(const PinValue& value) { m_evaluatedValue = value; }
     const PinValue& GetEvaluatedValue() const { return m_evaluatedValue; }
     const PinValue& GetConstantValue() const { return m_constantValue; }
@@ -57,6 +63,8 @@ private:
     ParamMode m_mode = ParamMode::Constant;
     PinValue m_constantValue;
     std::string m_expression;
+    std::string m_boundNodeName;
+    std::string m_boundChannelName;
     PinValue m_evaluatedValue;
     std::function<void()> m_onChanged;
 };

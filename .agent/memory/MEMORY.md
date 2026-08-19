@@ -7,8 +7,9 @@
 ## Project & Architecture
 - [project] NodeForge Core Stack: C++23, Vulkan 1.3, Dear ImGui, CPython 3 embed, vcpkg -> architecture.md
 - [project] Workspace directory has brackets `D:\[Project]\Touch Designer`; use `-LiteralPath` in PowerShell and `git -C` with backtick escapes -> project-conventions.md
-- [project] Phase 0 to Phase 6 (GPU presentation, DAG Runtime, Python 3 Embed, TexOp Pipeline, Studio Editor UI, Project System & Components, 41/41 tests) COMPLETE -> STATUS.md
-- [project] Active Phase: Phase 7 (ChanOp Pipeline - CPU/SIMD Audio & Math Channels) -> STATUS.md
+- [project] Phase 0 to Phase 7 (GPU presentation, DAG Runtime, Python 3 Embed, TexOp Pipeline, Studio Editor UI, Project System & Components, ChanOp SIMD Audio/Channels, 57/57 tests) COMPLETE -> STATUS.md
+- [project] Active Phase: Phase 8 (GeomOp & 3D Engine - SOP 3D Primitives, MeshHandle, Vulkan Geometry Pipeline) -> STATUS.md
 - [project] Hybrid pull-on-demand with push dirty invalidation, PinValue variant, and Kahn's topo-sort -> docs/adr/ADR-0004-graph-runtime.md
 - [project] Parameter System & Python Embedding Architecture (dual-mode Constant/Expression, pybind11, GIL management) -> docs/adr/ADR-0005-parameter-system-and-python.md
 - [project] GPU TexOp Pipeline & Shader Architecture (FullscreenPass, ComputePass, dynamic raster/compute) -> docs/adr/ADR-0006-gpu-texop-pipeline.md
+- [project] ChanOp Pipeline & Audio Architecture (SIMD contiguous ChannelBuffer, dual time-slicing, 3-tier parameter binding) -> docs/adr/ADR-0007-chanop-pipeline-and-audio.md

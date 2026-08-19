@@ -1,10 +1,11 @@
 #include "ConstantChanOp.h"
 #include <sstream>
+#include <algorithm>
 
 namespace nf {
 
 ConstantChanOp::ConstantChanOp(NodeId id, const std::string& name)
-    : Node(id, name, "ConstantChanOp") {
+    : ChanOp(id, name, "ConstantChanOp") {
     m_outPin = AddOutputPin("output", PinType::Chan);
 
     SetParam("channel_names", std::string("chan1 chan2"));
@@ -47,18 +48,19 @@ bool ConstantChanOp::Cook(const CookContext& /*context*/) {
         names.push_back("chan1");
     }
 
-    ChannelBuffer buf;
-    buf.sampleRate = rate;
+    ChannelBuffer buf(names, static_cast<size_t>(numSamples), rate);
 
     const float valArray[4] = { vals.x, vals.y, vals.z, vals.w };
 
     for (size_t i = 0; i < names.size(); ++i) {
         float sampleVal = (i < 4) ? valArray[i] : 0.0f;
-        std::vector<float> samples(numSamples, sampleVal);
-        buf.AddChannel(names[i], samples);
+        float* chanPtr = buf.GetChannelData(i);
+        if (chanPtr) {
+            std::fill_n(chanPtr, numSamples, sampleVal);
+        }
     }
 
-    m_outPin->SetValue(PinValue(buf));
+    SetOutputBuffer(buf);
     return true;
 }
 

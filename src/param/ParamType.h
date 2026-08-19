@@ -20,8 +20,9 @@ enum class ParamType {
 };
 
 enum class ParamMode {
-    Constant,    // Static PinValue literal
-    Expression   // Evaluated dynamically via Python expression string
+    Constant,     // Static PinValue literal
+    Expression,   // Evaluated dynamically via Python expression string
+    BoundChannel  // Bound directly to a ChanOp output channel
 };
 
 struct ParamMetadata {

@@ -3,6 +3,7 @@
 #include "../commands/ParamCommands.h"
 #include <imgui.h>
 #include <cstring>
+#include <sstream>
 
 namespace nf::ui {
 
@@ -67,16 +68,23 @@ void ParameterPanel::RenderParameterRow(Node* node, Parameter* param) {
 
     ImGui::PushID(param->GetName().c_str());
 
-    // Mode Toggle Button: [C] (Constant) vs [E] (Expression)
+    // Mode Toggle Button: [C] (Constant), [E] (Expression), [B] (Bound Channel)
     bool isExpr = (param->GetMode() == ParamMode::Expression);
-    if (isExpr) {
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.30f, 0.50f, 0.85f, 1.00f));
+    bool isBound = (param->GetMode() == ParamMode::BoundChannel);
+
+    if (isBound) {
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.95f, 0.60f, 0.10f, 1.00f)); // Amber/Gold
+    } else if (isExpr) {
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.30f, 0.50f, 0.85f, 1.00f)); // Blue
     } else {
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.18f, 0.20f, 0.25f, 1.00f));
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.18f, 0.20f, 0.25f, 1.00f)); // Dark gray
     }
 
-    if (ImGui::Button(isExpr ? "E" : "C", ImVec2(22.0f, 0.0f))) {
-        if (isExpr) {
+    const char* btnLabel = isBound ? "B" : (isExpr ? "E" : "C");
+    if (ImGui::Button(btnLabel, ImVec2(22.0f, 0.0f))) {
+        if (isBound) {
+            param->ClearBoundChannel();
+        } else if (isExpr) {
             m_ctx->GetUndoManager().ExecuteCommand(
                 std::make_unique<SetParamExpressionCommand>(m_ctx, node->GetId(), param->GetName(), param->GetExpression(), "")
             );
@@ -87,17 +95,39 @@ void ParameterPanel::RenderParameterRow(Node* node, Parameter* param) {
         }
     }
     ImGui::PopStyleColor();
+
     if (ImGui::IsItemHovered()) {
-        ImGui::SetTooltip(isExpr ? "Expression Mode: Click to switch to Constant" : "Constant Mode: Click to switch to Expression");
+        if (isBound) ImGui::SetTooltip("Bound Channel Mode: Bound to '%s.%s'. Click to unbind.", param->GetBoundNodeName().c_str(), param->GetBoundChannelName().c_str());
+        else if (isExpr) ImGui::SetTooltip("Expression Mode: Click to switch to Constant");
+        else ImGui::SetTooltip("Constant Mode: Click to switch to Expression (or drag a channel here to bind)");
     }
 
     ImGui::SameLine();
     ImGui::Text("%s", param->GetLabel().c_str());
 
+    // Drag-and-drop target to bind channel
+    if (ImGui::BeginDragDropTarget()) {
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("NF_CHANNEL_BIND")) {
+            const char* payloadStr = static_cast<const char*>(payload->Data);
+            std::string s(payloadStr);
+            size_t slashPos = s.find('/');
+            if (slashPos != std::string::npos) {
+                std::string boundNode = s.substr(0, slashPos);
+                std::string boundChan = s.substr(slashPos + 1);
+                param->SetBoundChannel(boundNode, boundChan);
+            }
+        }
+        ImGui::EndDragDropTarget();
+    }
+
     ImGui::SameLine(130.0f);
     ImGui::SetNextItemWidth(-1.0f);
 
-    if (param->GetMode() == ParamMode::Expression) {
+    if (isBound) {
+        // Bound Channel Display
+        std::string boundStr = "-> " + param->GetBoundNodeName() + "." + param->GetBoundChannelName();
+        ImGui::TextColored(ImVec4(0.95f, 0.65f, 0.15f, 1.0f), "%s (%.3f)", boundStr.c_str(), param->AsFloat());
+    } else if (isExpr) {
         // Expression Input Field
         std::strncpy(m_exprBuffer, param->GetExpression().c_str(), sizeof(m_exprBuffer) - 1);
         if (ImGui::InputText("##ExprInput", m_exprBuffer, sizeof(m_exprBuffer), ImGuiInputTextFlags_EnterReturnsTrue)) {

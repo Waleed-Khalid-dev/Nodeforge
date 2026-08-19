@@ -4,9 +4,9 @@
 
 namespace nf {
 
-class ConstantChanOp : public ChanOp {
+class MergeChanOp : public ChanOp {
 public:
-    ConstantChanOp(NodeId id, const std::string& name);
+    MergeChanOp(NodeId id, const std::string& name);
     bool Cook(const CookContext& context) override;
 };
 

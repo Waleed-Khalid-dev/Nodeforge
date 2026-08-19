@@ -1,7 +1,7 @@
 # NodeForge Status
 
-**Active phase:** 7  
-**Phase name:** ChanOp Pipeline (CPU/SIMD Audio, Math & Channels)  
+**Active phase:** 8  
+**Phase name:** GeomOp & 3D Engine (SOP 3D Primitives, Transforms & Vulkan Geometry Pipeline)  
 
 **Updated:** 2026-08-19  
 **Branch policy:** main protected; work on `phase/0-*` branches when git is initialized  
@@ -9,7 +9,7 @@
 
 ## In progress
 
-- [ ] Phase 7 kickoff (ChanOp audio/math channels, SIMD buffers, oscillators, filters, resamplers, lag/spring, chop-to/from-top)
+- [ ] Phase 8 kickoff (GeomOp 3D pipeline, MeshHandle, OBJ/glTF loader, procedural generators, 3D transform, MAT shaders, render TOP)
 
 ## Completed
 
@@ -20,6 +20,7 @@
 - [x] Phase 4: TexOp Pipeline (GPU Nodes) (Base TexOp, lease-based TexturePool, runtime GLSL ShaderCompiler with embedded SPIR-V, FullscreenPass dynamic rasterizer, ComputePass compute dispatcher, 10 core TexOps: Null, Constant, Noise, LoadImage, Transform, Composite, Blur, Level, Resolution, ToWindow, 29/29 tests passing, 0 leaks across 10,000 frames)
 - [x] Phase 5: Editor UI (Node Graph IDE) (Custom ImDrawList infinite canvas with 0.2x-2.5x pan/zoom & bezier wires, multi-node selection & move, TAB OP Create palette with fuzzy search & family filtering, multi-page Parameter Inspector with dynamic C/E toggle, live GPU Texture & Channel Viewer, Log Console & Python REPL prompt, Timeline transport bar with frame scrubber, Main Menu Bar, full Command Pattern Undo/Redo history, 35/35 unit and benchmark tests passing)
 - [x] Phase 6: Project System & Components (Complete `.nfp` JSON v1 schema roundtrip, relative path resolution, ContainerComp nested subnetwork execution, InOp/OutOp boundary pin sync, `.nfc` Component import/export, 60s background autosave & crash recovery detection, interactive breadcrumb navigation bar, 41/41 unit & benchmark tests passing)
+- [x] Phase 7: ChanOp Pipeline (CPU/SIMD Audio, Math & Channels) (SIMD-aligned planar ChannelBuffer, dual-mode time slicing, direct C++ parameter-channel binding & python subscripts, 12 ChanOps: Constant, Time, LFO, Noise, Math, Filter, Merge, Select, Trail, AudioFileIn, ChanToTex, TexToChan, vector oscilloscope viewer & canvas preview, 57/57 unit and benchmark tests passing, >40M sample ops/sec throughput)
 
 ## Blocked
 
@@ -37,8 +38,19 @@
 - [x] `docs/adr/ADR-0003-naming.md`
 - [x] `docs/adr/ADR-0004-graph-runtime.md`
 - [x] `docs/adr/ADR-0006-gpu-texop-pipeline.md`
+- [x] `docs/adr/ADR-0007-chanop-pipeline-and-audio.md`
 - [x] `docs/operator-spec/ConstantChanOp.md`
+- [x] `docs/operator-spec/TimeChanOp.md`
+- [x] `docs/operator-spec/LFOChanOp.md`
+- [x] `docs/operator-spec/NoiseChanOp.md`
 - [x] `docs/operator-spec/MathChanOp.md`
+- [x] `docs/operator-spec/FilterChanOp.md`
+- [x] `docs/operator-spec/MergeChanOp.md`
+- [x] `docs/operator-spec/SelectChanOp.md`
+- [x] `docs/operator-spec/TrailChanOp.md`
+- [x] `docs/operator-spec/AudioFileInChanOp.md`
+- [x] `docs/operator-spec/ChanToTexOp.md`
+- [x] `docs/operator-spec/TexToChanOp.md`
 - [x] `docs/operator-spec/NullTexOp.md`
 - [x] `docs/operator-spec/ConstantTexOp.md`
 - [x] `docs/operator-spec/NoiseTexOp.md`
@@ -60,6 +72,7 @@
 - Phase 4 complete (2026-08-19)
 - Phase 5 complete (2026-08-19)
 - Phase 6 complete (2026-08-19)
+- Phase 7 complete (2026-08-19)
 
 ## Notes
 

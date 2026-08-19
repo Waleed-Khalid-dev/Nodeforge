@@ -44,6 +44,7 @@ add_library(nodeforge_core STATIC
     src/gpu/FrameResources.cpp
     src/render/FullscreenPass.cpp
     src/render/ComputePass.cpp
+    src/core/ChannelBuffer.cpp
     src/graph/PinValue.cpp
     src/graph/Pin.cpp
     src/graph/Wire.cpp
@@ -56,8 +57,19 @@ add_library(nodeforge_core STATIC
     src/param/ParameterGroup.cpp
     src/python/PythonEngine.cpp
     src/python/PyNodeForge.cpp
+    src/operators/chan/ChanOp.cpp
     src/operators/chan/ConstantChanOp.cpp
+    src/operators/chan/TimeChanOp.cpp
+    src/operators/chan/LFOChanOp.cpp
+    src/operators/chan/NoiseChanOp.cpp
     src/operators/chan/MathChanOp.cpp
+    src/operators/chan/FilterChanOp.cpp
+    src/operators/chan/MergeChanOp.cpp
+    src/operators/chan/SelectChanOp.cpp
+    src/operators/chan/TrailChanOp.cpp
+    src/operators/chan/AudioFileInChanOp.cpp
+    src/operators/chan/ChanToTexOp.cpp
+    src/operators/chan/TexToChanOp.cpp
     src/operators/tex/TexOp.cpp
     src/operators/tex/NullTexOp.cpp
     src/operators/tex/ConstantTexOp.cpp

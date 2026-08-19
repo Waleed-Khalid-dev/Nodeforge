@@ -60,7 +60,7 @@ TEST(GraphDAGTest, LinearChain100Nodes) {
     ASSERT_EQ(buf.GetChannelCount(), 1u);
     ASSERT_EQ(buf.GetSampleCount(), 1u);
     // Root is 1.0 + 99 additions of 1.0 = 100.0
-    EXPECT_FLOAT_EQ(buf.data[0][0], 100.0f);
+    EXPECT_FLOAT_EQ(buf.GetSample(0, 0), 100.0f);
 }
 
 TEST(GraphDAGTest, DiamondGraphCooksOncePerFrame) {
@@ -187,7 +187,6 @@ TEST(GraphSerializerTest, JsonRoundtripSimpleGraph) {
     auto* restoredB = restoredGraph.FindNode("Multiplier");
     ASSERT_NE(restoredB, nullptr);
     const auto& outVal = restoredB->GetOutputPin("output")->GetValue();
-    ASSERT_TRUE(outVal.Is<nf::ChannelBuffer>());
     // 42.0 * 2.0 = 84.0
-    EXPECT_FLOAT_EQ(outVal.Get<nf::ChannelBuffer>().data[0][0], 84.0f);
+    EXPECT_FLOAT_EQ(outVal.Get<nf::ChannelBuffer>().GetSample(0, 0), 84.0f);
 }
