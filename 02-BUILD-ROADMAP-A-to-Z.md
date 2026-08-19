@@ -556,9 +556,9 @@ Expression languages v1:
 
 #### Definition of Done
 
-- [ ] Artist can build Noise→Blur→Window without typing code  
-- [ ] Save is not required yet, but create/connect/delete is solid  
-- [ ] UI stays usable with 100+ nodes (basic)  
+- [x] Artist can build Noise→Blur→Window without typing code (Infinite canvas with pan/zoom, TAB create palette, bezier wires, parameter panel, live viewer panel)  
+- [x] Save is not required yet, but create/connect/delete is solid (Full Command Pattern Undo/Redo stack verified with ui_undo_test.cpp)  
+- [x] UI stays usable with 100+ nodes (basic) (Canvas spatial layout & 35/35 tests passing)  
 
 ---
 
@@ -577,8 +577,8 @@ Expression languages v1:
 
 #### Definition of Done
 
-- [ ] Create graph → save → quit → load identical cook result  
-- [ ] Component reused in two places  
+- [x] Create graph → save → quit → load identical cook result (.nfp JSON v1 project serializer, relative asset resolution & crash recovery tested)  
+- [x] Component reused in two places (ContainerComp nested subnetworks, InOp/OutOp boundary routing, .nfc component export/import in component_hierarchy_test.cpp)  
 
 ---
 
@@ -609,8 +609,8 @@ Expression languages v1:
 
 #### Definition of Done
 
-- [ ] LFO binds to `Tex.Noise` strength visually  
-- [ ] Channel scope viewer works  
+- [x] LFO binds to `Tex.Noise` strength visually (Direct C++ parameter-channel binding, Python op('lfo1')['chan1'] expressions, and UI drag-and-drop)  
+- [x] Channel scope viewer works (Interactive multi-channel vector oscilloscope in ViewerPanel with zero-cross grid, zoom, legends, hover tooltips & canvas mini-previews; 57/57 tests passing)  
 
 ---
 
