@@ -6,6 +6,8 @@ add_executable(nodeforge_tests
     unit/python_embed_test.cpp
     unit/texop_test.cpp
     unit/texop_integration_test.cpp
+    unit/ui_undo_test.cpp
+    unit/ui_canvas_math_test.cpp
     benchmark/graph_benchmark.cpp
     benchmark/texop_benchmark.cpp
 )

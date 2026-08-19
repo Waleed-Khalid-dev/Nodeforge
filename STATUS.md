@@ -1,7 +1,7 @@
 # NodeForge Status
 
-**Active phase:** 5  
-**Phase name:** Editor UI (Node Graph IDE)  
+**Active phase:** 6  
+**Phase name:** ChanOp Pipeline (CPU/SIMD Audio, Math & Channels)  
 
 **Updated:** 2026-08-19  
 **Branch policy:** main protected; work on `phase/0-*` branches when git is initialized  
@@ -9,7 +9,7 @@
 
 ## In progress
 
-- [ ] Phase 5 kickoff (ImGui docking layout, node editor canvas, pan/zoom, palette, parameter inspector, viewer pane)
+- [ ] Phase 6 kickoff (ChanOp audio/math channels, SIMD buffers, oscillators, filters, resamplers, lag/spring, chop-to/from-top)
 
 ## Completed
 
@@ -18,6 +18,7 @@
 - [x] Phase 2: Graph Runtime (Node, Pin, Wire, Graph, NodeRegistry, Topo sort, Cycle rejection, Hybrid dirty propagation, 4 starter operators, JSON roundtrip, 10/10 tests)
 - [x] Phase 3: Parameter System + Expressions + Python Embed (Dual-mode Param/Expr, pybind11 nodeforge module, GIL policy, exception recovery, 16/16 tests passing)
 - [x] Phase 4: TexOp Pipeline (GPU Nodes) (Base TexOp, lease-based TexturePool, runtime GLSL ShaderCompiler with embedded SPIR-V, FullscreenPass dynamic rasterizer, ComputePass compute dispatcher, 10 core TexOps: Null, Constant, Noise, LoadImage, Transform, Composite, Blur, Level, Resolution, ToWindow, 29/29 tests passing, 0 leaks across 10,000 frames)
+- [x] Phase 5: Editor UI (Node Graph IDE) (Custom ImDrawList infinite canvas with 0.2x-2.5x pan/zoom & bezier wires, multi-node selection & move, TAB OP Create palette with fuzzy search & family filtering, multi-page Parameter Inspector with dynamic C/E toggle, live GPU Texture & Channel Viewer, Log Console & Python REPL prompt, Timeline transport bar with frame scrubber, Main Menu Bar, full Command Pattern Undo/Redo history, 35/35 unit and benchmark tests passing)
 
 ## Blocked
 
@@ -56,6 +57,7 @@
 - Phase 2 complete (2026-08-19)
 - Phase 3 complete (2026-08-19)
 - Phase 4 complete (2026-08-19)
+- Phase 5 complete (2026-08-19)
 
 ## Notes
 
