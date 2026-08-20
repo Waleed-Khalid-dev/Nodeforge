@@ -48,6 +48,14 @@ pre_download_vcpkg.py
 # Tracy profiler capture
 *.tracy
 
+# Secrets, keys, environment variables
+.env
+.env.*
+*.pem
+*.key
+*.cert
+credentials.json
+
 # NodeForge project files (dev working copies — commit intentionally)
 # *.nfp
 # *.nfc

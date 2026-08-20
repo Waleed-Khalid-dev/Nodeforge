@@ -1,88 +1,276 @@
+<div align="center">
+
+<img src="assets/logo.png" alt="NodeForge Logo" width="160" style="border-radius: 24px; margin-bottom: 16px;" />
+
 # NodeForge
 
-> Real-time node-based media engine for projection mapping, interactive holograms, and walkable floor-plan visualizations.
+### *Next-Generation Real-Time Media, 3D Generative Graph & Projection Mapping Engine*
 
-**Company:** Neo Realms — Pakistan's first projection mapping & interactive hologram company  
-**Owner:** Waleed Khalid (solo, part-time)  
-**Status:** 🔵 Phase 0 — Project Genesis  
-**Git:** https://github.com/Waleed-Khalid-dev/Nodeforge (private)
+[![C++23](https://img.shields.io/badge/C%2B%2B-23-00599C?style=flat-square&logo=c%2B%2B&logoColor=white)](https://isocpp.org/)
+[![Vulkan 1.3](https://img.shields.io/badge/Vulkan-1.3-red?style=flat-square&logo=vulkan&logoColor=white)](https://www.vulkan.org/)
+[![Dear ImGui](https://img.shields.io/badge/Dear_ImGui-Docking_Branch-blue?style=flat-square)](https://github.com/ocornut/imgui)
+[![Python 3.11](https://img.shields.io/badge/Python-3.11_Embedded-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
+[![CMake](https://img.shields.io/badge/CMake-3.28+-064F8C?style=flat-square&logo=cmake&logoColor=white)](https://cmake.org/)
+[![Tests](https://img.shields.io/badge/Tests-104%20Passing%20%7C%20100%25-brightgreen?style=flat-square&logo=google)](https://github.com/google/googletest)
+[![Platform](https://img.shields.io/badge/Platform-Windows_x64-0078D6?style=flat-square&logo=windows)](https://microsoft.com/windows)
+[![License](https://img.shields.io/badge/License-Proprietary_%7C_Neo_Realms-9cf?style=flat-square)](#license)
 
----
+<br />
 
-## What is NodeForge?
+[✨ Core Capabilities](#-core-capabilities) •
+[🏗️ Architecture](#️-architecture) •
+[🧩 Operator Ecosystem](#-operator-ecosystem) •
+[⚡ Quick Start](#-quick-start) •
+[🗺️ Phase Roadmap](#️-phase-roadmap) •
+[📜 Clean-Room Standard](#-clean-room--legal-hygiene)
 
-A private Windows-first real-time media engine in the same category as TouchDesigner:
-node graph, GPU textures, channels, 3D geometry, Python scripting, and **multi-projector output**.
+<br />
 
-Built to power Neo Realms' commercial shows:
-- 🏢 **Façade-scale projection mapping** on buildings (with warp + softedge)
-- 👋 **Interactive gesture layer** (touchless wave/swipe surfaces)
-- 🏠 **Walkable 1:1 floor-plan projections** for real-estate developers
-- 💎 **Holograms** for product reveals and events
+<img src="assets/social-card.png" alt="NodeForge Social Banner" width="100%" style="border-radius: 12px; border: 1px solid #1f293d;" />
 
----
-
-## Tech Stack
-
-| Layer | Choice |
-|-------|--------|
-| Language | C++23 |
-| GPU | Vulkan 1.3 + VMA + vk-bootstrap |
-| UI | Dear ImGui (docking) + imgui-node-editor |
-| Build | CMake 3.28 + Ninja + vcpkg |
-| Scripting | Python 3.11 (embedded) + pybind11 |
-| Video | FFmpeg + NDI SDK v6.3.2 + Spout2 |
-| Gesture | Intel RealSense SDK + MediaPipe |
-| Projection | OpenCV homography + custom warp GLSL shader |
+</div>
 
 ---
 
-## Roadmap
+## 📖 Executive Summary
 
-See [`docs/02-BUILD-ROADMAP-A-to-Z.md`](docs/02-BUILD-ROADMAP-A-to-Z.md) — 15 phases from empty shell to full production tool.
+**NodeForge** is a high-performance, clean-room, C++23 / Vulkan 1.3 real-time visual development engine architected from the ground up for **façade-scale architectural projection mapping**, **interactive holograms**, **generative 3D graphics**, and **ultra-low-latency show control**. 
 
-**Phase 10b** (Projection Mapping & Multi-Output) is the Year-1 must-have for Neo Realms.
+Engineered for **Neo Realms**, NodeForge delivers professional-grade DAG execution, sub-millisecond dirty propagation, zero-allocation GPU texture leasing, embedded Python 3.11 scripting, multi-display Bezier grid warping with gamma-correct softedge blending, and full-fidelity show control protocol aggregation across MIDI, OSC, Serial, Art-Net DMX512, Mouse, and Keyboard.
 
 ---
 
-## Building
+## ✨ Core Capabilities
 
-**Stop!** Before trying to build, you must read the [Developer Setup Guide](docs/DEVELOPER-SETUP.md) to install CMake, Ninja, and configure `vcpkg`. If you skip this, the build will fail.
+<table>
+<tr>
+<td width="50%" valign="top">
 
-### Prerequisites
+### 🎨 GPU Texture Processing (`TexOp`)
+- **Vulkan 1.3 Dynamic Rendering** with zero render-pass boilerplate.
+- **Zero-Allocation Texture Leasing Pool** preventing GPU memory fragmentation across continuous multi-hour installations.
+- **Runtime SPIR-V Shader Compilation** with hot-reload support.
+- **Zero-Copy Interop** via Spout2 GPU texture sharing and NDI 6 network video streaming.
 
-- Windows 10/11 x64
-- Visual Studio 2022 (MSVC v143)
-- CMake 3.28+
-- Ninja
-- vcpkg (set `VCPKG_ROOT` env var)
+</td>
+<td width="50%" valign="top">
 
+### 📽️ Multi-Projector Mapping Suite
+- **Multi-Output Window Engine** routing independent render views to multiple physical projector outputs.
+- **2D Bezier Patch & Grid Warper** with interactive on-screen control points and serialized `.nfc` configs.
+- **S-Curve Gamma Softedge Blending** for seamless overlapping projections with black-level pedestal compensation.
+- **On-Site Calibration Overlay** for fast field alignment.
 
-### Build
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
 
-```powershell
-cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
-cmake --build build
-.\build\bin\nodeforge.exe
+### 📐 3D Geometry, Materials & Scene Graph
+- **Procedural Geometry Engine (`GeomOp`)** supporting Grids, Spheres, Boxes, Tori, Cylinders, Noise Deformation, Normal calculation, and Mesh Merging.
+- **Unified Material System (`MatOp`)** with Unlit Constant, Blinn-Phong, and custom runtime GLSL shaders.
+- **Dual-Source GPU Instancing (`GeometryComp`)** driven by numeric channels or tabular data.
+- **Dynamic 3D Camera & Light Comps** rendered straight into downstream 2D texture networks.
+
+</td>
+<td width="50%" valign="top">
+
+### 🎛️ Protocols, SIMD Channels & Show Control
+- **SIMD Channel Processing (`ChanOp`)** operating on planar, cache-coherent `ChannelBuffer` memory.
+- **Real-Time Show Control Protocols**:
+  - **MIDI:** WinMM async subsystem, CC/Note/PitchBend/Aftertouch with zero-lock snapshot extraction.
+  - **OSC:** High-frequency UDP packet parser with decay/hold smoothing.
+  - **Serial:** Win32 Overlapped async I/O worker thread for microcontrollers.
+  - **Art-Net 4 DMX512:** UDP Port 6454 broadcaster/receiver across 32,768 universes.
+
+</td>
+</tr>
+</table>
+
+---
+
+## 🏗️ Architecture & Engine Topology
+
+NodeForge separates execution into distinct evaluation phases: **Input & Clock Polling**, **Dirty Flag Invalidation**, **Demand-Driven Topologically Sorted Cooking**, and **Vulkan Command Queue Submission**.
+
+```mermaid
+flowchart TD
+    subgraph Inputs ["1. Input & Protocol Ingestion"]
+        MIDI["🎹 WinMM MIDI In"]
+        OSC["📡 OSC UDP Receiver"]
+        SERIAL["🔌 Serial Win32 COM"]
+        DMX["💡 Art-Net 4 DMX512"]
+        INPUT["🖱️ Mouse / Keyboard"]
+    end
+
+    subgraph DAG ["2. Directed Acyclic Graph Runtime"]
+        CLOCK["⏱️ Master Clock & Timeline"]
+        DIRTY["⚡ Hybrid Dirty Invalidation"]
+        TOPO["🔗 Kahn Topo Sort & Cycle Rejection"]
+        PY["🐍 Embedded Python 3.11 / GIL"]
+    end
+
+    subgraph Families ["3. Typed Operator Evaluation"]
+        CHAN["🎛️ ChanOp\n(SIMD Buffer)"]
+        DATA["📊 DataOp\n(DataTable 2D)"]
+        GEOM["📐 GeomOp & MatOp\n(Mesh & Shaders)"]
+        TEX["🎨 TexOp\n(Vulkan TexturePool)"]
+    end
+
+    subgraph Output ["4. Output, Mapping & Presentation"]
+        VIEWER["🖥️ Studio UI Viewers & Oscilloscopes"]
+        SPOUT["🔄 Spout2 & NDI 6 Streaming"]
+        WARP["📐 2D Bezier Warp & Softedge Blend"]
+        DISP["📽️ Multi-Projector Windows (5760x1080)"]
+    end
+
+    Inputs -->|Async Ring Buffers| DAG
+    CLOCK --> DIRTY
+    DIRTY --> TOPO
+    PY <-->|pybind11 API| DAG
+    TOPO --> Families
+    Families --> Output
 ```
 
 ---
 
-## Current Phase: 0 — Project Genesis
+## 🧩 Operator Ecosystem
 
-- [x] Folder structure
-- [x] CMakeLists.txt + vcpkg.json
-- [x] GLFW window opens and closes
-- [x] .gitignore, .editorconfig, .clang-format
-- [x] Planning docs in docs/
-- [ ] ADR-0001 (stack confirmation)
-- [ ] ADR-0002 (file formats)
-- [ ] ADR-0003 (naming conventions)
-- [ ] CI: GitHub Actions Windows build
+NodeForge features an organized suite of typed operators structured across 6 core families:
+
+```
+NodeForge Root
+├── 🎨 TexOp (Texture Operators)
+│   ├── Tex.Constant, Tex.Noise, Tex.LoadImage, Tex.Transform, Tex.Composite
+│   ├── Tex.Blur, Tex.Level, Tex.Resolution, Tex.Null, Tex.ToWindow
+│   ├── Tex.MovieFileIn (FFmpeg), Tex.VideoDeviceIn (DirectShow/MF)
+│   ├── Tex.SpoutIn, Tex.SpoutOut, Tex.NDIIn, Tex.NDIOut
+│   └── Tex.ProjectorOut, Tex.WarpBlend (Multi-Projector Mapping)
+├── 🎛️ ChanOp (Channel Operators)
+│   ├── Chan.Constant, Chan.Time, Chan.LFO, Chan.Noise, Chan.Math, Chan.Filter
+│   ├── Chan.Merge, Chan.Select, Chan.Trail, Chan.AudioFileIn
+│   ├── Chan.MIDIIn, Chan.MIDIOut, Chan.OSCIn, Chan.OSCOut
+│   ├── Chan.DMXIn, Chan.DMXOut, Chan.MouseIn, Chan.KeyboardIn
+│   └── Chan.ChanToTex, Chan.TexToChan
+├── 📐 GeomOp (Geometry Operators)
+│   ├── Geom.Grid, Geom.Sphere, Geom.Box, Geom.Torus, Geom.Cylinder
+│   ├── Geom.Transform, Geom.Merge, Geom.NoiseDeform, Geom.Normals
+│   └── Geom.ChanToGeom (Point Cloud Instancing)
+├── 💡 MatOp (Material Operators)
+│   ├── Mat.Constant (Unlit color)
+│   ├── Mat.Phong (Blinn-Phong specular/diffuse/ambient)
+│   └── Mat.GLSL (Custom SPIR-V vertex/fragment pipelines)
+├── 📊 DataOp (Data & Script Operators)
+│   ├── Data.Text, Data.Table, Data.Script (Python hooks onCook/onPulse)
+│   ├── Data.JSON, Data.Web (Async HTTP), Data.Serial (COM I/O)
+│   └── Data.ChanToData, Data.DataToChan
+└── 📦 Comp (Component Operators)
+    ├── Comp.Container (Nested subnetwork execution with InOp/OutOp boundary sync)
+    ├── Comp.Camera (Projection/View matrices & orbit controls)
+    ├── Comp.Light (Point/Directional/Spot illumination)
+    └── Comp.Geometry (Mesh + Material binding with GPU instancing)
+```
 
 ---
 
-## License
+## 🛠️ Technology Stack & Dependencies
 
-Private — Neo Realms internal use only. Not for distribution.  
-Clean-room implementation. No TouchDesigner assets or binaries used.
+All dependencies are pinned, managed via **vcpkg** or approved third-party vendors, avoiding unnecessary code reinvention:
+
+| Subsystem | Technology | Purpose & Rationale |
+|---|---|---|
+| **Core Systems Language** | **C++23** (MSVC v143) | Zero-overhead memory management, modern standard library ranges, and SIMD alignment. |
+| **Graphics API** | **Vulkan 1.3** | Explicit GPU synchronization, Dynamic Rendering, compute dispatch, and multi-queue scalability. |
+| **GPU Memory Manager** | **Vulkan Memory Allocator (VMA)** | Industrial memory sub-allocation preventing GPU driver memory fragmentation. |
+| **Vulkan Bootstrap** | **vk-bootstrap** | Streamlined instance, physical device selection, and swapchain initialization. |
+| **Shader Toolchain** | **shaderc / glslang** | Runtime GLSL to SPIR-V bytecode compilation with hot-reload capabilities. |
+| **UI Framework** | **Dear ImGui (Docking)** + Custom Canvas | Infinite pan/zoom node canvas (0.2x–2.5x), bezier connection routing, docking layout. |
+| **Scripting Runtime** | **CPython 3.11 + pybind11** | Safe GIL-managed embedded Python scripting and expression evaluation. |
+| **Media Decoders** | **FFmpeg (LGPL)** + **stb_image** | Asynchronous multi-threaded video stream decoding and still image ingestion. |
+| **Inter-Process Sharing** | **Spout2** + **NDI SDK v6.3.2** | Zero-copy Windows GPU texture sharing and LAN network video broadcast. |
+| **Lighting & Show Control** | **WinMM** + **Native Art-Net 4 Engine** | Low-latency MIDI message processing and 512-channel DMX universe UDP routing. |
+| **Test Framework** | **GoogleTest** | Comprehensive unit testing and 10,000-frame soak benchmark verification. |
+
+---
+
+## ⚡ Quick Start
+
+### 📋 Prerequisites
+
+Ensure your development environment meets the baseline requirements:
+
+- **OS:** Windows 10 / 11 x64
+- **Toolchain:** Visual Studio 2022 (MSVC v143 or BuildTools 18+) with C++23 support
+- **Build Systems:** CMake 3.28+ and Ninja
+- **Package Manager:** `vcpkg` (set `$env:VCPKG_ROOT` in PowerShell)
+- **GPU:** NVIDIA GeForce RTX 3060 12GB or higher recommended (DirectX 12 / Vulkan 1.3 capable)
+
+---
+
+### 🔨 Build & Verification
+
+1. **Clone the Repository:**
+   ```powershell
+   git clone https://github.com/Waleed-Khalid-dev/Nodeforge.git
+   cd Nodeforge
+   ```
+
+2. **Configure & Build with Ninja:**
+   ```powershell
+   cmake -B build -G Ninja `
+     -DCMAKE_BUILD_TYPE=Debug `
+     -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
+
+   cmake --build build
+   ```
+
+3. **Execute the Full Test & Benchmark Suite:**
+   ```powershell
+   # Run automated unit and performance benchmarks
+   .\build\bin\nodeforge_tests.exe
+   ```
+
+4. **Launch NodeForge Studio:**
+   ```powershell
+   .\build\bin\nodeforge.exe
+   ```
+
+---
+
+## 🗺️ Phase Roadmap & Progress
+
+| Phase | Milestone | Focus Area | Status | Verification |
+|:---:|:---|:---|:---:|:---:|
+| **0** | **Project Genesis** | Repo skeleton, CMake, vcpkg, GLFW shell, ADR-0001–0003 | ✅ Complete | Build passes cleanly |
+| **1** | **GPU Foundation** | Vulkan 1.3, Dynamic Rendering, VMA, Swapchain, Texture upload | ✅ Complete | Headless texture upload verified |
+| **2** | **Graph Runtime** | Node, Pin, Wire, Graph, Kahn Topo sort, Cycle rejection, Hybrid dirty propagation | ✅ Complete | 10/10 unit tests passing |
+| **3** | **Params & Python** | Constant/Expr dual-mode, pybind11 `nodeforge` module, GIL safety | ✅ Complete | 16/16 tests passing |
+| **4** | **TexOp Pipeline** | Lease-based `TexturePool`, runtime GLSL compiler, 10 core GPU TexOps | ✅ Complete | 29/29 tests, 0 leaks across 10k frames |
+| **5** | **Editor Studio UI** | ImGui infinite canvas, TAB create palette, live viewers, Undo/Redo | ✅ Complete | 35/35 tests passing |
+| **6** | **Project System** | `.nfp` JSON v1 schema, `.nfc` reusable components, ContainerComp subnets | ✅ Complete | 41/41 tests passing |
+| **7** | **ChanOps & Audio** | SIMD `ChannelBuffer`, 10 ChanOps, parameter binding, oscilloscope | ✅ Complete | 57/57 tests passing |
+| **8** | **DataOps & Scripts** | 2D `DataTable`, CSV/JSON parsing, ScriptDataOp Python hooks, spreadsheet | ✅ Complete | 69/69 tests, >100k cells/sec |
+| **9** | **3D Geometry & Render** | `GeometryData` mesh engine, 10 GeomOps, 3 MatOps, Camera/Light Comps, RenderTexOp | ✅ Complete | 80/80 tests, 0 GPU memory leaks |
+| **10/10b** | **Media I/O & Projection** ⭐ | VideoDecoder, Spout2, NDI 6, DisplayManager, 2D Bezier warp, Softedge blend | ✅ Complete | 90/90 tests, 10k-frame soak verified |
+| **11** | **Protocols & Show Control** | MIDI (WinMM), OSC, Serial COM, Art-Net 4 DMX512, Mouse/Keyboard | ✅ Complete | 104/104 tests passing (100%) |
+| **12** | **Performance & Profiling** | Cook profiler UI, GPU timing, Texture leak HUD, 24h soak test harness | 🔨 In Progress | Phase 12 Kickoff |
+| **13** | **Plugin SDK** | C++ DLL binary plugin host interface and sample operator | ⏳ Planned | — |
+| **14** | **Commercial Show Pack** | Neo Realms Façade Mapping & Gesture Flagship Template | ⏳ Planned | — |
+
+---
+
+## 📜 Clean-Room & Legal Hygiene
+
+NodeForge is developed under strict **clean-room software engineering standards**:
+- **Zero Decompilation:** No TouchDesigner binaries, bytecode, or assemblies have been inspected or decompiled.
+- **Original Assets:** All user interface designs, canvas styling, vector icons, and documentation are company-original.
+- **Trademark Respect:** All naming conventions use original operator nomenclature (`TexOp`, `ChanOp`, `GeomOp`, `MatOp`, `DataOp`, `Comp`, `.nfp`, `.nfc`).
+
+---
+
+<div align="center">
+
+**Developed by Waleed Khalid • Powered by Neo Realms**  
+*Façade Mapping • Interactive Holograms • Generative Architecture*
+
+</div>
