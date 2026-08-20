@@ -101,6 +101,11 @@ public:
     void SetPerformanceHUDOpen(bool open) { m_showPerformanceHUD = open; }
     void TogglePerformanceHUD() { m_showPerformanceHUD = !m_showPerformanceHUD; }
 
+    // Plugins
+    bool IsPluginManagerOpen() const { return m_showPluginManager; }
+    void SetPluginManagerOpen(bool open) { m_showPluginManager = open; }
+    void TogglePluginManager() { m_showPluginManager = !m_showPluginManager; }
+
 private:
     project::ProjectData m_project;
     project::AutosaveManager m_autosave;
@@ -123,6 +128,7 @@ private:
 
     bool m_showProfiler = false;
     bool m_showPerformanceHUD = false;
+    bool m_showPluginManager = false;
 
     bool m_isPlaying = true;
     uint64_t m_currentFrame = 1;

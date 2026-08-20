@@ -28,6 +28,9 @@ add_executable(nodeforge_tests
     unit/profiler_test.cpp
     unit/leak_detector_test.cpp
     unit/crash_recovery_test.cpp
+    unit/plugin_abi_test.cpp
+    unit/plugin_manager_test.cpp
+    unit/player_runtime_test.cpp
     benchmark/graph_benchmark.cpp
     benchmark/texop_benchmark.cpp
     benchmark/chanop_benchmark.cpp

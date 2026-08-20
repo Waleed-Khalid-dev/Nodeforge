@@ -4,6 +4,8 @@
 # Build output
 build/
 out/
+dist/
+_CPack_Packages/
 .cmake/
 CMakeFiles/
 CMakeCache.txt

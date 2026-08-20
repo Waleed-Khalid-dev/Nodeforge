@@ -774,7 +774,7 @@ This is **Neo Realms' flagship capability.** Cook correctness and output stabili
 
 #### Definition of Done
 
-- [ ] External DLL operator loads hot (or on startup) and cooks  
+- [x] External DLL operator loads hot (or on startup) and cooks (Stable C ABI nf_plugin_abi.h, C++23 SDK NodeForgePluginSDK.hpp, multi-family PluginNodeProxy adapter, PluginManager with hot-reloading and PluginManagerModal dialog, 3 sample plugins: TexInvertPlugin GPU, ChanHarmonicLFOPlugin SIMD, DataCSVTransformPlugin, standalone nodeforge_player.exe kiosk runner, CPack NSIS installer, portable zip bundle staging script, GitHub Actions CI/CD matrix build & test pipeline, 105/105 tests passing)  
 
 ---
 

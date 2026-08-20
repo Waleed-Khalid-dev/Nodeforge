@@ -1,0 +1,79 @@
+name: NodeForge CI/CD & Automated Release Pipeline
+
+on:
+  push:
+    branches: [ main, "phase/**" ]
+    tags: [ "v*.*.*" ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    name: Windows Build, Test & Package (MSVC / C++23 / Vulkan 1.3)
+    runs-on: windows-2022
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Ninja
+        uses: ashutoshvarma/setup-ninja@master
+        with:
+          version: 1.11.1
+
+      - name: Setup Vulkan SDK
+        uses: humbletim/setup-vulkan-sdk@v1.2.0
+        with:
+          vulkan-query-version: 1.3.268.0
+          vulkan-components: Vulkan-Headers, Vulkan-Loader
+          vulkan-use-cache: true
+
+      - name: Restore vcpkg artifacts from cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ github.workspace }}/vcpkg/installed
+            ${{ github.workspace }}/build/vcpkg_installed
+          key: ${{ runner.os }}-vcpkg-${{ hashFiles('vcpkg.json') }}
+          restore-keys: |
+            ${{ runner.os }}-vcpkg-
+
+      - name: Set up MSVC environment
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Configure CMake
+        run: |
+          cmake -B build -G "Ninja" `
+            -DCMAKE_BUILD_TYPE=Release `
+            -DCMAKE_TOOLCHAIN_FILE="${env:VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" `
+            -DNF_BUILD_SAMPLES=ON `
+            -DNF_BUILD_TESTS=ON
+
+      - name: Build All Targets (Studio, Player, Core, Plugins, Tests)
+        run: |
+          cmake --build build --config Release --parallel
+
+      - name: Run Test Suite (GoogleTest & CTest)
+        run: |
+          ctest --test-dir build --output-on-failure -C Release
+
+      - name: Package Portable Distribution & SDK
+        run: |
+          powershell -ExecutionPolicy Bypass -File package/scripts/bundle_portable.ps1 -BuildDir build -OutDir dist/NodeForge-Portable-win64
+
+      - name: Package NSIS Installer (CPack)
+        continue-on-error: true
+        run: |
+          cd build
+          cpack -G NSIS -C Release
+
+      - name: Upload Release Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: NodeForge-Build-Artifacts
+          path: |
+            dist/*.zip
+            build/*.exe
+            build/_CPack_Packages/**

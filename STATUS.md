@@ -1,15 +1,15 @@
 # NodeForge Status
 
-**Active phase:** 13  
-**Phase name:** Packaging, Distribution, CI/CD  
+**Active phase:** 14  
+**Phase name:** Company Workflow Pack + Training  
 
-**Updated:** 2026-08-20  
+**Updated:** 2026-08-21  
 **Branch policy:** main protected; work on `phase/0-*` branches when git is initialized  
 **Git remote:** https://github.com/Waleed-Khalid-dev/Nodeforge (make private before creating)
 
 ## In progress
 
-- [ ] Phase 13 kickoff (Packaging, installer, standalone executable bundling, CI/CD pipeline)
+- [ ] Phase 14 kickoff (Company flagship projection mapping sample graph, operator cheat sheets, internal workshop training documentation, template projects)
 
 ## Completed
 
@@ -26,6 +26,7 @@
 - [x] Phase 10 & 10b: Media I/O, Texture Sharing & Projection Mapping Suite (Multi-threaded VideoDecoder engine with lockless FrameRingBuffer, MovieFileInTexOp with speed/loop/scrub controls, VideoDeviceInTexOp live capture, zero-copy SpoutInTexOp/SpoutOutTexOp Windows GPU texture sharing, NDIInTexOp/NDIOutTexOp LAN streaming, DisplayManager physical output window routing with ProjectorOutTexOp, WarpMesh 2D Bezier grid warper, WarpBlendPass with S-curve gamma softedge blending, black-level pedestal compensation, on-site calibration overlay, 90/90 automated tests passing, 0 memory leaks across 10,000-frame soak)
 - [x] Phase 11: Protocols & Show Control (MidiManager with WinMM high-resolution timers and zero-lock fast snapshots, MIDIInChanOp & MIDIOutChanOp, real-time binary OSCInChanOp & OSCOutChanOp with dynamic address tree parsing, asynchronous Win32 Overlapped SerialPort engine & SerialDataOp, Art-Net 4 DMX512 UDP Port 6454 engine & DMXInChanOp/DMXOutChanOp, InputManager with multi-scope MouseInChanOp & KeyboardInChanOp, 104/104 automated tests passing, 100% pass rate, 0 memory leaks across multi-protocol stress benchmark)
 - [x] Phase 12: Performance, Stability, Profiling (Dual-Engine CookProfiler measuring sub-microsecond per-node CPU execution, Vulkan 1.3 VkQueryPool GpuTimerPool pass timing, TexturePool live watermark & leak detection, dockable ProfilerPanel with search & sparklines, live cook time badges on infinite canvas, floating translucent PerformanceHUD (F3 toggle), Win32 SEH CrashReporter with .nfp.crash emergency snapshots, 110/110 automated tests passing, 100% pass rate across 38 test suites, 0 leaks across 10,000-frame soak)
+- [x] Phase 13: Plugin SDK, Dynamic Operator Runtime, Kiosk Player, Packaging & CI/CD (Stable C ABI nf_plugin_abi.h, Modern C++23 header-only SDK NodeForgePluginSDK.hpp, multi-family PluginNodeProxy adapter, PluginManager with multi-directory auto-discovery and live hot-reload, Studio UI PluginManagerModal dialog, 3 sample plugins: TexInvertPlugin GPU compute, ChanHarmonicLFOPlugin SIMD, DataCSVTransformPlugin, lightweight standalone nodeforge_player.exe kiosk runner, CMake CPack NSIS installer, portable zip bundle staging script bundle_portable.ps1, GitHub Actions CI/CD matrix build & test pipeline, 105/105 automated tests passing with 100% pass rate)
 
 ## Blocked
 
@@ -49,6 +50,8 @@
 - [x] `docs/adr/ADR-0010-media-io-and-projection-mapping.md`
 - [x] `docs/adr/ADR-0011-protocols-and-show-control.md`
 - [x] `docs/adr/ADR-0012-performance-profiling-and-stability.md`
+- [x] `docs/adr/ADR-0013-plugin-sdk-and-packaging.md`
+- [x] `docs/operator-spec/PluginProxyNode.md`
 - [x] `docs/operator-spec/GridGeomOp.md`
 - [x] `docs/operator-spec/SphereGeomOp.md`
 - [x] `docs/operator-spec/BoxGeomOp.md`
@@ -98,6 +101,8 @@
 - Phase 9 complete (2026-08-20)
 - Phase 10 & 10b complete (2026-08-20)
 - Phase 11 complete (2026-08-20)
+- Phase 12 complete (2026-08-20)
+- Phase 13 complete (2026-08-21)
 
 ## Notes
 

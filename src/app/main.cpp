@@ -27,6 +27,8 @@
 #include "../ui/panels/TimelinePanel.h"
 #include "../ui/panels/ProfilerPanel.h"
 #include "../ui/panels/PerformanceHUD.h"
+#include "../ui/panels/PluginManagerModal.h"
+#include "../plugin/PluginManager.h"
 #include "../profiling/CookProfiler.h"
 #include "../gpu/GpuTimerPool.h"
 #include "../diagnostics/CrashReporter.h"
@@ -158,6 +160,10 @@ int main() {
     nf::ui::TimelinePanel timelinePanel(&editorCtx);
     nf::ui::ProfilerPanel profilerPanel(&editorCtx);
     nf::ui::PerformanceHUD performanceHud(&editorCtx);
+    nf::ui::PluginManagerModal pluginManagerModal(&editorCtx);
+
+    // Initial plugin discovery
+    nf::PluginManager::Instance().ScanAndLoadPlugins();
 
     auto lastTime = std::chrono::high_resolution_clock::now();
 
@@ -191,7 +197,9 @@ int main() {
         if (ImGui::IsKeyPressed(ImGuiKey_F3, false)) {
             editorCtx.TogglePerformanceHUD();
         }
-        if (ImGui::GetIO().KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_P, false)) {
+        if (ImGui::GetIO().KeyCtrl && ImGui::GetIO().KeyShift && ImGui::IsKeyPressed(ImGuiKey_P, false)) {
+            editorCtx.TogglePluginManager();
+        } else if (ImGui::GetIO().KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_P, false)) {
             editorCtx.ToggleProfiler();
         }
 
@@ -214,6 +222,12 @@ int main() {
             bool open = true;
             performanceHud.Render(&open);
             if (!open) editorCtx.SetPerformanceHUDOpen(false);
+        }
+
+        if (editorCtx.IsPluginManagerOpen()) {
+            bool open = true;
+            pluginManagerModal.Render(&open);
+            if (!open) editorCtx.SetPluginManagerOpen(false);
         }
 
         nf::CookProfiler::Instance().EndFrame();

@@ -171,6 +171,11 @@ add_library(nodeforge_core STATIC
     src/profiling/CookProfiler.cpp
     src/gpu/GpuTimerPool.cpp
     src/diagnostics/CrashReporter.cpp
+    src/plugin/PluginModule.cpp
+    src/plugin/PluginNodeProxy.cpp
+    src/plugin/PluginManager.cpp
+    src/ui/panels/PluginManagerModal.cpp
+    src/player/PlayerApp.cpp
 )
 
 target_include_directories(nodeforge_core PUBLIC
@@ -212,15 +217,58 @@ target_compile_definitions(nodeforge_core PUBLIC
     $<$<CONFIG:Debug>:NF_DEBUG=1>
 )
 
-# ─── Main executable ────────────────────────────────────────────────────────
+# ─── Executables ────────────────────────────────────────────────────────────
 add_executable(nodeforge
     src/app/main.cpp
 )
-
 target_link_libraries(nodeforge PRIVATE
     nodeforge_core
 )
 
+add_executable(nodeforge_player
+    src/player/main_player.cpp
+)
+target_link_libraries(nodeforge_player PRIVATE
+    nodeforge_core
+)
+
+# ─── Sample Plugins ─────────────────────────────────────────────────────────
+add_subdirectory(sdk/samples/TexInvertPlugin)
+add_subdirectory(sdk/samples/ChanHarmonicLFOPlugin)
+add_subdirectory(sdk/samples/DataCSVTransformPlugin)
+
 # ─── Tests & Benchmarks ─────────────────────────────────────────────────────
 enable_testing()
 add_subdirectory(tests)
+
+# ─── Installation & CPack Packaging ─────────────────────────────────────────
+install(TARGETS nodeforge nodeforge_player
+    RUNTIME DESTINATION bin
+)
+
+install(DIRECTORY sdk/include/
+    DESTINATION sdk/include
+)
+install(DIRECTORY sdk/samples/
+    DESTINATION sdk/samples
+)
+install(FILES sdk/README.md
+    DESTINATION sdk
+)
+
+set(CPACK_PACKAGE_NAME "NodeForge")
+set(CPACK_PACKAGE_VENDOR "Neo Realms")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "NodeForge Real-Time Visual Operator & Projection Mapping Engine")
+set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
+set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-v${PROJECT_VERSION}-win64")
+
+set(CPACK_GENERATOR "ZIP;NSIS")
+set(CPACK_NSIS_DISPLAY_NAME "NodeForge Studio")
+set(CPACK_NSIS_PACKAGE_NAME "NodeForge Studio")
+set(CPACK_NSIS_MUI_ICON "${CMAKE_CURRENT_SOURCE_DIR}/package/nsis/nodeforge.ico")
+set(CPACK_NSIS_MUI_UNIICON "${CMAKE_CURRENT_SOURCE_DIR}/package/nsis/nodeforge.ico")
+set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
+
+include(CPack)

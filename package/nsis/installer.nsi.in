@@ -1,0 +1,78 @@
+; NodeForge Modern NSIS Installer Script Template
+; Auto-configured by CMake CPack
+
+!include "MUI2.nsh"
+!include "FileFunc.nsh"
+
+Name "NodeForge @PROJECT_VERSION@"
+OutFile "@CPACK_PACKAGE_DIRECTORY@/@CPACK_PACKAGE_FILE_NAME@.exe"
+InstallDir "$PROGRAMFILES64\Neo Realms\NodeForge"
+InstallDirRegKey HKLM "Software\NeoRealms\NodeForge" "InstallLocation"
+RequestExecutionLevel admin
+
+; ─── Interface Settings ───────────────────────────────────────────────────────
+!define MUI_ABORTWARNING
+!define MUI_ICON "@CMAKE_CURRENT_SOURCE_DIR@/package/nsis/nodeforge.ico"
+!define MUI_UNICON "@CMAKE_CURRENT_SOURCE_DIR@/package/nsis/nodeforge.ico"
+
+; ─── Pages ────────────────────────────────────────────────────────────────────
+!insertmacro MUI_PAGE_WELCOME
+!insertmacro MUI_PAGE_LICENSE "@CMAKE_CURRENT_SOURCE_DIR@/LICENSE"
+!insertmacro MUI_PAGE_DIRECTORY
+!insertmacro MUI_PAGE_INSTFILES
+!insertmacro MUI_PAGE_FINISH
+
+!insertmacro MUI_UNPAGE_CONFIRM
+!insertmacro MUI_UNPAGE_INSTFILES
+
+!insertmacro MUI_LANGUAGE "English"
+
+; ─── Installer Section ────────────────────────────────────────────────────────
+Section "NodeForge Core & Player" SecCore
+    SetOutPath "$INSTDIR"
+    File /r "@CPACK_TEMPORARY_DIRECTORY@\*.*"
+
+    ; Write registry keys for install location & uninstaller
+    WriteRegStr HKLM "Software\NeoRealms\NodeForge" "InstallLocation" "$INSTDIR"
+    WriteRegStr HKLM "Software\NeoRealms\NodeForge" "Version" "@PROJECT_VERSION@"
+    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\NodeForge" "DisplayName" "NodeForge Studio @PROJECT_VERSION@"
+    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\NodeForge" "UninstallString" "$INSTDIR\Uninstall.exe"
+    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\NodeForge" "DisplayIcon" "$INSTDIR\bin\nodeforge.exe"
+    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\NodeForge" "Publisher" "Neo Realms"
+    WriteUninstaller "$INSTDIR\Uninstall.exe"
+
+    ; Start Menu Shortcuts
+    CreateDirectory "$SMPROGRAMS\NodeForge"
+    CreateShortcut "$SMPROGRAMS\NodeForge\NodeForge Studio.lnk" "$INSTDIR\bin\nodeforge.exe" "" "$INSTDIR\bin\nodeforge.exe" 0
+    CreateShortcut "$SMPROGRAMS\NodeForge\NodeForge Player.lnk" "$INSTDIR\bin\nodeforge_player.exe" "" "$INSTDIR\bin\nodeforge_player.exe" 0
+    CreateShortcut "$SMPROGRAMS\NodeForge\Uninstall NodeForge.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\Uninstall.exe" 0
+
+    ; Desktop Shortcut
+    CreateShortcut "$DESKTOP\NodeForge Studio.lnk" "$INSTDIR\bin\nodeforge.exe" "" "$INSTDIR\bin\nodeforge.exe" 0
+
+    ; File Associations for .nfp and .nfc
+    WriteRegStr HKCR ".nfp" "" "NodeForge.Project"
+    WriteRegStr HKCR "NodeForge.Project" "" "NodeForge Project File"
+    WriteRegStr HKCR "NodeForge.Project\DefaultIcon" "" "$INSTDIR\bin\nodeforge.exe,0"
+    WriteRegStr HKCR "NodeForge.Project\shell\open\command" "" '"$INSTDIR\bin\nodeforge.exe" "%1"'
+
+    WriteRegStr HKCR ".nfc" "" "NodeForge.Component"
+    WriteRegStr HKCR "NodeForge.Component" "" "NodeForge Component File"
+    WriteRegStr HKCR "NodeForge.Component\DefaultIcon" "" "$INSTDIR\bin\nodeforge.exe,0"
+    WriteRegStr HKCR "NodeForge.Component\shell\open\command" "" '"$INSTDIR\bin\nodeforge.exe" "%1"'
+SectionEnd
+
+; ─── Uninstaller Section ──────────────────────────────────────────────────────
+Section "Uninstall"
+    Delete "$DESKTOP\NodeForge Studio.lnk"
+    RMDir /r "$SMPROGRAMS\NodeForge"
+
+    DeleteRegKey HKCR ".nfp"
+    DeleteRegKey HKCR "NodeForge.Project"
+    DeleteRegKey HKCR ".nfc"
+    DeleteRegKey HKCR "NodeForge.Component"
+    DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\NodeForge"
+    DeleteRegKey HKLM "Software\NeoRealms\NodeForge"
+
+    RMDir /r "$INSTDIR"
+SectionEnd

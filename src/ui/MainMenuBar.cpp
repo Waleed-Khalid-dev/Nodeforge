@@ -135,6 +135,14 @@ void MainMenuBar::Render() {
             ImGui::EndMenu();
         }
 
+        if (ImGui::BeginMenu("Plugins")) {
+            bool pmOpen = m_ctx->IsPluginManagerOpen();
+            if (ImGui::MenuItem("Plugin Manager...", "Ctrl+Shift+P", &pmOpen)) {
+                m_ctx->SetPluginManagerOpen(pmOpen);
+            }
+            ImGui::EndMenu();
+        }
+
         if (ImGui::BeginMenu("Help")) {
             if (ImGui::MenuItem("About NodeForge")) {
                 m_showAboutDialog = true;
