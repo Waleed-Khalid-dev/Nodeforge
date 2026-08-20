@@ -25,6 +25,8 @@ std::string PinValue::GetTypeName() const {
             return "ChannelBuffer";
         } else if constexpr (std::is_same_v<T, DataTable>) {
             return "DataTable";
+        } else if constexpr (std::is_same_v<T, GeometryData>) {
+            return "GeometryData";
         } else if constexpr (std::is_same_v<T, std::shared_ptr<gpu::Texture2D>>) {
             return "Texture2D";
         } else {

@@ -117,6 +117,9 @@ PYBIND11_EMBEDDED_MODULE(nodeforge, m) {
             return self->EnsureCooked(ctx);
         })
         .def("__getitem__", [](Node* self, const std::string& chanName) -> float {
+            if (!self) return 0.0f;
+            CookContext ctx{ .frameIndex = 1 };
+            self->EnsureCooked(ctx);
             for (const auto& pin : self->GetOutputPins()) {
                 if (pin->GetValue().Is<ChannelBuffer>()) {
                     const auto& buf = pin->GetValue().Get<ChannelBuffer>();
@@ -126,6 +129,9 @@ PYBIND11_EMBEDDED_MODULE(nodeforge, m) {
             return 0.0f;
         })
         .def("chan", [](Node* self, const std::string& chanName) -> float {
+            if (!self) return 0.0f;
+            CookContext ctx{ .frameIndex = 1 };
+            self->EnsureCooked(ctx);
             for (const auto& pin : self->GetOutputPins()) {
                 if (pin->GetValue().Is<ChannelBuffer>()) {
                     const auto& buf = pin->GetValue().Get<ChannelBuffer>();
@@ -138,6 +144,14 @@ PYBIND11_EMBEDDED_MODULE(nodeforge, m) {
             for (const auto& pin : self->GetOutputPins()) {
                 if (pin->GetValue().Is<DataTable>()) {
                     return py::cast(pin->GetValue().Get<DataTable>());
+                }
+            }
+            return py::none();
+        })
+        .def_property_readonly("geometry", [](Node* self) -> py::object {
+            for (const auto& pin : self->GetOutputPins()) {
+                if (pin->GetValue().Is<GeometryData>()) {
+                    return py::cast(pin->GetValue().Get<GeometryData>());
                 }
             }
             return py::none();
@@ -199,6 +213,35 @@ PYBIND11_EMBEDDED_MODULE(nodeforge, m) {
             }
             return "";
         });
+
+    // Bind Vertex
+    py::class_<Vertex>(m, "Vertex")
+        .def(py::init<>())
+        .def_property("pos", [](const Vertex& v) { return py::make_tuple(v.pos.x, v.pos.y, v.pos.z); }, [](Vertex& v, py::tuple t) { if (t.size() >= 3) v.pos = glm::vec3(t[0].cast<float>(), t[1].cast<float>(), t[2].cast<float>()); })
+        .def_property("normal", [](const Vertex& v) { return py::make_tuple(v.normal.x, v.normal.y, v.normal.z); }, [](Vertex& v, py::tuple t) { if (t.size() >= 3) v.normal = glm::vec3(t[0].cast<float>(), t[1].cast<float>(), t[2].cast<float>()); })
+        .def_property("uv", [](const Vertex& v) { return py::make_tuple(v.uv.x, v.uv.y); }, [](Vertex& v, py::tuple t) { if (t.size() >= 2) v.uv = glm::vec2(t[0].cast<float>(), t[1].cast<float>()); })
+        .def_property("color", [](const Vertex& v) { return py::make_tuple(v.color.r, v.color.g, v.color.b, v.color.a); }, [](Vertex& v, py::tuple t) { if (t.size() >= 4) v.color = glm::vec4(t[0].cast<float>(), t[1].cast<float>(), t[2].cast<float>(), t[3].cast<float>()); })
+        .def_property("tangent", [](const Vertex& v) { return py::make_tuple(v.tangent.x, v.tangent.y, v.tangent.z, v.tangent.w); }, [](Vertex& v, py::tuple t) { if (t.size() >= 4) v.tangent = glm::vec4(t[0].cast<float>(), t[1].cast<float>(), t[2].cast<float>(), t[3].cast<float>()); });
+
+    // Bind GeometryData
+    py::class_<GeometryData>(m, "GeometryData")
+        .def(py::init<>())
+        .def_property_readonly("num_vertices", &GeometryData::GetVertexCount)
+        .def_property_readonly("num_indices", &GeometryData::GetIndexCount)
+        .def_property_readonly("num_triangles", &GeometryData::GetTriangleCount)
+        .def_property_readonly("num_instances", &GeometryData::GetInstanceCount)
+        .def_static("create_grid", &GeometryData::CreateGrid, py::arg("size_x") = 1.0f, py::arg("size_y") = 1.0f, py::arg("rows") = 10, py::arg("cols") = 10, py::arg("plane") = 0)
+        .def_static("create_sphere", &GeometryData::CreateSphere, py::arg("radius") = 1.0f, py::arg("rings") = 16, py::arg("segments") = 32)
+        .def_static("create_box", &GeometryData::CreateBox, py::arg("size_x") = 1.0f, py::arg("size_y") = 1.0f, py::arg("size_z") = 1.0f, py::arg("divs_x") = 1, py::arg("divs_y") = 1, py::arg("divs_z") = 1)
+        .def_static("create_torus", &GeometryData::CreateTorus, py::arg("major_radius") = 1.0f, py::arg("minor_radius") = 0.3f, py::arg("major_segments") = 32, py::arg("minor_segments") = 16)
+        .def_static("create_cylinder", &GeometryData::CreateCylinder, py::arg("height") = 2.0f, py::arg("radius_bottom") = 1.0f, py::arg("radius_top") = 1.0f, py::arg("segments") = 32, py::arg("cap_bottom") = true, py::arg("cap_top") = true)
+        .def("merge", &GeometryData::Merge)
+        .def("compute_normals", &GeometryData::ComputeNormals, py::arg("smooth") = true)
+        .def("compute_tangents", &GeometryData::ComputeTangents)
+        .def("deform_noise", [](GeometryData& self, float amp, float freq, float ox, float oy, float oz, bool alongNorm) {
+            self.DeformNoise(amp, freq, glm::vec3(ox, oy, oz), alongNorm);
+        }, py::arg("amplitude") = 0.2f, py::arg("frequency") = 1.0f, py::arg("offset_x") = 0.0f, py::arg("offset_y") = 0.0f, py::arg("offset_z") = 0.0f, py::arg("along_normal") = true)
+        .def("clear", &GeometryData::Clear);
 
     py::class_<ConstantChanOp, Node>(m, "ConstantChanOp");
     py::class_<MathChanOp, Node>(m, "MathChanOp");

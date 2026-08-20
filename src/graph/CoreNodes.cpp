@@ -35,6 +35,23 @@
 #include "../operators/data/MergeDataOp.h"
 #include "../operators/data/ChanToDataOp.h"
 #include "../operators/data/DataToChanOp.h"
+#include "../operators/geom/GridGeomOp.h"
+#include "../operators/geom/SphereGeomOp.h"
+#include "../operators/geom/BoxGeomOp.h"
+#include "../operators/geom/TorusGeomOp.h"
+#include "../operators/geom/CylinderGeomOp.h"
+#include "../operators/geom/TransformGeomOp.h"
+#include "../operators/geom/MergeGeomOp.h"
+#include "../operators/geom/NoiseDeformGeomOp.h"
+#include "../operators/geom/NormalsGeomOp.h"
+#include "../operators/geom/ChanToGeomOp.h"
+#include "../operators/mat/ConstantMatOp.h"
+#include "../operators/mat/PhongMatOp.h"
+#include "../operators/mat/GLSLMatOp.h"
+#include "../operators/comp/CameraComp.h"
+#include "../operators/comp/LightComp.h"
+#include "../operators/comp/GeometryComp.h"
+#include "../operators/tex/RenderTexOp.h"
 
 namespace nf {
 
@@ -293,6 +310,129 @@ void RegisterCoreNodes(NodeRegistry& registry) {
         NodeFamily::ChanOp,
         "Interop",
         "Extracts numeric table columns/rows into channel buffers."
+    );
+
+    // GeomOps (SOP)
+    registry.RegisterNodeType<GridGeomOp>(
+        "GridGeomOp",
+        NodeFamily::GeomOp,
+        "Primitives",
+        "Generates a planar 2D grid/plane mesh in 3D space."
+    );
+
+    registry.RegisterNodeType<SphereGeomOp>(
+        "SphereGeomOp",
+        NodeFamily::GeomOp,
+        "Primitives",
+        "Generates a 3D UV sphere mesh with configurable rings and segments."
+    );
+
+    registry.RegisterNodeType<BoxGeomOp>(
+        "BoxGeomOp",
+        NodeFamily::GeomOp,
+        "Primitives",
+        "Generates a 3D cuboid/cube mesh with subdivisions and per-face UVs."
+    );
+
+    registry.RegisterNodeType<TorusGeomOp>(
+        "TorusGeomOp",
+        NodeFamily::GeomOp,
+        "Primitives",
+        "Generates a 3D donut/toroid mesh."
+    );
+
+    registry.RegisterNodeType<CylinderGeomOp>(
+        "CylinderGeomOp",
+        NodeFamily::GeomOp,
+        "Primitives",
+        "Generates a 3D cylinder, cone, or tube mesh."
+    );
+
+    registry.RegisterNodeType<TransformGeomOp>(
+        "TransformGeomOp",
+        NodeFamily::GeomOp,
+        "Modify",
+        "Applies 3D translation, rotation, scaling, and pivot offsets to meshes."
+    );
+
+    registry.RegisterNodeType<MergeGeomOp>(
+        "MergeGeomOp",
+        NodeFamily::GeomOp,
+        "Combine",
+        "Combines multiple geometry streams into a single consolidated mesh."
+    );
+
+    registry.RegisterNodeType<NoiseDeformGeomOp>(
+        "NoiseDeformGeomOp",
+        NodeFamily::GeomOp,
+        "Modify",
+        "Displaces 3D mesh vertices using Simplex/Perlin noise."
+    );
+
+    registry.RegisterNodeType<NormalsGeomOp>(
+        "NormalsGeomOp",
+        NodeFamily::GeomOp,
+        "Modify",
+        "Computes smooth, faceted, or inverted normals and tangent vectors."
+    );
+
+    registry.RegisterNodeType<ChanToGeomOp>(
+        "ChanToGeomOp",
+        NodeFamily::GeomOp,
+        "Interop",
+        "Converts channel buffers into 3D point clouds, line strips, or meshes."
+    );
+
+    // MatOps (MAT)
+    registry.RegisterNodeType<ConstantMatOp>(
+        "ConstantMatOp",
+        NodeFamily::MatOp,
+        "Materials",
+        "Unlit flat-color or wireframe material."
+    );
+
+    registry.RegisterNodeType<PhongMatOp>(
+        "PhongMatOp",
+        NodeFamily::MatOp,
+        "Materials",
+        "Blinn-Phong lit material with specular highlights, ambient, and normal maps."
+    );
+
+    registry.RegisterNodeType<GLSLMatOp>(
+        "GLSLMatOp",
+        NodeFamily::MatOp,
+        "Custom",
+        "Custom GLSL vertex and fragment shader material with live hot-reloading."
+    );
+
+    // Scene Components (COMP)
+    registry.RegisterNodeType<CameraComp>(
+        "CameraComp",
+        NodeFamily::Comp,
+        "3D Scene",
+        "3D virtual camera with perspective/orthographic view-projection matrices."
+    );
+
+    registry.RegisterNodeType<LightComp>(
+        "LightComp",
+        NodeFamily::Comp,
+        "3D Scene",
+        "3D light source (Directional, Point, Ambient) with color and attenuation."
+    );
+
+    registry.RegisterNodeType<GeometryComp>(
+        "GeometryComp",
+        NodeFamily::Comp,
+        "3D Scene",
+        "Scene object linking 3D mesh, material shader, transform, and instancing."
+    );
+
+    // RenderTexOp (TOP)
+    registry.RegisterNodeType<RenderTexOp>(
+        "RenderTexOp",
+        NodeFamily::TexOp,
+        "Render",
+        "Renders a 3D scene composed of geometry, camera, and lights into a 2D texture."
     );
 }
 

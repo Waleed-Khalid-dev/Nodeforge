@@ -46,6 +46,7 @@ add_library(nodeforge_core STATIC
     src/render/ComputePass.cpp
     src/core/ChannelBuffer.cpp
     src/core/DataTable.cpp
+    src/core/GeometryData.cpp
     src/graph/PinValue.cpp
     src/graph/Pin.cpp
     src/graph/Wire.cpp
@@ -58,6 +59,9 @@ add_library(nodeforge_core STATIC
     src/param/ParameterGroup.cpp
     src/python/PythonEngine.cpp
     src/python/PyNodeForge.cpp
+    src/render/FullscreenPass.cpp
+    src/render/ComputePass.cpp
+    src/render/Scene3DPass.cpp
     src/operators/chan/ChanOp.cpp
     src/operators/chan/ConstantChanOp.cpp
     src/operators/chan/TimeChanOp.cpp
@@ -83,6 +87,24 @@ add_library(nodeforge_core STATIC
     src/operators/data/WebDataOp.cpp
     src/operators/data/ChanToDataOp.cpp
     src/operators/data/DataToChanOp.cpp
+    src/operators/geom/GeomOp.cpp
+    src/operators/geom/GridGeomOp.cpp
+    src/operators/geom/SphereGeomOp.cpp
+    src/operators/geom/BoxGeomOp.cpp
+    src/operators/geom/TorusGeomOp.cpp
+    src/operators/geom/CylinderGeomOp.cpp
+    src/operators/geom/TransformGeomOp.cpp
+    src/operators/geom/MergeGeomOp.cpp
+    src/operators/geom/NoiseDeformGeomOp.cpp
+    src/operators/geom/NormalsGeomOp.cpp
+    src/operators/geom/ChanToGeomOp.cpp
+    src/operators/mat/MatOp.cpp
+    src/operators/mat/ConstantMatOp.cpp
+    src/operators/mat/PhongMatOp.cpp
+    src/operators/mat/GLSLMatOp.cpp
+    src/operators/comp/CameraComp.cpp
+    src/operators/comp/LightComp.cpp
+    src/operators/comp/GeometryComp.cpp
     src/operators/tex/TexOp.cpp
     src/operators/tex/NullTexOp.cpp
     src/operators/tex/ConstantTexOp.cpp
@@ -94,6 +116,7 @@ add_library(nodeforge_core STATIC
     src/operators/tex/LevelTexOp.cpp
     src/operators/tex/ResolutionTexOp.cpp
     src/operators/tex/ToWindowTexOp.cpp
+    src/operators/tex/RenderTexOp.cpp
     src/operators/comp/ContainerComp.cpp
     src/operators/comp/InOp.cpp
     src/operators/comp/OutOp.cpp

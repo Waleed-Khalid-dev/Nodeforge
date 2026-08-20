@@ -49,6 +49,8 @@ void ViewerPanel::Render() {
         RenderTexViewer(node);
     } else if (node->GetFamily() == NodeFamily::ChanOp) {
         RenderChanViewer(node);
+    } else if (node->GetFamily() == NodeFamily::GeomOp) {
+        RenderGeomViewer(node);
     } else {
         RenderDataViewer(node);
     }
@@ -320,6 +322,135 @@ void ViewerPanel::RenderDataViewer(Node* node) {
         }
         ImGui::EndTable();
     }
+}
+
+void ViewerPanel::RenderGeomViewer(Node* node) {
+    const GeometryData* geom = nullptr;
+    for (const auto& pin : node->GetOutputPins()) {
+        if (pin->GetValue().Is<GeometryData>()) {
+            geom = &pin->GetValue().Get<GeometryData>();
+            break;
+        }
+    }
+
+    if (!geom || geom->IsEmpty()) {
+        ImGui::TextDisabled("Geometry is empty or not cooked");
+        return;
+    }
+
+    size_t vertCount = geom->GetVertexCount();
+    size_t triCount = geom->GetTriangleCount();
+    BoundingBox bbox = geom->ComputeBounds();
+    glm::vec3 bsize = bbox.GetSize();
+
+    // Toolbar Header
+    ImGui::TextColored(ImVec4(0.3f, 0.9f, 0.5f, 1.0f), "3D Mesh: %zu Verts | %zu Tris | Bounds: (%.2f, %.2f, %.2f)",
+        vertCount, triCount, bsize.x, bsize.y, bsize.z);
+
+    ImGui::SameLine();
+    ImGui::Checkbox("Grid", &m_showGrid);
+    ImGui::SameLine();
+    ImGui::Checkbox("Wireframe", &m_showWireframe);
+
+    // Interactive 3D Viewport Canvas
+    ImVec2 avail = ImGui::GetContentRegionAvail();
+    avail.y = std::max(100.0f, avail.y);
+    ImVec2 canvasPos = ImGui::GetCursorScreenPos();
+    ImVec2 canvasSize = avail;
+
+    ImDrawList* drawList = ImGui::GetWindowDrawList();
+    drawList->AddRectFilled(canvasPos, ImVec2(canvasPos.x + canvasSize.x, canvasPos.y + canvasSize.y), IM_COL32(12, 16, 22, 255));
+    drawList->AddRect(canvasPos, ImVec2(canvasPos.x + canvasSize.x, canvasPos.y + canvasSize.y), EditorTheme::ColBorder, 0.0f, 0, 1.0f);
+
+    // Mouse Interaction for 3D Camera Orbit
+    ImGui::InvisibleButton("##GeomViewportInput", canvasSize);
+    bool isHovered = ImGui::IsItemHovered();
+    ImGuiIO& io = ImGui::GetIO();
+
+    if (isHovered && ImGui::IsMouseDragging(ImGuiMouseButton_Left)) {
+        m_orbitYaw += io.MouseDelta.x * 0.5f;
+        m_orbitPitch = std::clamp(m_orbitPitch + io.MouseDelta.y * 0.5f, -89.0f, 89.0f);
+    }
+    if (isHovered && io.MouseWheel != 0.0f) {
+        m_orbitDistance = std::clamp(m_orbitDistance - io.MouseWheel * 0.3f, 0.5f, 100.0f);
+    }
+
+    // Compute View and Projection Matrices
+    float yawRad = glm::radians(m_orbitYaw);
+    float pitchRad = glm::radians(m_orbitPitch);
+    glm::vec3 eye(
+        m_orbitDistance * std::cos(pitchRad) * std::sin(yawRad),
+        m_orbitDistance * std::sin(pitchRad),
+        m_orbitDistance * std::cos(pitchRad) * std::cos(yawRad)
+    );
+    glm::mat4 view = glm::lookAt(eye, glm::vec3(0.0f), glm::vec3(0, 1, 0));
+    float aspect = canvasSize.x / canvasSize.y;
+    glm::mat4 proj = glm::perspective(glm::radians(45.0f), aspect, 0.1f, 1000.0f);
+    glm::mat4 vp = proj * view;
+
+    auto project3D = [&](const glm::vec3& p3, ImVec2& outP2) -> bool {
+        glm::vec4 clip = vp * glm::vec4(p3, 1.0f);
+        if (clip.w <= 0.001f) return false;
+        glm::vec3 ndc = glm::vec3(clip) / clip.w;
+        if (ndc.z < -1.0f || ndc.z > 1.0f) return false;
+
+        outP2.x = canvasPos.x + (ndc.x * 0.5f + 0.5f) * canvasSize.x;
+        outP2.y = canvasPos.y + (-ndc.y * 0.5f + 0.5f) * canvasSize.y;
+        return true;
+    };
+
+    // Draw Floor Grid
+    if (m_showGrid) {
+        constexpr int gridLines = 10;
+        constexpr float gridExtent = 2.0f;
+        for (int i = -gridLines; i <= gridLines; ++i) {
+            float coord = (static_cast<float>(i) / gridLines) * gridExtent;
+            ImVec2 p0, p1;
+            if (project3D(glm::vec3(coord, 0, -gridExtent), p0) && project3D(glm::vec3(coord, 0, gridExtent), p1)) {
+                drawList->AddLine(p0, p1, (i == 0) ? IM_COL32(80, 120, 200, 180) : IM_COL32(35, 45, 60, 150), 1.0f);
+            }
+            if (project3D(glm::vec3(-gridExtent, 0, coord), p0) && project3D(glm::vec3(gridExtent, 0, coord), p1)) {
+                drawList->AddLine(p0, p1, (i == 0) ? IM_COL32(200, 80, 80, 180) : IM_COL32(35, 45, 60, 150), 1.0f);
+            }
+        }
+    }
+
+    // Draw 3D Mesh Wireframe
+    if (m_showWireframe) {
+        const auto& verts = geom->GetVertices();
+        const auto& indices = geom->GetIndices();
+
+        if (!indices.empty()) {
+            for (size_t i = 0; i + 2 < indices.size(); i += 3) {
+                uint32_t i0 = indices[i];
+                uint32_t i1 = indices[i + 1];
+                uint32_t i2 = indices[i + 2];
+
+                if (i0 < verts.size() && i1 < verts.size() && i2 < verts.size()) {
+                    ImVec2 p0, p1, p2;
+                    bool v0 = project3D(verts[i0].pos, p0);
+                    bool v1 = project3D(verts[i1].pos, p1);
+                    bool v2 = project3D(verts[i2].pos, p2);
+
+                    if (v0 && v1) drawList->AddLine(p0, p1, IM_COL32(0, 220, 160, 200), 1.2f);
+                    if (v1 && v2) drawList->AddLine(p1, p2, IM_COL32(0, 220, 160, 200), 1.2f);
+                    if (v2 && v0) drawList->AddLine(p2, p0, IM_COL32(0, 220, 160, 200), 1.2f);
+                }
+            }
+        } else {
+            // Draw points / cloud
+            for (const auto& v : verts) {
+                ImVec2 p2;
+                if (project3D(v.pos, p2)) {
+                    drawList->AddCircleFilled(p2, 2.5f, IM_COL32(0, 255, 200, 240));
+                }
+            }
+        }
+    }
+
+    // Overlay Camera Orbit Info
+    ImGui::SetCursorScreenPos(ImVec2(canvasPos.x + 10.0f, canvasPos.y + canvasSize.y - 25.0f));
+    ImGui::TextDisabled("Orbit: Yaw %.1f° | Pitch %.1f° | Dist %.2f", m_orbitYaw, m_orbitPitch, m_orbitDistance);
 }
 
 } // namespace nf::ui

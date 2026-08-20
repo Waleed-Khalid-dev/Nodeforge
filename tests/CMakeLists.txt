@@ -15,10 +15,13 @@ add_executable(nodeforge_tests
     unit/chan_param_bind_test.cpp
     unit/data_table_test.cpp
     unit/dataop_pipeline_test.cpp
+    unit/geometry_data_test.cpp
+    unit/geomop_pipeline_test.cpp
     benchmark/graph_benchmark.cpp
     benchmark/texop_benchmark.cpp
     benchmark/chanop_benchmark.cpp
     benchmark/dataop_benchmark.cpp
+    benchmark/geomop_benchmark.cpp
 )
 
 target_link_libraries(nodeforge_tests PRIVATE

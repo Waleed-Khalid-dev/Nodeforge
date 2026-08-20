@@ -314,6 +314,50 @@ void NodeCanvas::DrawNodes(ImDrawList* drawList) {
                 }
             }
         }
+
+        // Mini isometric 3D wireframe preview for GeomOp nodes
+        if (zoom > 0.5f && node->GetFamily() == NodeFamily::GeomOp) {
+            for (const auto& pin : node->GetOutputPins()) {
+                if (pin->GetValue().Is<GeometryData>()) {
+                    const auto& geom = pin->GetValue().Get<GeometryData>();
+                    if (!geom.IsEmpty()) {
+                        float previewX = screenPos.x + 12.0f * zoom;
+                        float previewW = nodeSize.x - 24.0f * zoom;
+                        float previewH = 28.0f * zoom;
+                        float previewY = nodeMax.y - previewH - 8.0f * zoom;
+
+                        if (previewH > 10.0f * zoom && previewW > 20.0f * zoom) {
+                            drawList->AddRectFilled(ImVec2(previewX, previewY), ImVec2(previewX + previewW, previewY + previewH), IM_COL32(10, 20, 16, 220), 3.0f * zoom);
+                            drawList->AddRect(ImVec2(previewX, previewY), ImVec2(previewX + previewW, previewY + previewH), IM_COL32(30, 80, 60, 200), 3.0f * zoom);
+
+                            // Draw mini isometric cube wireframe representation
+                            float cx = previewX + previewW * 0.5f;
+                            float cy = previewY + previewH * 0.5f;
+                            float r = 8.0f * zoom;
+
+                            ImVec2 pT(cx, cy - r);
+                            ImVec2 pB(cx, cy + r);
+                            ImVec2 pL(cx - r * 0.866f, cy - r * 0.5f);
+                            ImVec2 pR(cx + r * 0.866f, cy - r * 0.5f);
+                            ImVec2 pBL(cx - r * 0.866f, cy + r * 0.5f);
+                            ImVec2 pBR(cx + r * 0.866f, cy + r * 0.5f);
+                            ImVec2 pC(cx, cy);
+
+                            drawList->AddLine(pT, pR, IM_COL32(0, 255, 180, 220), 1.0f * zoom);
+                            drawList->AddLine(pR, pBR, IM_COL32(0, 255, 180, 220), 1.0f * zoom);
+                            drawList->AddLine(pBR, pB, IM_COL32(0, 255, 180, 220), 1.0f * zoom);
+                            drawList->AddLine(pB, pBL, IM_COL32(0, 255, 180, 220), 1.0f * zoom);
+                            drawList->AddLine(pBL, pL, IM_COL32(0, 255, 180, 220), 1.0f * zoom);
+                            drawList->AddLine(pL, pT, IM_COL32(0, 255, 180, 220), 1.0f * zoom);
+                            drawList->AddLine(pC, pT, IM_COL32(0, 200, 140, 180), 1.0f * zoom);
+                            drawList->AddLine(pC, pBL, IM_COL32(0, 200, 140, 180), 1.0f * zoom);
+                            drawList->AddLine(pC, pBR, IM_COL32(0, 200, 140, 180), 1.0f * zoom);
+                        }
+                    }
+                    break;
+                }
+            }
+        }
     }
 }
 

@@ -1,15 +1,15 @@
 # NodeForge Status
 
-**Active phase:** 8  
-**Phase name:** DataOps + Script Nodes (DAT Text, Table, Script, JSON, OSC & Web I/O)  
+**Active phase:** 10  
+**Phase name:** Media I/O (Video, Capture, Share) / Phase 10b (Projection Mapping & Multi-Output)  
 
-**Updated:** 2026-08-19  
+**Updated:** 2026-08-20  
 **Branch policy:** main protected; work on `phase/0-*` branches when git is initialized  
 **Git remote:** https://github.com/Waleed-Khalid-dev/Nodeforge (make private before creating)
 
 ## In progress
 
-- [ ] Phase 8 kickoff (DataOp runtime table/text model, DataTable, ScriptDataOp python hooks, JSONDataOp, OSC In/Out UDP server/client, WebDataOp HTTP async, Table/Text spreadsheet UI viewer)
+- [ ] Phase 10 kickoff (Media I/O: FFmpeg MovieFileIn, VideoDeviceIn, NDI In/Out, Spout In/Out / Phase 10b Projection Mapping & Multi-Output)
 
 ## Completed
 
@@ -20,7 +20,9 @@
 - [x] Phase 4: TexOp Pipeline (GPU Nodes) (Base TexOp, lease-based TexturePool, runtime GLSL ShaderCompiler with embedded SPIR-V, FullscreenPass dynamic rasterizer, ComputePass compute dispatcher, 10 core TexOps: Null, Constant, Noise, LoadImage, Transform, Composite, Blur, Level, Resolution, ToWindow, 29/29 tests passing, 0 leaks across 10,000 frames)
 - [x] Phase 5: Editor UI (Node Graph IDE) (Custom ImDrawList infinite canvas with 0.2x-2.5x pan/zoom & bezier wires, multi-node selection & move, TAB OP Create palette with fuzzy search & family filtering, multi-page Parameter Inspector with dynamic C/E toggle, live GPU Texture & Channel Viewer, Log Console & Python REPL prompt, Timeline transport bar with frame scrubber, Main Menu Bar, full Command Pattern Undo/Redo history, 35/35 unit and benchmark tests passing)
 - [x] Phase 6: Project System & Components (Complete `.nfp` JSON v1 schema roundtrip, relative path resolution, ContainerComp nested subnetwork execution, InOp/OutOp boundary pin sync, `.nfc` Component import/export, 60s background autosave & crash recovery detection, interactive breadcrumb navigation bar, 41/41 unit & benchmark tests passing)
+- [x] Phase 7: ChanOps (Control / Animation / Audio-lite) (SIMD-accelerated ChannelBuffer, 10 core ChanOps: Constant, Time, LFO, Noise, Math, Filter, Merge, Select, Trail, AudioFileInSynthesizer, dual-direction ChanToTex & TexToChan interop, high-resolution vector scope oscilloscope in ViewerPanel, 57/57 tests passing)
 - [x] Phase 8: DataOps + Script Nodes (DAT) (Unified 2D DataTable, RFC 4180 CSV/TSV parser/serializer, raw text, JSON Pointer parsing, dual-trigger ScriptDataOp Python hooks, non-blocking UDP OSC In/Out receiver/sender, async WebDataOp HTTP client, ChanToData & DataToChan interop bridges, interactive ImGui spreadsheet table with virtual scrolling clipper, 69/69 tests passing, >100k cells/sec benchmark, 0 leaks across 10,000 frames)
+- [x] Phase 9: Geometry + Materials + Render (3D Path / GeomOps / SOP) (Comprehensive GeometryData interleaved vertex mesh data model, 5 procedural primitives: Grid, Sphere, Box, Torus, Cylinder, 4 modifiers: Transform, Merge, NoiseDeform, Normals, 1 interop: ChanToGeom, 3 materials: Constant, Phong, GLSL, 3 scene comps: Camera, Light, Geometry with dual-source GPU instancing, RenderTexOp with Vulkan 1.3 dynamic rasterizer, interactive 3D Arcball / Turntable orbit viewport with floor grid in ViewerPanel, mini isometric 3D wireframe preview on canvas nodes, 80/80 automated tests passing, 0 GPU memory leaks over 10,000 frames)
 
 ## Blocked
 
@@ -40,40 +42,24 @@
 - [x] `docs/adr/ADR-0006-gpu-texop-pipeline.md`
 - [x] `docs/adr/ADR-0007-chanop-pipeline-and-audio.md`
 - [x] `docs/adr/ADR-0008-dataop-pipeline-and-scripting.md`
-- [x] `docs/operator-spec/TextDataOp.md`
-- [x] `docs/operator-spec/TableDataOp.md`
-- [x] `docs/operator-spec/ScriptDataOp.md`
-- [x] `docs/operator-spec/JSONDataOp.md`
-- [x] `docs/operator-spec/WebDataOp.md`
-- [x] `docs/operator-spec/OSCInOp.md`
-- [x] `docs/operator-spec/OSCOutOp.md`
-- [x] `docs/operator-spec/SelectDataOp.md`
-- [x] `docs/operator-spec/MergeDataOp.md`
-- [x] `docs/operator-spec/ChanToDataOp.md`
-- [x] `docs/operator-spec/DataToChanOp.md`
-- [x] `docs/operator-spec/ConstantChanOp.md`
-- [x] `docs/operator-spec/TimeChanOp.md`
-- [x] `docs/operator-spec/LFOChanOp.md`
-- [x] `docs/operator-spec/NoiseChanOp.md`
-- [x] `docs/operator-spec/MathChanOp.md`
-- [x] `docs/operator-spec/FilterChanOp.md`
-- [x] `docs/operator-spec/MergeChanOp.md`
-- [x] `docs/operator-spec/SelectChanOp.md`
-- [x] `docs/operator-spec/TrailChanOp.md`
-- [x] `docs/operator-spec/AudioFileInChanOp.md`
-- [x] `docs/operator-spec/ChanToTexOp.md`
-- [x] `docs/operator-spec/TexToChanOp.md`
-- [x] `docs/operator-spec/NullTexOp.md`
-- [x] `docs/operator-spec/ConstantTexOp.md`
-- [x] `docs/operator-spec/NoiseTexOp.md`
-- [x] `docs/operator-spec/LoadImageTexOp.md`
-- [x] `docs/operator-spec/TransformTexOp.md`
-- [x] `docs/operator-spec/CompositeTexOp.md`
-- [x] `docs/operator-spec/BlurTexOp.md`
-- [x] `docs/operator-spec/LevelTexOp.md`
-- [x] `docs/operator-spec/ResolutionTexOp.md`
-- [x] `docs/operator-spec/ToWindowTexOp.md`
-- [x] `docs/api/gpu-api.md`
+- [x] `docs/adr/ADR-0009-geometry-materials-and-render-pipeline.md`
+- [x] `docs/operator-spec/GridGeomOp.md`
+- [x] `docs/operator-spec/SphereGeomOp.md`
+- [x] `docs/operator-spec/BoxGeomOp.md`
+- [x] `docs/operator-spec/TorusGeomOp.md`
+- [x] `docs/operator-spec/CylinderGeomOp.md`
+- [x] `docs/operator-spec/TransformGeomOp.md`
+- [x] `docs/operator-spec/MergeGeomOp.md`
+- [x] `docs/operator-spec/NoiseDeformGeomOp.md`
+- [x] `docs/operator-spec/NormalsGeomOp.md`
+- [x] `docs/operator-spec/ChanToGeomOp.md`
+- [x] `docs/operator-spec/ConstantMatOp.md`
+- [x] `docs/operator-spec/PhongMatOp.md`
+- [x] `docs/operator-spec/GLSLMatOp.md`
+- [x] `docs/operator-spec/CameraComp.md`
+- [x] `docs/operator-spec/LightComp.md`
+- [x] `docs/operator-spec/GeometryComp.md`
+- [x] `docs/operator-spec/RenderTexOp.md`
 
 ## Last DoD sign-off
 
@@ -86,6 +72,7 @@
 - Phase 6 complete (2026-08-19)
 - Phase 7 complete (2026-08-19)
 - Phase 8 complete (2026-08-19)
+- Phase 9 complete (2026-08-20)
 
 ## Notes
 

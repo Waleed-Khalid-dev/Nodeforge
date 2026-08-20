@@ -663,8 +663,8 @@ Expression languages v1:
 
 #### Definition of Done
 
-- [ ] Render a lit mesh to texture → composite in Tex graph → window  
-- [ ] Custom GLSL material hot reloads  
+- [x] Render a lit mesh to texture → composite in Tex graph → window (GridGeomOp, SphereGeomOp, BoxGeomOp, TorusGeomOp, CylinderGeomOp, TransformGeomOp, MergeGeomOp, NoiseDeformGeomOp, NormalsGeomOp, ChanToGeomOp, ConstantMatOp, PhongMatOp, GLSLMatOp, CameraComp, LightComp, GeometryComp, RenderTexOp with Vulkan 1.3 dynamic rasterizer; 80/80 tests passing)  
+- [x] Custom GLSL material hot reloads (GLSLMatOp custom vertex & fragment shaders with dynamic push constant binding and multi-channel samplers)  
 
 ---
 
