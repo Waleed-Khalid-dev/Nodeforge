@@ -59,9 +59,6 @@ add_library(nodeforge_core STATIC
     src/param/ParameterGroup.cpp
     src/python/PythonEngine.cpp
     src/python/PyNodeForge.cpp
-    src/render/FullscreenPass.cpp
-    src/render/ComputePass.cpp
-    src/render/Scene3DPass.cpp
     src/operators/chan/ChanOp.cpp
     src/operators/chan/ConstantChanOp.cpp
     src/operators/chan/TimeChanOp.cpp
@@ -109,10 +106,21 @@ add_library(nodeforge_core STATIC
     src/media/DisplayManager.cpp
     src/media/OutputWindow.cpp
     src/media/WarpMesh.cpp
-    src/render/FullscreenPass.cpp
-    src/render/ComputePass.cpp
     src/render/Scene3DPass.cpp
     src/render/WarpBlendPass.cpp
+    src/io/midi/MidiManager.cpp
+    src/io/serial/SerialPort.cpp
+    src/io/dmx/ArtNetEngine.cpp
+    src/io/input/InputManager.cpp
+    src/operators/chan/MIDIInChanOp.cpp
+    src/operators/chan/MIDIOutChanOp.cpp
+    src/operators/chan/OSCInChanOp.cpp
+    src/operators/chan/OSCOutChanOp.cpp
+    src/operators/data/SerialDataOp.cpp
+    src/operators/chan/DMXInChanOp.cpp
+    src/operators/chan/DMXOutChanOp.cpp
+    src/operators/chan/MouseInChanOp.cpp
+    src/operators/chan/KeyboardInChanOp.cpp
     src/operators/tex/TexOp.cpp
     src/operators/tex/NullTexOp.cpp
     src/operators/tex/ConstantTexOp.cpp
@@ -180,6 +188,7 @@ target_link_libraries(nodeforge_core PUBLIC
     GPUOpen::VulkanMemoryAllocator
     unofficial::shaderc::shaderc
     Python3::Python
+    $<$<PLATFORM_ID:Windows>:ws2_32 winmm>
 )
 
 target_compile_options(nodeforge_core PUBLIC

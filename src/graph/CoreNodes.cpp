@@ -60,6 +60,15 @@
 #include "../operators/tex/NDIOutTexOp.h"
 #include "../operators/tex/ProjectorOutTexOp.h"
 #include "../operators/tex/WarpBlendTexOp.h"
+#include "../operators/chan/MIDIInChanOp.h"
+#include "../operators/chan/MIDIOutChanOp.h"
+#include "../operators/chan/OSCInChanOp.h"
+#include "../operators/chan/OSCOutChanOp.h"
+#include "../operators/data/SerialDataOp.h"
+#include "../operators/chan/DMXInChanOp.h"
+#include "../operators/chan/DMXOutChanOp.h"
+#include "../operators/chan/MouseInChanOp.h"
+#include "../operators/chan/KeyboardInChanOp.h"
 
 namespace nf {
 
@@ -499,6 +508,70 @@ void RegisterCoreNodes(NodeRegistry& registry) {
         NodeFamily::TexOp,
         "Projection",
         "2D Bezier grid warping, perspective corner-pin, and softedge gamma blending."
+    );
+
+    // Protocols & Show Control (Phase 11)
+    registry.RegisterNodeType<MIDIInChanOp>(
+        "MIDIInChanOp",
+        NodeFamily::ChanOp,
+        "Protocols",
+        "Ingests live MIDI CC, note triggers, pitchbend, and aftertouch into control channels."
+    );
+
+    registry.RegisterNodeType<MIDIOutChanOp>(
+        "MIDIOutChanOp",
+        NodeFamily::ChanOp,
+        "Protocols",
+        "Converts channel triggers and values into MIDI events transmitted to hardware."
+    );
+
+    registry.RegisterNodeType<OSCInChanOp>(
+        "OSCInChanOp",
+        NodeFamily::ChanOp,
+        "Protocols",
+        "Decodes live UDP Open Sound Control (OSC) messages directly into real-time channels."
+    );
+
+    registry.RegisterNodeType<OSCOutChanOp>(
+        "OSCOutChanOp",
+        NodeFamily::ChanOp,
+        "Protocols",
+        "Broadcasts control channels as Open Sound Control (OSC) packets over UDP."
+    );
+
+    registry.RegisterNodeType<SerialDataOp>(
+        "SerialDataOp",
+        NodeFamily::DataOp,
+        "Protocols",
+        "Bidirectional asynchronous COM port communication with microcontrollers and sensors."
+    );
+
+    registry.RegisterNodeType<DMXInChanOp>(
+        "DMXInChanOp",
+        NodeFamily::ChanOp,
+        "Protocols",
+        "Receives 512-channel lighting universes over Art-Net 4 (Port 6454)."
+    );
+
+    registry.RegisterNodeType<DMXOutChanOp>(
+        "DMXOutChanOp",
+        NodeFamily::ChanOp,
+        "Protocols",
+        "Transmits 512-channel DMX lighting frames via Art-Net 4 UDP broadcast/unicast."
+    );
+
+    registry.RegisterNodeType<MouseInChanOp>(
+        "MouseInChanOp",
+        NodeFamily::ChanOp,
+        "Input",
+        "Interactive mouse cursor positions, motion deltas, button states, and wheel channels."
+    );
+
+    registry.RegisterNodeType<KeyboardInChanOp>(
+        "KeyboardInChanOp",
+        NodeFamily::ChanOp,
+        "Input",
+        "Interactive keyboard key states, momentary pulse triggers, and modifier keys."
     );
 }
 

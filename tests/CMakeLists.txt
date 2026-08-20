@@ -20,12 +20,18 @@ add_executable(nodeforge_tests
     unit/video_decoder_test.cpp
     unit/warp_blend_test.cpp
     unit/projection_mapping_test.cpp
+    unit/midi_protocol_test.cpp
+    unit/osc_channel_test.cpp
+    unit/serial_protocol_test.cpp
+    unit/dmx_artnet_test.cpp
+    unit/interactive_input_test.cpp
     benchmark/graph_benchmark.cpp
     benchmark/texop_benchmark.cpp
     benchmark/chanop_benchmark.cpp
     benchmark/dataop_benchmark.cpp
     benchmark/geomop_benchmark.cpp
     benchmark/projection_mapping_benchmark.cpp
+    benchmark/show_control_benchmark.cpp
 )
 
 target_link_libraries(nodeforge_tests PRIVATE
