@@ -733,8 +733,11 @@ This is **Neo Realms' flagship capability.** Cook correctness and output stabili
 
 #### Definition of Done
 
-- [ ] MIDI CC drives a param live  
-- [ ] OSC from phone/app updates a constant  
+- [x] MIDI CC drives a param live (MIDIInChanOp & MIDIOutChanOp with WinMM async driver, CC/Note/PitchBend/Aftertouch tables, and zero-lock snapshot extraction)  
+- [x] OSC from phone/app updates a constant (OSCInChanOp & OSCOutChanOp with real-time address pattern decoding and decay/hold modes)  
+- [x] Serial communication with microcontrollers (SerialPort Win32 Overlapped async I/O worker & SerialDataOp line log)  
+- [x] DMX / Art-Net 4 lighting show control (ArtNetEngine 512-channel UDP port 6454 engine & DMXInChanOp/DMXOutChanOp)  
+- [x] Interactive Keyboard and Mouse controllers (InputManager multi-scope mouse position/delta/buttons and keyboard tracking with single-frame pulse generators; 104/104 tests passing, 0 memory leaks in continuous multi-protocol stress benchmark)  
 
 ---
 
@@ -1048,21 +1051,21 @@ Must all be true:
 
 ## 19. Chronological “From A to Z” One-Page Checklist
 
-- [ ] **A** Research locked (`01-…md`)  
-- [ ] **B** Roadmap locked (this file)  
-- [ ] **C** Repo + CMake + CI  
-- [ ] **D** Vulkan presents a pixel  
-- [ ] **E** Graph cooks on CPU tests  
-- [ ] **F** Params + Python mutate graph  
-- [ ] **G** TexOps cook on GPU  
-- [ ] **H** Node editor usable  
-- [ ] **I** Save/load projects + comps  
-- [ ] **J** ChanOps bind to visuals  
-- [ ] **K** Data/Script/OSC  
-- [ ] **L** 3D render to texture  
-- [ ] **M** Video file + Spout/NDI  
-- [ ] **M+** ⭐ **Projection warp + softedge + multi-output (10b) — Neo Realms Year 1 must-have**  
-- [ ] **N** MIDI/OSC show control  
+- [x] **A** Research locked (`01-…md`)  
+- [x] **B** Roadmap locked (this file)  
+- [x] **C** Repo + CMake + CI  
+- [x] **D** Vulkan presents a pixel  
+- [x] **E** Graph cooks on CPU tests  
+- [x] **F** Params + Python mutate graph  
+- [x] **G** TexOps cook on GPU  
+- [x] **H** Node editor usable  
+- [x] **I** Save/load projects + comps  
+- [x] **J** ChanOps bind to visuals  
+- [x] **K** Data/Script/OSC  
+- [x] **L** 3D render to texture  
+- [x] **M** Video file + Spout/NDI  
+- [x] **M+** ⭐ **Projection warp + softedge + multi-output (10b) — Neo Realms Year 1 must-have**  
+- [x] **N** MIDI/OSC show control  
 - [ ] **O** Profiler + soak  
 - [ ] **P** Plugin SDK  
 - [ ] **Q** Company flagship pack (projection mapping show sample)  
