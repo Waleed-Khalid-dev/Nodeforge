@@ -1,6 +1,7 @@
 #include "ViewerPanel.h"
 #include "../EditorTheme.h"
 #include "../../operators/tex/TexOp.h"
+#include "../../operators/tex/WarpBlendTexOp.h"
 #include "../../core/ChannelBuffer.h"
 #include "../../graph/Pin.h"
 #include <imgui_impl_vulkan.h>
@@ -105,6 +106,37 @@ void ViewerPanel::RenderTexViewer(Node* node) {
         }
     } else {
         drawList->AddText(ImVec2(centerPos.x + 10.0f, centerPos.y + 10.0f), IM_COL32(160, 170, 185, 255), "Live Vulkan Texture");
+    }
+
+    // Warp Grid Overlay for WarpBlendTexOp
+    auto* warpOp = dynamic_cast<WarpBlendTexOp*>(node);
+    if (warpOp) {
+        auto& wm = warpOp->GetWarpMesh();
+        int rows = wm.GetRows();
+        int cols = wm.GetCols();
+
+        // Draw grid lines
+        for (int r = 0; r < rows; ++r) {
+            for (int c = 0; c < cols; ++c) {
+                glm::vec2 p = wm.GetControlPoint(r, c);
+                ImVec2 pScreen(centerPos.x + p.x * displaySize.x, centerPos.y + p.y * displaySize.y);
+
+                if (c + 1 < cols) {
+                    glm::vec2 pRight = wm.GetControlPoint(r, c + 1);
+                    ImVec2 pRightScreen(centerPos.x + pRight.x * displaySize.x, centerPos.y + pRight.y * displaySize.y);
+                    drawList->AddLine(pScreen, pRightScreen, IM_COL32(255, 200, 50, 180), 1.5f);
+                }
+                if (r + 1 < rows) {
+                    glm::vec2 pDown = wm.GetControlPoint(r + 1, c);
+                    ImVec2 pDownScreen(centerPos.x + pDown.x * displaySize.x, centerPos.y + pDown.y * displaySize.y);
+                    drawList->AddLine(pScreen, pDownScreen, IM_COL32(255, 200, 50, 180), 1.5f);
+                }
+
+                // Draw control handles
+                drawList->AddCircleFilled(pScreen, 4.0f, IM_COL32(255, 100, 0, 240));
+                drawList->AddCircle(pScreen, 4.0f, IM_COL32(255, 255, 255, 255), 0, 1.0f);
+            }
+        }
     }
 
     // Resolution and Format Footer

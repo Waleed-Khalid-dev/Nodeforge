@@ -17,11 +17,15 @@ add_executable(nodeforge_tests
     unit/dataop_pipeline_test.cpp
     unit/geometry_data_test.cpp
     unit/geomop_pipeline_test.cpp
+    unit/video_decoder_test.cpp
+    unit/warp_blend_test.cpp
+    unit/projection_mapping_test.cpp
     benchmark/graph_benchmark.cpp
     benchmark/texop_benchmark.cpp
     benchmark/chanop_benchmark.cpp
     benchmark/dataop_benchmark.cpp
     benchmark/geomop_benchmark.cpp
+    benchmark/projection_mapping_benchmark.cpp
 )
 
 target_link_libraries(nodeforge_tests PRIVATE

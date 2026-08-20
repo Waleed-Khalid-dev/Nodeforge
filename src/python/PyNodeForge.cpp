@@ -16,6 +16,7 @@
 #include "../operators/tex/LevelTexOp.h"
 #include "../operators/tex/ResolutionTexOp.h"
 #include "../operators/tex/ToWindowTexOp.h"
+#include "../media/WarpMesh.h"
 #include <pybind11/embed.h>
 #include <pybind11/stl.h>
 
@@ -242,6 +243,30 @@ PYBIND11_EMBEDDED_MODULE(nodeforge, m) {
             self.DeformNoise(amp, freq, glm::vec3(ox, oy, oz), alongNorm);
         }, py::arg("amplitude") = 0.2f, py::arg("frequency") = 1.0f, py::arg("offset_x") = 0.0f, py::arg("offset_y") = 0.0f, py::arg("offset_z") = 0.0f, py::arg("along_normal") = true)
         .def("clear", &GeometryData::Clear);
+
+    // Bind WarpMesh
+    py::class_<WarpMesh>(m, "WarpMesh")
+        .def(py::init<int, int>(), py::arg("rows") = 4, py::arg("cols") = 4)
+        .def_property_readonly("rows", &WarpMesh::GetRows)
+        .def_property_readonly("cols", &WarpMesh::GetCols)
+        .def("set_grid_size", &WarpMesh::SetGridSize, py::arg("rows"), py::arg("cols"))
+        .def("reset", &WarpMesh::Reset)
+        .def("set_control_point", [](WarpMesh& self, int r, int c, float x, float y) {
+            self.SetControlPoint(r, c, glm::vec2(x, y));
+        }, py::arg("row"), py::arg("col"), py::arg("x"), py::arg("y"))
+        .def("get_control_point", [](const WarpMesh& self, int r, int c) {
+            auto pt = self.GetControlPoint(r, c);
+            return py::make_tuple(pt.x, pt.y);
+        }, py::arg("row"), py::arg("col"))
+        .def("set_corner_pin", [](WarpMesh& self, int corner, float x, float y) {
+            self.SetCornerPin(corner, glm::vec2(x, y));
+        }, py::arg("corner_index"), py::arg("x"), py::arg("y"))
+        .def("get_corner_pin", [](const WarpMesh& self, int corner) {
+            auto pt = self.GetCornerPin(corner);
+            return py::make_tuple(pt.x, pt.y);
+        }, py::arg("corner_index"))
+        .def("to_json", &WarpMesh::ToJson)
+        .def("from_json", &WarpMesh::FromJson, py::arg("json_string"));
 
     py::class_<ConstantChanOp, Node>(m, "ConstantChanOp");
     py::class_<MathChanOp, Node>(m, "MathChanOp");

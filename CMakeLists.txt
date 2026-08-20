@@ -105,6 +105,14 @@ add_library(nodeforge_core STATIC
     src/operators/comp/CameraComp.cpp
     src/operators/comp/LightComp.cpp
     src/operators/comp/GeometryComp.cpp
+    src/media/VideoDecoder.cpp
+    src/media/DisplayManager.cpp
+    src/media/OutputWindow.cpp
+    src/media/WarpMesh.cpp
+    src/render/FullscreenPass.cpp
+    src/render/ComputePass.cpp
+    src/render/Scene3DPass.cpp
+    src/render/WarpBlendPass.cpp
     src/operators/tex/TexOp.cpp
     src/operators/tex/NullTexOp.cpp
     src/operators/tex/ConstantTexOp.cpp
@@ -117,6 +125,14 @@ add_library(nodeforge_core STATIC
     src/operators/tex/ResolutionTexOp.cpp
     src/operators/tex/ToWindowTexOp.cpp
     src/operators/tex/RenderTexOp.cpp
+    src/operators/tex/MovieFileInTexOp.cpp
+    src/operators/tex/VideoDeviceInTexOp.cpp
+    src/operators/tex/SpoutInTexOp.cpp
+    src/operators/tex/SpoutOutTexOp.cpp
+    src/operators/tex/NDIInTexOp.cpp
+    src/operators/tex/NDIOutTexOp.cpp
+    src/operators/tex/ProjectorOutTexOp.cpp
+    src/operators/tex/WarpBlendTexOp.cpp
     src/operators/comp/ContainerComp.cpp
     src/operators/comp/InOp.cpp
     src/operators/comp/OutOp.cpp

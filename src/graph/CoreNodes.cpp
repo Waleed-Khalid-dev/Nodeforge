@@ -52,6 +52,14 @@
 #include "../operators/comp/LightComp.h"
 #include "../operators/comp/GeometryComp.h"
 #include "../operators/tex/RenderTexOp.h"
+#include "../operators/tex/MovieFileInTexOp.h"
+#include "../operators/tex/VideoDeviceInTexOp.h"
+#include "../operators/tex/SpoutInTexOp.h"
+#include "../operators/tex/SpoutOutTexOp.h"
+#include "../operators/tex/NDIInTexOp.h"
+#include "../operators/tex/NDIOutTexOp.h"
+#include "../operators/tex/ProjectorOutTexOp.h"
+#include "../operators/tex/WarpBlendTexOp.h"
 
 namespace nf {
 
@@ -433,6 +441,64 @@ void RegisterCoreNodes(NodeRegistry& registry) {
         NodeFamily::TexOp,
         "Render",
         "Renders a 3D scene composed of geometry, camera, and lights into a 2D texture."
+    );
+
+    // Media I/O (TOP)
+    registry.RegisterNodeType<MovieFileInTexOp>(
+        "MovieFileInTexOp",
+        NodeFamily::TexOp,
+        "Input",
+        "Asynchronous video file playback with speed, loop, and scrub control."
+    );
+
+    registry.RegisterNodeType<VideoDeviceInTexOp>(
+        "VideoDeviceInTexOp",
+        NodeFamily::TexOp,
+        "Input",
+        "Captures live video streams from USB webcams and HDMI capture cards."
+    );
+
+    registry.RegisterNodeType<SpoutInTexOp>(
+        "SpoutInTexOp",
+        NodeFamily::TexOp,
+        "Interop",
+        "Receives shared real-time GPU textures from other Windows applications."
+    );
+
+    registry.RegisterNodeType<SpoutOutTexOp>(
+        "SpoutOutTexOp",
+        NodeFamily::TexOp,
+        "Interop",
+        "Publishes real-time GPU textures to the Windows Spout2 texture sharing registry."
+    );
+
+    registry.RegisterNodeType<NDIInTexOp>(
+        "NDIInTexOp",
+        NodeFamily::TexOp,
+        "Interop",
+        "Receives broadcast network video streams over LAN via NDI protocol."
+    );
+
+    registry.RegisterNodeType<NDIOutTexOp>(
+        "NDIOutTexOp",
+        NodeFamily::TexOp,
+        "Interop",
+        "Broadcasts real-time video frames across LAN as an NDI network video source."
+    );
+
+    // Projection Mapping & Multi-Output (TOP)
+    registry.RegisterNodeType<ProjectorOutTexOp>(
+        "ProjectorOutTexOp",
+        NodeFamily::TexOp,
+        "Output",
+        "Presents video/generative textures directly to designated physical projectors."
+    );
+
+    registry.RegisterNodeType<WarpBlendTexOp>(
+        "WarpBlendTexOp",
+        NodeFamily::TexOp,
+        "Projection",
+        "2D Bezier grid warping, perspective corner-pin, and softedge gamma blending."
     );
 }
 

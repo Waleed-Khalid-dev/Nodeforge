@@ -1,7 +1,7 @@
 # NodeForge Status
 
-**Active phase:** 10  
-**Phase name:** Media I/O (Video, Capture, Share) / Phase 10b (Projection Mapping & Multi-Output)  
+**Active phase:** 11  
+**Phase name:** Protocols & Show Control (MIDI, OSC, Serial, DMX/Art-Net, Keyboard/Mouse)  
 
 **Updated:** 2026-08-20  
 **Branch policy:** main protected; work on `phase/0-*` branches when git is initialized  
@@ -9,7 +9,7 @@
 
 ## In progress
 
-- [ ] Phase 10 kickoff (Media I/O: FFmpeg MovieFileIn, VideoDeviceIn, NDI In/Out, Spout In/Out / Phase 10b Projection Mapping & Multi-Output)
+- [ ] Phase 11 kickoff (MIDI In/Out via RtMidi, OSC ChanOp/DataOp integration, Serial device communication, DMX/Art-Net show control, Keyboard/Mouse interactive channel controllers)
 
 ## Completed
 
@@ -23,6 +23,7 @@
 - [x] Phase 7: ChanOps (Control / Animation / Audio-lite) (SIMD-accelerated ChannelBuffer, 10 core ChanOps: Constant, Time, LFO, Noise, Math, Filter, Merge, Select, Trail, AudioFileInSynthesizer, dual-direction ChanToTex & TexToChan interop, high-resolution vector scope oscilloscope in ViewerPanel, 57/57 tests passing)
 - [x] Phase 8: DataOps + Script Nodes (DAT) (Unified 2D DataTable, RFC 4180 CSV/TSV parser/serializer, raw text, JSON Pointer parsing, dual-trigger ScriptDataOp Python hooks, non-blocking UDP OSC In/Out receiver/sender, async WebDataOp HTTP client, ChanToData & DataToChan interop bridges, interactive ImGui spreadsheet table with virtual scrolling clipper, 69/69 tests passing, >100k cells/sec benchmark, 0 leaks across 10,000 frames)
 - [x] Phase 9: Geometry + Materials + Render (3D Path / GeomOps / SOP) (Comprehensive GeometryData interleaved vertex mesh data model, 5 procedural primitives: Grid, Sphere, Box, Torus, Cylinder, 4 modifiers: Transform, Merge, NoiseDeform, Normals, 1 interop: ChanToGeom, 3 materials: Constant, Phong, GLSL, 3 scene comps: Camera, Light, Geometry with dual-source GPU instancing, RenderTexOp with Vulkan 1.3 dynamic rasterizer, interactive 3D Arcball / Turntable orbit viewport with floor grid in ViewerPanel, mini isometric 3D wireframe preview on canvas nodes, 80/80 automated tests passing, 0 GPU memory leaks over 10,000 frames)
+- [x] Phase 10 & 10b: Media I/O, Texture Sharing & Projection Mapping Suite (Multi-threaded VideoDecoder engine with lockless FrameRingBuffer, MovieFileInTexOp with speed/loop/scrub controls, VideoDeviceInTexOp live capture, zero-copy SpoutInTexOp/SpoutOutTexOp Windows GPU texture sharing, NDIInTexOp/NDIOutTexOp LAN streaming, DisplayManager physical output window routing with ProjectorOutTexOp, WarpMesh 2D Bezier grid warper, WarpBlendPass with S-curve gamma softedge blending, black-level pedestal compensation, on-site calibration overlay, 90/90 automated tests passing, 0 memory leaks across 10,000-frame soak)
 
 ## Blocked
 
@@ -43,6 +44,7 @@
 - [x] `docs/adr/ADR-0007-chanop-pipeline-and-audio.md`
 - [x] `docs/adr/ADR-0008-dataop-pipeline-and-scripting.md`
 - [x] `docs/adr/ADR-0009-geometry-materials-and-render-pipeline.md`
+- [x] `docs/adr/ADR-0010-media-io-and-projection-mapping.md`
 - [x] `docs/operator-spec/GridGeomOp.md`
 - [x] `docs/operator-spec/SphereGeomOp.md`
 - [x] `docs/operator-spec/BoxGeomOp.md`
@@ -60,6 +62,14 @@
 - [x] `docs/operator-spec/LightComp.md`
 - [x] `docs/operator-spec/GeometryComp.md`
 - [x] `docs/operator-spec/RenderTexOp.md`
+- [x] `docs/operator-spec/MovieFileInTexOp.md`
+- [x] `docs/operator-spec/VideoDeviceInTexOp.md`
+- [x] `docs/operator-spec/SpoutInTexOp.md`
+- [x] `docs/operator-spec/SpoutOutTexOp.md`
+- [x] `docs/operator-spec/NDIInTexOp.md`
+- [x] `docs/operator-spec/NDIOutTexOp.md`
+- [x] `docs/operator-spec/ProjectorOutTexOp.md`
+- [x] `docs/operator-spec/WarpBlendTexOp.md`
 
 ## Last DoD sign-off
 
@@ -73,6 +83,7 @@
 - Phase 7 complete (2026-08-19)
 - Phase 8 complete (2026-08-19)
 - Phase 9 complete (2026-08-20)
+- Phase 10 & 10b complete (2026-08-20)
 
 ## Notes
 
