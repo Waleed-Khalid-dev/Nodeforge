@@ -25,6 +25,9 @@ add_executable(nodeforge_tests
     unit/serial_protocol_test.cpp
     unit/dmx_artnet_test.cpp
     unit/interactive_input_test.cpp
+    unit/profiler_test.cpp
+    unit/leak_detector_test.cpp
+    unit/crash_recovery_test.cpp
     benchmark/graph_benchmark.cpp
     benchmark/texop_benchmark.cpp
     benchmark/chanop_benchmark.cpp
@@ -32,6 +35,7 @@ add_executable(nodeforge_tests
     benchmark/geomop_benchmark.cpp
     benchmark/projection_mapping_benchmark.cpp
     benchmark/show_control_benchmark.cpp
+    benchmark/long_soak_benchmark.cpp
 )
 
 target_link_libraries(nodeforge_tests PRIVATE

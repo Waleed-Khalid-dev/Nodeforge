@@ -25,6 +25,11 @@
 #include "../ui/panels/ViewerPanel.h"
 #include "../ui/panels/ConsolePanel.h"
 #include "../ui/panels/TimelinePanel.h"
+#include "../ui/panels/ProfilerPanel.h"
+#include "../ui/panels/PerformanceHUD.h"
+#include "../profiling/CookProfiler.h"
+#include "../gpu/GpuTimerPool.h"
+#include "../diagnostics/CrashReporter.h"
 
 static constexpr int  NF_DEFAULT_WIDTH  = 1600;
 static constexpr int  NF_DEFAULT_HEIGHT = 900;
@@ -131,7 +136,11 @@ int main() {
         return -1;
     }
 
-    // ─── Setup UI Subsystems ───────────────────────────────────────────────────
+    // ─── Setup UI & Profiling Subsystems ───────────────────────────────────────
+    nf::CrashReporter::Instance().Install();
+    nf::CrashReporter::Instance().SetActiveGraph(&graph);
+    nf::GpuTimerPool::Instance().Initialize(&device);
+
     nf::ui::EditorContext editorCtx;
     editorCtx.SetGraph(&graph);
     editorCtx.SetNodePosition(constId, glm::vec2(100.0f, 150.0f));
@@ -147,6 +156,8 @@ int main() {
     nf::ui::ViewerPanel viewerPanel(&editorCtx);
     nf::ui::ConsolePanel consolePanel(&editorCtx);
     nf::ui::TimelinePanel timelinePanel(&editorCtx);
+    nf::ui::ProfilerPanel profilerPanel(&editorCtx);
+    nf::ui::PerformanceHUD performanceHud(&editorCtx);
 
     auto lastTime = std::chrono::high_resolution_clock::now();
 
@@ -158,6 +169,8 @@ int main() {
         double dt = std::chrono::duration<double>(currentTime - lastTime).count();
         lastTime = currentTime;
 
+        nf::CookProfiler::Instance().BeginFrame(cookContext.frameIndex, dt);
+
         // Cook Graph
         if (editorCtx.IsPlaying()) {
             cookContext.frameIndex = editorCtx.GetCurrentFrame();
@@ -167,10 +180,20 @@ int main() {
             editorCtx.SetCurrentFrame(cookContext.frameIndex + 1);
         }
 
+        nf::GpuTimerPool::Instance().ResolveResults();
+
         // ImGui New Frame
         ImGui_ImplVulkan_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
+
+        // Keyboard Shortcuts
+        if (ImGui::IsKeyPressed(ImGuiKey_F3, false)) {
+            editorCtx.TogglePerformanceHUD();
+        }
+        if (ImGui::GetIO().KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_P, false)) {
+            editorCtx.ToggleProfiler();
+        }
 
         // Render UI Components
         mainMenuBar.Render();
@@ -180,6 +203,20 @@ int main() {
         consolePanel.Render();
         timelinePanel.Render();
         opPaletteModal.Render();
+
+        if (editorCtx.IsProfilerOpen()) {
+            bool open = true;
+            profilerPanel.Render(&open);
+            if (!open) editorCtx.SetProfilerOpen(false);
+        }
+
+        if (editorCtx.IsPerformanceHUDOpen()) {
+            bool open = true;
+            performanceHud.Render(&open);
+            if (!open) editorCtx.SetPerformanceHUDOpen(false);
+        }
+
+        nf::CookProfiler::Instance().EndFrame();
 
         ImGui::Render();
 

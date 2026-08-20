@@ -92,6 +92,15 @@ public:
     void SetCurrentFrame(uint64_t frame) { m_currentFrame = frame; }
     float GetPlaybackFps() const { return m_playbackFps; }
 
+    // Profiler & Diagnostics
+    bool IsProfilerOpen() const { return m_showProfiler; }
+    void SetProfilerOpen(bool open) { m_showProfiler = open; }
+    void ToggleProfiler() { m_showProfiler = !m_showProfiler; }
+
+    bool IsPerformanceHUDOpen() const { return m_showPerformanceHUD; }
+    void SetPerformanceHUDOpen(bool open) { m_showPerformanceHUD = open; }
+    void TogglePerformanceHUD() { m_showPerformanceHUD = !m_showPerformanceHUD; }
+
 private:
     project::ProjectData m_project;
     project::AutosaveManager m_autosave;
@@ -111,6 +120,9 @@ private:
 
     bool m_showOpPalette = false;
     glm::vec2 m_opPalettePos{ 0.0f, 0.0f };
+
+    bool m_showProfiler = false;
+    bool m_showPerformanceHUD = false;
 
     bool m_isPlaying = true;
     uint64_t m_currentFrame = 1;

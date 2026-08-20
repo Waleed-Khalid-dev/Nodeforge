@@ -6,6 +6,7 @@
 #include "../../operators/tex/TexOp.h"
 #include "../../operators/comp/ContainerComp.h"
 #include "../../core/ChannelBuffer.h"
+#include "../../profiling/CookProfiler.h"
 #include <algorithm>
 #include <cmath>
 
@@ -208,10 +209,22 @@ void NodeCanvas::DrawNodes(ImDrawList* drawList) {
         ImU32 borderCol = isSelected ? EditorTheme::ColBorderActive : EditorTheme::ColBorder;
         drawList->AddRect(screenPos, nodeMax, borderCol, 6.0f * zoom, 0, isSelected ? (2.0f * zoom) : (1.0f * zoom));
 
-        // Node Header Text
+        // Node Header Text & Live Profiler Badge
         if (zoom > 0.4f) {
             ImVec2 textPos(screenPos.x + 8.0f * zoom, screenPos.y + 4.0f * zoom);
             drawList->AddText(textPos, IM_COL32(255, 255, 255, 255), node->GetName().c_str());
+
+            NodePerfStats stats;
+            if (CookProfiler::Instance().GetNodeStats(nodeId, stats)) {
+                char badgeStr[32];
+                snprintf(badgeStr, sizeof(badgeStr), "%.2fms", stats.lastCpuMs);
+                ImVec2 badgeSize = ImGui::CalcTextSize(badgeStr);
+                ImVec2 badgePos(nodeMax.x - badgeSize.x - 8.0f * zoom, screenPos.y + 4.0f * zoom);
+                ImU32 badgeCol = (stats.lastCpuMs > 4.0) ? IM_COL32(255, 80, 80, 240) :
+                                 (stats.lastCpuMs > 1.0) ? IM_COL32(255, 200, 50, 240) :
+                                                           IM_COL32(80, 230, 120, 240);
+                drawList->AddText(badgePos, badgeCol, badgeStr);
+            }
         }
 
         // Draw Pins

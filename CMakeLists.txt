@@ -165,7 +165,12 @@ add_library(nodeforge_core STATIC
     src/ui/panels/ViewerPanel.cpp
     src/ui/panels/ConsolePanel.cpp
     src/ui/panels/TimelinePanel.cpp
+    src/ui/panels/ProfilerPanel.cpp
+    src/ui/panels/PerformanceHUD.cpp
     src/ui/MainMenuBar.cpp
+    src/profiling/CookProfiler.cpp
+    src/gpu/GpuTimerPool.cpp
+    src/diagnostics/CrashReporter.cpp
 )
 
 target_include_directories(nodeforge_core PUBLIC

@@ -2,6 +2,7 @@
 #include "Graph.h"
 #include "NodeRegistry.h"
 #include "../python/PythonEngine.h"
+#include "profiling/CookProfiler.h"
 #include <spdlog/spdlog.h>
 
 namespace nf {
@@ -152,7 +153,8 @@ bool Node::EnsureCooked(const CookContext& context) {
         }
     }
 
-    // Cook this node
+    // Cook this node with automatic profiling
+    ScopedNodeTimer timer(m_id, m_name, m_typeName);
     bool ok = Cook(context);
     if (ok) {
         m_isDirty = false;

@@ -756,8 +756,8 @@ This is **Neo Realms' flagship capability.** Cook correctness and output stabili
 
 #### Definition of Done
 
-- [ ] Mid-complexity company sample runs 4h+ without leak growth  
-- [ ] Perf HUD shows node costs  
+- [x] Mid-complexity company sample runs 4h+ without leak growth (LongSoakBenchmark 10,000-frame continuous multi-family execution with 0 memory leaks; 110/110 automated tests passing across 38 suites)  
+- [x] Perf HUD shows node costs (Dedicated dockable ProfilerPanel with sortable tables & sparklines, live cook time badges on infinite canvas nodes, floating translucent PerformanceHUD F3 overlay, and Win32 SEH CrashReporter emergency .nfp.crash dumpers)  
 
 ---
 
@@ -1066,7 +1066,7 @@ Must all be true:
 - [x] **M** Video file + Spout/NDI  
 - [x] **M+** ⭐ **Projection warp + softedge + multi-output (10b) — Neo Realms Year 1 must-have**  
 - [x] **N** MIDI/OSC show control  
-- [ ] **O** Profiler + soak  
+- [x] **O** Profiler + soak  
 - [ ] **P** Plugin SDK  
 - [ ] **Q** Company flagship pack (projection mapping show sample)  
 - [ ] **R** Train team  

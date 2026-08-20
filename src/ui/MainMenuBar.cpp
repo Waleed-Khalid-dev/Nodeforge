@@ -123,6 +123,18 @@ void MainMenuBar::Render() {
             ImGui::EndMenu();
         }
 
+        if (ImGui::BeginMenu("Diagnostics")) {
+            bool profilerOpen = m_ctx->IsProfilerOpen();
+            if (ImGui::MenuItem("Profiler & Diagnostics", "Ctrl+P", &profilerOpen)) {
+                m_ctx->SetProfilerOpen(profilerOpen);
+            }
+            bool hudOpen = m_ctx->IsPerformanceHUDOpen();
+            if (ImGui::MenuItem("Performance HUD", "F3", &hudOpen)) {
+                m_ctx->SetPerformanceHUDOpen(hudOpen);
+            }
+            ImGui::EndMenu();
+        }
+
         if (ImGui::BeginMenu("Help")) {
             if (ImGui::MenuItem("About NodeForge")) {
                 m_showAboutDialog = true;
