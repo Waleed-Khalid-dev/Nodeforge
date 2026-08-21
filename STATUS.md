@@ -9,10 +9,11 @@
 
 ## In progress
 
-- [ ] Phase 15 Epic 15.7 (Volumetric Fog & Real-Time GPU Ray Marching Engine — Cloud/Smoke SOP & VolumetricMatOp)
+- [ ] Phase 15 Epic 15.8 (Laser DAC & ILDA Laser Projector Control — Ether-Dream / Helios DAC CHOP & LaserSOP)
 
 ## Completed
 
+- [x] Phase 15 Epic 15.7: Volumetric Fog & Real-Time GPU Ray Marching Engine (Beer-Lambert optical extinction, Henyey-Greenstein anisotropic phase scattering, VolumetricCloudTexOp, VolumetricFogMatOp, VoxelGridGeomOp, LightShaftTexOp, samples/11_volumetric_nebula_cathedral flagship project, 176/176 automated tests passing with 60 FPS benchmark)
 - [x] Phase 15 Epic 15.6: OpenXR / VR & AR Spatial Tracking System (Native OpenXR 1.0 runtime wrapper, asymmetric stereo projection, OpenXRHeadsetTexOp, OpenXRControllerChanOp, OpenXRHandTrackingChanOp, OpenXRCameraComp, samples/10_openxr_immersive_holodeck flagship project, 168/168 automated tests passing with 120 FPS benchmark)
 - [x] Phase 15 Epic 15.5: Real-Time Physics Engine & Rigid Body Dynamics Integration (Native 6-DOF PhysicsWorld multi-body solver, SAT box/sphere/plane collisions, impulse contact resolution, PhysicsSolverComp, RigidBodyGeomOp, ColliderGeomOp, PhysicsForceChanOp, samples/09_kinetic_physics_arena flagship project, 160/160 automated tests passing with 1,000-body benchmark)
 - [x] Phase 15 Epic 15.4: Advanced Spatial Audio Simulation & Multi-Speaker Ambisonics Engine (3D spatial panner, B-Format Ambisonics encoding/decoding, 7.1.4 Atmos dome decoder, AudioEmitterComp, AudioListenerComp, samples/08_spatial_audio_dome flagship project, 152/152 automated tests passing with 64-stream benchmark)

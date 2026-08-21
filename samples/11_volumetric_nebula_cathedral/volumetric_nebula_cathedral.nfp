@@ -1,0 +1,126 @@
+{
+  "format": "nodeforge_project_v1",
+  "schema_version": 1,
+  "metadata": {
+    "name": "Interactive Volumetric Nebula & Cosmic Cathedral",
+    "author": "Neo Realms Interactive",
+    "description": "Production volumetric show combining full-screen ray-marched atmospheric clouds, localized 3D smoke/fog volumes, screen-space god-ray light shafts, and binaural spatial audio.",
+    "engine_version": "1.0.0",
+    "created": "2026-08-21T07:00:00Z",
+    "modified": "2026-08-21T07:00:00Z"
+  },
+  "timeline": {
+    "fps": 60.0,
+    "bpm": 120.0,
+    "start_frame": 1,
+    "end_frame": 7200,
+    "current_frame": 1,
+    "is_playing": true
+  },
+  "viewport": {
+    "pan": [ 0.0, 0.0 ],
+    "zoom": 0.9
+  },
+  "root_graph": {
+    "nodes": [
+      {
+        "id": 170,
+        "name": "sky_clouds",
+        "type": "VolumetricCloudTexOp",
+        "pos": [ -750.0, -150.0 ],
+        "params": {
+          "density": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 1.2 } },
+          "scattering_g": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.75 } },
+          "sun_dir": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 0.3, 0.9, -0.4 ] } },
+          "sun_color": { "mode": "constant", "expr": "", "val": { "type": "vec4", "val": [ 1.0, 0.85, 0.6, 1.0 ] } },
+          "wind_speed": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.8 } }
+        }
+      },
+      {
+        "id": 171,
+        "name": "cathedral_fog_bounds",
+        "type": "VoxelGridGeomOp",
+        "pos": [ -750.0, 50.0 ],
+        "params": {
+          "box_size": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 30.0, 15.0, 30.0 ] } }
+        }
+      },
+      {
+        "id": 172,
+        "name": "smoke_mat",
+        "type": "VolumetricFogMatOp",
+        "pos": [ -750.0, 200.0 ],
+        "params": {
+          "density_scale": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 3.5 } },
+          "fog_color": { "mode": "constant", "expr": "", "val": { "type": "vec4", "val": [ 0.8, 0.85, 0.95, 1.0 ] } }
+        }
+      },
+      {
+        "id": 173,
+        "name": "cathedral_pillars",
+        "type": "BoxGeomOp",
+        "pos": [ -480.0, -100.0 ],
+        "params": {
+          "size_x": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 2.0 } },
+          "size_y": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 12.0 } },
+          "size_z": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 2.0 } }
+        }
+      },
+      {
+        "id": 174,
+        "name": "cathedral_mat",
+        "type": "PhongMatOp",
+        "pos": [ -480.0, 50.0 ],
+        "params": {
+          "diffuse_color": { "mode": "constant", "expr": "", "val": { "type": "vec4", "val": [ 0.2, 0.25, 0.3, 1.0 ] } }
+        }
+      },
+      {
+        "id": 175,
+        "name": "geo_holder",
+        "type": "GeometryComp",
+        "pos": [ -220.0, -50.0 ],
+        "params": {
+          "enable_instancing": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": false } }
+        }
+      },
+      {
+        "id": 176,
+        "name": "scene_render",
+        "type": "RenderTexOp",
+        "pos": [ 50.0, 0.0 ],
+        "params": {
+          "clear_color": { "mode": "constant", "expr": "", "val": { "type": "vec4", "val": [ 0.02, 0.02, 0.05, 1.0 ] } }
+        }
+      },
+      {
+        "id": 177,
+        "name": "god_ray_shafts",
+        "type": "LightShaftTexOp",
+        "pos": [ 320.0, 0.0 ],
+        "params": {
+          "light_pos_screen": { "mode": "constant", "expr": "", "val": { "type": "vec2", "val": [ 0.65, 0.8 ] } },
+          "density": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.85 } },
+          "decay": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.96 } }
+        }
+      },
+      {
+        "id": 178,
+        "name": "nebula_audio",
+        "type": "AudioSpatializerChanOp",
+        "pos": [ 50.0, 200.0 ],
+        "params": {
+          "spatial_mode": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 1 } }
+        }
+      }
+    ],
+    "wires": [
+      { "id": 170, "from_node": 173, "from_pin": "output", "to_node": 175, "to_pin": "geometry" },
+      { "id": 171, "from_node": 174, "from_pin": "output", "to_node": 175, "to_pin": "material" },
+      { "id": 172, "from_node": 171, "from_pin": "output", "to_node": 176, "to_pin": "geo2" },
+      { "id": 173, "from_node": 175, "from_pin": "output", "to_node": 176, "to_pin": "geo1" },
+      { "id": 174, "from_node": 176, "from_pin": "output", "to_node": 177, "to_pin": "input" },
+      { "id": 175, "from_node": 170, "from_pin": "output", "to_node": 177, "to_pin": "in_occlusion" }
+    ]
+  }
+}

@@ -128,6 +128,11 @@ add_library(nodeforge_core STATIC
     src/physics/PhysicsWorld.cpp
     src/xr/OpenXRStereoMath.cpp
     src/xr/OpenXRRuntime.cpp
+    src/render/VolumetricMath.cpp
+    src/operators/tex/VolumetricCloudTexOp.cpp
+    src/operators/tex/LightShaftTexOp.cpp
+    src/operators/mat/VolumetricFogMatOp.cpp
+    src/operators/geom/VoxelGridGeomOp.cpp
     src/media/VideoDecoder.cpp
     src/media/DisplayManager.cpp
     src/media/OutputWindow.cpp

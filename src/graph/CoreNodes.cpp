@@ -66,6 +66,10 @@
 #include "../operators/chan/OpenXRControllerChanOp.h"
 #include "../operators/chan/OpenXRHandTrackingChanOp.h"
 #include "../operators/comp/OpenXRCameraComp.h"
+#include "../operators/tex/VolumetricCloudTexOp.h"
+#include "../operators/tex/LightShaftTexOp.h"
+#include "../operators/mat/VolumetricFogMatOp.h"
+#include "../operators/geom/VoxelGridGeomOp.h"
 #include "../operators/chan/AudioSpatializerChanOp.h"
 #include "../operators/chan/AmbisonicDecodeChanOp.h"
 #include "../operators/tex/RenderTexOp.h"
@@ -754,6 +758,35 @@ void RegisterCoreNodes(NodeRegistry& registry) {
         NodeFamily::Comp,
         "OpenXR",
         "Stereoscopic camera rig synchronized with HMD head pose in 3D world space."
+    );
+
+    // Volumetric Fog & Ray Marching Engine (Phase 15 Epic 15.7)
+    registry.RegisterNodeType<VolumetricCloudTexOp>(
+        "VolumetricCloudTexOp",
+        NodeFamily::TexOp,
+        "Volumetric",
+        "Full-screen procedural 3D ray-marched atmospheric clouds and sky generator."
+    );
+
+    registry.RegisterNodeType<LightShaftTexOp>(
+        "LightShaftTexOp",
+        NodeFamily::TexOp,
+        "Volumetric",
+        "Screen-space volumetric god-ray light shafts with radial blur attenuation."
+    );
+
+    registry.RegisterNodeType<VolumetricFogMatOp>(
+        "VolumetricFogMatOp",
+        NodeFamily::MatOp,
+        "Volumetric",
+        "3D volume material for localized smoke plumes and fog zones in Scene3DPass."
+    );
+
+    registry.RegisterNodeType<VoxelGridGeomOp>(
+        "VoxelGridGeomOp",
+        NodeFamily::GeomOp,
+        "Volumetric",
+        "3D voxel density scalar field generator and volume bounding mesh."
     );
 }
 
