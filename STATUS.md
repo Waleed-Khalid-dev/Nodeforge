@@ -9,10 +9,12 @@
 
 ## In progress
 
-- [ ] Phase 15 Epic 15.5 (Real-Time Physics Engine & Rigid Body Dynamics Integration — Bullet/PhysX SOP)
+- [ ] Phase 15 Epic 15.7 (Volumetric Fog & Real-Time GPU Ray Marching Engine — Cloud/Smoke SOP & VolumetricMatOp)
 
 ## Completed
 
+- [x] Phase 15 Epic 15.6: OpenXR / VR & AR Spatial Tracking System (Native OpenXR 1.0 runtime wrapper, asymmetric stereo projection, OpenXRHeadsetTexOp, OpenXRControllerChanOp, OpenXRHandTrackingChanOp, OpenXRCameraComp, samples/10_openxr_immersive_holodeck flagship project, 168/168 automated tests passing with 120 FPS benchmark)
+- [x] Phase 15 Epic 15.5: Real-Time Physics Engine & Rigid Body Dynamics Integration (Native 6-DOF PhysicsWorld multi-body solver, SAT box/sphere/plane collisions, impulse contact resolution, PhysicsSolverComp, RigidBodyGeomOp, ColliderGeomOp, PhysicsForceChanOp, samples/09_kinetic_physics_arena flagship project, 160/160 automated tests passing with 1,000-body benchmark)
 - [x] Phase 15 Epic 15.4: Advanced Spatial Audio Simulation & Multi-Speaker Ambisonics Engine (3D spatial panner, B-Format Ambisonics encoding/decoding, 7.1.4 Atmos dome decoder, AudioEmitterComp, AudioListenerComp, samples/08_spatial_audio_dome flagship project, 152/152 automated tests passing with 64-stream benchmark)
 - [x] Phase 15 Epic 15.3: In-Graph Interactive UI Panel Component System (Modular PanelComp container with Flex/Absolute layout, SliderPanelComp, ButtonPanelComp, DialPanelComp, TextEntryPanelComp, dual channel/texture outputs, MIDI/OSC feedback, samples/07_live_show_control_panel flagship project, 145/145 automated tests passing with 500-widget benchmark)
 - [x] Phase 15 Epic 15.2: Advanced GPU Instancing Engine & Dynamic Multi-Attribute Distribution (Dedicated InstanceGeomOp with multi-mode procedural distribution: Table/Channel 1-to-1, Mesh Surface Normal alignment, Grid Array, Fibonacci Phyllotaxis Spiral, audio wave ripple modulation, samples/06_matrix_instancing flagship project, 138/138 automated tests passing with 100,000-instance benchmark)

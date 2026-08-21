@@ -58,6 +58,14 @@
 #include "../operators/comp/TextEntryPanelComp.h"
 #include "../operators/comp/AudioEmitterComp.h"
 #include "../operators/comp/AudioListenerComp.h"
+#include "../operators/comp/PhysicsSolverComp.h"
+#include "../operators/geom/RigidBodyGeomOp.h"
+#include "../operators/geom/ColliderGeomOp.h"
+#include "../operators/chan/PhysicsForceChanOp.h"
+#include "../operators/tex/OpenXRHeadsetTexOp.h"
+#include "../operators/chan/OpenXRControllerChanOp.h"
+#include "../operators/chan/OpenXRHandTrackingChanOp.h"
+#include "../operators/comp/OpenXRCameraComp.h"
 #include "../operators/chan/AudioSpatializerChanOp.h"
 #include "../operators/chan/AmbisonicDecodeChanOp.h"
 #include "../operators/tex/RenderTexOp.h"
@@ -688,6 +696,64 @@ void RegisterCoreNodes(NodeRegistry& registry) {
         NodeFamily::Comp,
         "Spatial Audio",
         "3D scene virtual listener / microphone tracking observer position and orientation."
+    );
+
+    // Real-Time Physics & Rigid Body Dynamics (Phase 15 Epic 15.5)
+    registry.RegisterNodeType<PhysicsSolverComp>(
+        "PhysicsSolverComp",
+        NodeFamily::Comp,
+        "Physics",
+        "Master physics simulation world controller and collision event telemetry aggregator."
+    );
+
+    registry.RegisterNodeType<RigidBodyGeomOp>(
+        "RigidBodyGeomOp",
+        NodeFamily::GeomOp,
+        "Physics",
+        "Converts 3D geometry into physical 6-DOF dynamic/static rigid bodies with mass, restitution, and friction."
+    );
+
+    registry.RegisterNodeType<ColliderGeomOp>(
+        "ColliderGeomOp",
+        NodeFamily::GeomOp,
+        "Physics",
+        "Static collision geometry bounds (Ground Plane, Box, Sphere)."
+    );
+
+    registry.RegisterNodeType<PhysicsForceChanOp>(
+        "PhysicsForceChanOp",
+        NodeFamily::ChanOp,
+        "Physics",
+        "Generates dynamic spatial force vectors (Explosion, Wind, Vortex, Attractor)."
+    );
+
+    // OpenXR / VR & AR Spatial Tracking (Phase 15 Epic 15.6)
+    registry.RegisterNodeType<OpenXRHeadsetTexOp>(
+        "OpenXRHeadsetTexOp",
+        NodeFamily::TexOp,
+        "OpenXR",
+        "Presents stereoscopic Left and Right eye buffers to OpenXR HMD swapchains with 2D preview."
+    );
+
+    registry.RegisterNodeType<OpenXRControllerChanOp>(
+        "OpenXRControllerChanOp",
+        NodeFamily::ChanOp,
+        "OpenXR",
+        "Streams 6-DOF tracking transforms, triggers, and buttons for Left and Right VR controllers."
+    );
+
+    registry.RegisterNodeType<OpenXRHandTrackingChanOp>(
+        "OpenXRHandTrackingChanOp",
+        NodeFamily::ChanOp,
+        "OpenXR",
+        "Streams 26 articulated skeletal hand joints and gesture metrics (pinch, grab)."
+    );
+
+    registry.RegisterNodeType<OpenXRCameraComp>(
+        "OpenXRCameraComp",
+        NodeFamily::Comp,
+        "OpenXR",
+        "Stereoscopic camera rig synchronized with HMD head pose in 3D world space."
     );
 }
 

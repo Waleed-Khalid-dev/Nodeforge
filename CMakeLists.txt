@@ -116,6 +116,18 @@ add_library(nodeforge_core STATIC
     src/operators/comp/TextEntryPanelComp.cpp
     src/operators/comp/AudioEmitterComp.cpp
     src/operators/comp/AudioListenerComp.cpp
+    src/operators/comp/PhysicsSolverComp.cpp
+    src/operators/comp/OpenXRCameraComp.cpp
+    src/operators/geom/RigidBodyGeomOp.cpp
+    src/operators/geom/ColliderGeomOp.cpp
+    src/operators/chan/PhysicsForceChanOp.cpp
+    src/operators/chan/OpenXRControllerChanOp.cpp
+    src/operators/chan/OpenXRHandTrackingChanOp.cpp
+    src/operators/tex/OpenXRHeadsetTexOp.cpp
+    src/physics/CollisionPrimitives.cpp
+    src/physics/PhysicsWorld.cpp
+    src/xr/OpenXRStereoMath.cpp
+    src/xr/OpenXRRuntime.cpp
     src/media/VideoDecoder.cpp
     src/media/DisplayManager.cpp
     src/media/OutputWindow.cpp

@@ -1,0 +1,141 @@
+{
+  "format": "nodeforge_project_v1",
+  "schema_version": 1,
+  "metadata": {
+    "name": "Interactive VR Spatial Holodeck & Kinetic Gesture Arena",
+    "author": "Neo Realms Interactive",
+    "description": "Production OpenXR VR experience combining stereoscopic dual-eye rendering, 6-DOF controller tracking, 26-joint skeletal hand gesture tracking, 3D binaural spatial audio, and interactive holographic panels.",
+    "engine_version": "1.0.0",
+    "created": "2026-08-21T06:00:00Z",
+    "modified": "2026-08-21T06:00:00Z"
+  },
+  "timeline": {
+    "fps": 90.0,
+    "bpm": 120.0,
+    "start_frame": 1,
+    "end_frame": 10800,
+    "current_frame": 1,
+    "is_playing": true
+  },
+  "viewport": {
+    "pan": [ 0.0, 0.0 ],
+    "zoom": 0.9
+  },
+  "root_graph": {
+    "nodes": [
+      {
+        "id": 150,
+        "name": "xr_camera",
+        "type": "OpenXRCameraComp",
+        "pos": [ -750.0, -150.0 ],
+        "params": {
+          "tracking_space": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 1 } }
+        }
+      },
+      {
+        "id": 151,
+        "name": "xr_controllers",
+        "type": "OpenXRControllerChanOp",
+        "pos": [ -750.0, 50.0 ],
+        "params": {
+          "hand_select": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } }
+        }
+      },
+      {
+        "id": 152,
+        "name": "xr_hand_tracking",
+        "type": "OpenXRHandTrackingChanOp",
+        "pos": [ -750.0, 250.0 ],
+        "params": {
+          "hand_select": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } }
+        }
+      },
+      {
+        "id": 153,
+        "name": "vr_audio_listener",
+        "type": "AudioListenerComp",
+        "pos": [ -480.0, -250.0 ],
+        "params": {
+          "position": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 0.0, 1.7, 0.0 ] } }
+        }
+      },
+      {
+        "id": 154,
+        "name": "spatial_sound",
+        "type": "AudioSpatializerChanOp",
+        "pos": [ -220.0, -250.0 ],
+        "params": {
+          "spatial_mode": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 1 } },
+          "speaker_layout": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } }
+        }
+      },
+      {
+        "id": 155,
+        "name": "holodeck_mesh",
+        "type": "GridGeomOp",
+        "pos": [ -480.0, -50.0 ],
+        "params": {
+          "size_x": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 20.0 } },
+          "size_y": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 20.0 } }
+        }
+      },
+      {
+        "id": 156,
+        "name": "holodeck_mat",
+        "type": "PhongMatOp",
+        "pos": [ -480.0, 100.0 ],
+        "params": {
+          "diffuse_color": { "mode": "constant", "expr": "", "val": { "type": "vec4", "val": [ 0.05, 0.8, 0.9, 1.0 ] } }
+        }
+      },
+      {
+        "id": 157,
+        "name": "geo_holder",
+        "type": "GeometryComp",
+        "pos": [ -220.0, -50.0 ],
+        "params": {
+          "enable_instancing": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": false } }
+        }
+      },
+      {
+        "id": 158,
+        "name": "render_left_eye",
+        "type": "RenderTexOp",
+        "pos": [ 50.0, -100.0 ],
+        "params": {
+          "clear_color": { "mode": "constant", "expr": "", "val": { "type": "vec4", "val": [ 0.01, 0.01, 0.03, 1.0 ] } }
+        }
+      },
+      {
+        "id": 159,
+        "name": "render_right_eye",
+        "type": "RenderTexOp",
+        "pos": [ 50.0, 100.0 ],
+        "params": {
+          "clear_color": { "mode": "constant", "expr": "", "val": { "type": "vec4", "val": [ 0.01, 0.01, 0.03, 1.0 ] } }
+        }
+      },
+      {
+        "id": 160,
+        "name": "xr_headset",
+        "type": "OpenXRHeadsetTexOp",
+        "pos": [ 320.0, 0.0 ],
+        "params": {
+          "stereo_mode": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } },
+          "ipd_mm": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 64.0 } },
+          "mirror_window": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": true } }
+        }
+      }
+    ],
+    "wires": [
+      { "id": 150, "from_node": 150, "from_pin": "out_head_pose", "to_node": 153, "to_pin": "in_cam" },
+      { "id": 151, "from_node": 153, "from_pin": "out_state", "to_node": 154, "to_pin": "in_pos" },
+      { "id": 152, "from_node": 155, "from_pin": "output", "to_node": 157, "to_pin": "geometry" },
+      { "id": 153, "from_node": 156, "from_pin": "output", "to_node": 157, "to_pin": "material" },
+      { "id": 154, "from_node": 157, "from_pin": "output", "to_node": 158, "to_pin": "geo1" },
+      { "id": 155, "from_node": 157, "from_pin": "output", "to_node": 159, "to_pin": "geo1" },
+      { "id": 156, "from_node": 158, "from_pin": "output", "to_node": 160, "to_pin": "in_left_eye" },
+      { "id": 157, "from_node": 159, "from_pin": "output", "to_node": 160, "to_pin": "in_right_eye" }
+    ]
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "format": "nodeforge_project_v1",
+  "schema_version": 1,
+  "metadata": {
+    "name": "Kinetic Physics Arena & Domino Cascade",
+    "author": "Neo Realms Interactive",
+    "description": "Production real-time physics installation featuring dynamic 6-DOF rigid body destruction, ground collision planes, mouse-triggered radial impulse shockwaves, and collision-triggered spatial audio thuds.",
+    "engine_version": "1.0.0",
+    "created": "2026-08-21T05:00:00Z",
+    "modified": "2026-08-21T05:00:00Z"
+  },
+  "timeline": {
+    "fps": 60.0,
+    "bpm": 120.0,
+    "start_frame": 1,
+    "end_frame": 7200,
+    "current_frame": 1,
+    "is_playing": true
+  },
+  "viewport": {
+    "pan": [ 0.0, 0.0 ],
+    "zoom": 0.9
+  },
+  "root_graph": {
+    "nodes": [
+      {
+        "id": 130,
+        "name": "box_mesh",
+        "type": "BoxGeomOp",
+        "pos": [ -750.0, -150.0 ],
+        "params": {
+          "size": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 1.0, 2.0, 1.0 ] } }
+        }
+      },
+      {
+        "id": 131,
+        "name": "rigid_stack",
+        "type": "RigidBodyGeomOp",
+        "pos": [ -480.0, -150.0 ],
+        "params": {
+          "body_type": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } },
+          "mass": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 5.0 } },
+          "restitution": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.6 } },
+          "friction": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.4 } },
+          "initial_pos": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 0.0, 6.0, 0.0 ] } }
+        }
+      },
+      {
+        "id": 132,
+        "name": "ground_collider",
+        "type": "ColliderGeomOp",
+        "pos": [ -480.0, 50.0 ],
+        "params": {
+          "shape_type": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } },
+          "size": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 30.0, 1.0, 30.0 ] } }
+        }
+      },
+      {
+        "id": 133,
+        "name": "mouse_in",
+        "type": "MouseInChanOp",
+        "pos": [ -750.0, 150.0 ],
+        "params": {
+          "normalize": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": true } }
+        }
+      },
+      {
+        "id": 134,
+        "name": "shockwave_force",
+        "type": "PhysicsForceChanOp",
+        "pos": [ -480.0, 150.0 ],
+        "params": {
+          "force_type": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 1 } },
+          "strength": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 350.0 } },
+          "origin": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 0.0, 0.0, 0.0 ] } }
+        }
+      },
+      {
+        "id": 135,
+        "name": "physics_solver",
+        "type": "PhysicsSolverComp",
+        "pos": [ -220.0, 50.0 ],
+        "params": {
+          "gravity": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 0.0, -9.81, 0.0 ] } },
+          "sub_steps": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 4 } },
+          "linear_damping": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.02 } }
+        }
+      },
+      {
+        "id": 136,
+        "name": "spatial_thud",
+        "type": "AudioSpatializerChanOp",
+        "pos": [ 50.0, -50.0 ],
+        "params": {
+          "spatial_mode": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 1 } },
+          "speaker_layout": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 2 } }
+        }
+      },
+      {
+        "id": 137,
+        "name": "arena_mat",
+        "type": "PhongMatOp",
+        "pos": [ -220.0, 250.0 ],
+        "params": {
+          "diffuse_color": { "mode": "constant", "expr": "", "val": { "type": "vec4", "val": [ 0.9, 0.4, 0.1, 1.0 ] } }
+        }
+      },
+      {
+        "id": 138,
+        "name": "geo_holder",
+        "type": "GeometryComp",
+        "pos": [ 50.0, 150.0 ],
+        "params": {
+          "enable_instancing": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": false } }
+        }
+      },
+      {
+        "id": 139,
+        "name": "arena_cam",
+        "type": "CameraComp",
+        "pos": [ 50.0, 300.0 ],
+        "params": {
+          "position": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 0.0, 8.0, 25.0 ] } }
+        }
+      },
+      {
+        "id": 140,
+        "name": "render_pass",
+        "type": "RenderTexOp",
+        "pos": [ 300.0, 150.0 ],
+        "params": {
+          "clear_color": { "mode": "constant", "expr": "", "val": { "type": "vec4", "val": [ 0.02, 0.02, 0.05, 1.0 ] } }
+        }
+      },
+      {
+        "id": 141,
+        "name": "stage_output",
+        "type": "ToWindowTexOp",
+        "pos": [ 560.0, 150.0 ],
+        "params": {
+          "title": { "mode": "constant", "expr": "", "val": { "type": "string", "val": "Kinetic Physics Arena & Domino Cascade" } },
+          "fullscreen": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": false } }
+        }
+      }
+    ],
+    "wires": [
+      { "id": 130, "from_node": 130, "from_pin": "output", "to_node": 131, "to_pin": "template_geom" },
+      { "id": 131, "from_node": 133, "from_pin": "output", "to_node": 134, "to_pin": "in_trigger" },
+      { "id": 132, "from_node": 134, "from_pin": "out_force", "to_node": 135, "to_pin": "in_forces" },
+      { "id": 133, "from_node": 135, "from_pin": "out_events", "to_node": 136, "to_pin": "in_pos" },
+      { "id": 134, "from_node": 131, "from_pin": "output", "to_node": 138, "to_pin": "geometry" },
+      { "id": 135, "from_node": 137, "from_pin": "output", "to_node": 138, "to_pin": "material" },
+      { "id": 136, "from_node": 138, "from_pin": "output", "to_node": 140, "to_pin": "geo1" },
+      { "id": 137, "from_node": 139, "from_pin": "output", "to_node": 140, "to_pin": "camera" },
+      { "id": 138, "from_node": 140, "from_pin": "output", "to_node": 141, "to_pin": "input" }
+    ]
+  }
+}

@@ -36,6 +36,8 @@ add_executable(nodeforge_tests
     unit/instancing_system_test.cpp
     unit/panel_system_test.cpp
     unit/spatial_audio_test.cpp
+    unit/physics_system_test.cpp
+    unit/openxr_system_test.cpp
     benchmark/graph_benchmark.cpp
     benchmark/texop_benchmark.cpp
     benchmark/chanop_benchmark.cpp
@@ -48,6 +50,8 @@ add_executable(nodeforge_tests
     benchmark/instancing_benchmark.cpp
     benchmark/panel_benchmark.cpp
     benchmark/spatial_audio_benchmark.cpp
+    benchmark/physics_benchmark.cpp
+    benchmark/openxr_benchmark.cpp
 )
 
 target_link_libraries(nodeforge_tests PRIVATE
