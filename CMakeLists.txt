@@ -133,6 +133,11 @@ add_library(nodeforge_core STATIC
     src/operators/tex/LightShaftTexOp.cpp
     src/operators/mat/VolumetricFogMatOp.cpp
     src/operators/geom/VoxelGridGeomOp.cpp
+    src/laser/LaserEngine.cpp
+    src/operators/geom/LaserGeomOp.cpp
+    src/operators/geom/LaserPatternGeomOp.cpp
+    src/operators/geom/LaserFileInGeomOp.cpp
+    src/operators/chan/LaserDACChanOp.cpp
     src/media/VideoDecoder.cpp
     src/media/DisplayManager.cpp
     src/media/OutputWindow.cpp

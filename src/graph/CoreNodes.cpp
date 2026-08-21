@@ -70,6 +70,10 @@
 #include "../operators/tex/LightShaftTexOp.h"
 #include "../operators/mat/VolumetricFogMatOp.h"
 #include "../operators/geom/VoxelGridGeomOp.h"
+#include "../operators/geom/LaserGeomOp.h"
+#include "../operators/geom/LaserPatternGeomOp.h"
+#include "../operators/geom/LaserFileInGeomOp.h"
+#include "../operators/chan/LaserDACChanOp.h"
 #include "../operators/chan/AudioSpatializerChanOp.h"
 #include "../operators/chan/AmbisonicDecodeChanOp.h"
 #include "../operators/tex/RenderTexOp.h"
@@ -787,6 +791,35 @@ void RegisterCoreNodes(NodeRegistry& registry) {
         NodeFamily::GeomOp,
         "Volumetric",
         "3D voxel density scalar field generator and volume bounding mesh."
+    );
+
+    // Laser DAC & ILDA Control (Phase 15 Epic 15.8)
+    registry.RegisterNodeType<LaserGeomOp>(
+        "LaserGeomOp",
+        NodeFamily::GeomOp,
+        "Laser",
+        "Converts 3D geometry and vector contours into optimized ILDA laser point paths with blanking/dwells."
+    );
+
+    registry.RegisterNodeType<LaserPatternGeomOp>(
+        "LaserPatternGeomOp",
+        NodeFamily::GeomOp,
+        "Laser",
+        "Generates procedural laser show Lissajous curves, spirographs, and multi-beam fans."
+    );
+
+    registry.RegisterNodeType<LaserFileInGeomOp>(
+        "LaserFileInGeomOp",
+        NodeFamily::GeomOp,
+        "Laser",
+        "Loads standard ILDA .ild vector animation files."
+    );
+
+    registry.RegisterNodeType<LaserDACChanOp>(
+        "LaserDACChanOp",
+        NodeFamily::ChanOp,
+        "Laser",
+        "Streams ILDA point channels to Ether Dream / Helios hardware DACs with safety shutter control."
     );
 }
 

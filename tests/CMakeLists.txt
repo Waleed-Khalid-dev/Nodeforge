@@ -39,6 +39,7 @@ add_executable(nodeforge_tests
     unit/physics_system_test.cpp
     unit/openxr_system_test.cpp
     unit/volumetric_system_test.cpp
+    unit/laser_system_test.cpp
     benchmark/graph_benchmark.cpp
     benchmark/texop_benchmark.cpp
     benchmark/chanop_benchmark.cpp
@@ -54,6 +55,7 @@ add_executable(nodeforge_tests
     benchmark/physics_benchmark.cpp
     benchmark/openxr_benchmark.cpp
     benchmark/volumetric_benchmark.cpp
+    benchmark/laser_benchmark.cpp
 )
 
 target_link_libraries(nodeforge_tests PRIVATE

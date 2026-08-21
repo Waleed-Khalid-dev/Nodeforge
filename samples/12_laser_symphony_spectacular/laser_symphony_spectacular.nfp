@@ -1,0 +1,124 @@
+{
+  "format": "nodeforge_project_v1",
+  "schema_version": 1,
+  "metadata": {
+    "name": "Live Laser Concert & Kinetic Beam Symphony",
+    "author": "Neo Realms Interactive",
+    "description": "Production laser show combining procedural lissajous and spirograph generators, galvo path optimization, 30 kpps hardware DAC streaming, 3D volumetric smoke illumination, and safety shutter control.",
+    "engine_version": "1.0.0",
+    "created": "2026-08-21T08:00:00Z",
+    "modified": "2026-08-21T08:00:00Z"
+  },
+  "timeline": {
+    "fps": 60.0,
+    "bpm": 128.0,
+    "start_frame": 1,
+    "end_frame": 7680,
+    "current_frame": 1,
+    "is_playing": true
+  },
+  "viewport": {
+    "pan": [ 0.0, 0.0 ],
+    "zoom": 0.9
+  },
+  "root_graph": {
+    "nodes": [
+      {
+        "id": 180,
+        "name": "laser_pattern",
+        "type": "LaserPatternGeomOp",
+        "pos": [ -750.0, -150.0 ],
+        "params": {
+          "pattern_type": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } },
+          "frequency_a": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 4.0 } },
+          "frequency_b": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 3.0 } }
+        }
+      },
+      {
+        "id": 181,
+        "name": "laser_optimizer",
+        "type": "LaserGeomOp",
+        "pos": [ -480.0, -150.0 ],
+        "params": {
+          "target_pps": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 30000 } },
+          "blank_delay": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 8 } },
+          "corner_dwell": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 4 } },
+          "color_override": { "mode": "constant", "expr": "", "val": { "type": "vec4", "val": [ 0.0, 1.0, 0.4, 1.0 ] } }
+        }
+      },
+      {
+        "id": 182,
+        "name": "etherdream_dac",
+        "type": "LaserDACChanOp",
+        "pos": [ -220.0, -250.0 ],
+        "params": {
+          "dac_type": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 2 } },
+          "safety_shutter": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": true } }
+        }
+      },
+      {
+        "id": 183,
+        "name": "smoke_bounds",
+        "type": "VoxelGridGeomOp",
+        "pos": [ -750.0, 50.0 ],
+        "params": {
+          "box_size": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 25.0, 15.0, 25.0 ] } }
+        }
+      },
+      {
+        "id": 184,
+        "name": "smoke_material",
+        "type": "VolumetricFogMatOp",
+        "pos": [ -750.0, 200.0 ],
+        "params": {
+          "density_scale": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 3.0 } }
+        }
+      },
+      {
+        "id": 185,
+        "name": "geo_holder",
+        "type": "GeometryComp",
+        "pos": [ -220.0, -50.0 ],
+        "params": {
+          "enable_instancing": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": false } }
+        }
+      },
+      {
+        "id": 186,
+        "name": "scene_render",
+        "type": "RenderTexOp",
+        "pos": [ 50.0, 0.0 ],
+        "params": {
+          "clear_color": { "mode": "constant", "expr": "", "val": { "type": "vec4", "val": [ 0.01, 0.01, 0.02, 1.0 ] } }
+        }
+      },
+      {
+        "id": 187,
+        "name": "laser_god_rays",
+        "type": "LightShaftTexOp",
+        "pos": [ 320.0, 0.0 ],
+        "params": {
+          "density": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.9 } },
+          "decay": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.95 } }
+        }
+      },
+      {
+        "id": 188,
+        "name": "audio_driver",
+        "type": "AudioSpatializerChanOp",
+        "pos": [ 50.0, 200.0 ],
+        "params": {
+          "spatial_mode": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 1 } }
+        }
+      }
+    ],
+    "wires": [
+      { "id": 180, "from_node": 180, "from_pin": "output", "to_node": 181, "to_pin": "geometry" },
+      { "id": 181, "from_node": 181, "from_pin": "out_points", "to_node": 182, "to_pin": "in_points" },
+      { "id": 182, "from_node": 181, "from_pin": "output", "to_node": 185, "to_pin": "geometry" },
+      { "id": 183, "from_node": 183, "from_pin": "output", "to_node": 186, "to_pin": "geo2" },
+      { "id": 184, "from_node": 185, "from_pin": "output", "to_node": 186, "to_pin": "geo1" },
+      { "id": 185, "from_node": 186, "from_pin": "output", "to_node": 187, "to_pin": "input" }
+    ]
+  }
+}
