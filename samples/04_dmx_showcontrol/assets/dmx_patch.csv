@@ -1,0 +1,6 @@
+fixture_id,fixture_name,universe,channel_start,channel_count,type,location
+1,Front Wash Left,0,1,4,RGBA LED Par,Truss Left
+2,Front Wash Center,0,5,4,RGBA LED Par,Truss Center
+3,Front Wash Right,0,9,4,RGBA LED Par,Truss Right
+4,Backlight Bar,0,13,8,8-Pixel LED Bar,Upstage Ground
+5,Strobe FX,0,21,2,High-Power Strobe,Ceiling Grid

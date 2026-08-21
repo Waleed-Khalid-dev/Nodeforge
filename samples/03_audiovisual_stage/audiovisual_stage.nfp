@@ -1,0 +1,135 @@
+{
+  "format": "nodeforge_project_v1",
+  "schema_version": 1,
+  "metadata": {
+    "name": "Generative Audio-Visual Stage Synthesizer",
+    "author": "Neo Realms Interactive",
+    "description": "Live audio-reactive generative visual synthesizer driving real-time GPU shaders from audio spectrum analysis and hardware MIDI CC controllers.",
+    "engine_version": "1.0.0",
+    "created": "2026-08-21T01:00:00Z",
+    "modified": "2026-08-21T01:00:00Z"
+  },
+  "timeline": {
+    "fps": 60.0,
+    "bpm": 128.0,
+    "start_frame": 1,
+    "end_frame": 7680,
+    "current_frame": 1,
+    "is_playing": true
+  },
+  "viewport": {
+    "pan": [ 0.0, 0.0 ],
+    "zoom": 1.0
+  },
+  "root_graph": {
+    "nodes": [
+      {
+        "id": 30,
+        "name": "audio_stream",
+        "type": "AudioFileInChanOp",
+        "pos": [ -700.0, -150.0 ],
+        "params": {
+          "file_path": { "mode": "constant", "expr": "", "val": { "type": "string", "val": "assets/demo_beat.wav" } },
+          "loop": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": true } },
+          "play": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": true } },
+          "volume": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 1.0 } }
+        }
+      },
+      {
+        "id": 31,
+        "name": "midi_faders",
+        "type": "MIDIInChanOp",
+        "pos": [ -700.0, 150.0 ],
+        "params": {
+          "device_index": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } },
+          "channel": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 1 } }
+        }
+      },
+      {
+        "id": 32,
+        "name": "audio_math",
+        "type": "MathChanOp",
+        "pos": [ -480.0, -150.0 ],
+        "params": {
+          "operation": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } },
+          "scalar": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 2.5 } },
+          "clamp_min": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.0 } },
+          "clamp_max": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 10.0 } }
+        }
+      },
+      {
+        "id": 33,
+        "name": "peak_follower",
+        "type": "FilterChanOp",
+        "pos": [ -280.0, -150.0 ],
+        "params": {
+          "type": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } },
+          "filter_width": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.08 } }
+        }
+      },
+      {
+        "id": 34,
+        "name": "audio_to_texture",
+        "type": "ChanToTexOp",
+        "pos": [ -60.0, -250.0 ],
+        "params": {
+          "fit_mode": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } },
+          "height": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 64 } }
+        }
+      },
+      {
+        "id": 35,
+        "name": "kaleido_noise",
+        "type": "NoiseTexOp",
+        "pos": [ -60.0, 50.0 ],
+        "params": {
+          "type": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 2 } },
+          "frequency": { "mode": "expression", "expr": "2.0 + op('peak_follower')['chan1'] * 4.0", "val": { "type": "float", "val": 3.0 } },
+          "roughness": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.6 } },
+          "color1": { "mode": "constant", "expr": "", "val": { "type": "vec4", "val": [ 0.1, 0.0, 0.2, 1.0 ] } },
+          "color2": { "mode": "constant", "expr": "", "val": { "type": "vec4", "val": [ 0.0, 0.8, 0.9, 1.0 ] } }
+        }
+      },
+      {
+        "id": 36,
+        "name": "stage_composite",
+        "type": "CompositeTexOp",
+        "pos": [ 180.0, -100.0 ],
+        "params": {
+          "operation": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 1 } },
+          "opacity": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.9 } }
+        }
+      },
+      {
+        "id": 37,
+        "name": "stage_level",
+        "type": "LevelTexOp",
+        "pos": [ 400.0, -100.0 ],
+        "params": {
+          "brightness": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 1.05 } },
+          "contrast": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 1.2 } },
+          "gamma": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 1.0 } }
+        }
+      },
+      {
+        "id": 38,
+        "name": "stage_output",
+        "type": "ToWindowTexOp",
+        "pos": [ 620.0, -100.0 ],
+        "params": {
+          "title": { "mode": "constant", "expr": "", "val": { "type": "string", "val": "Generative AV Stage Visualizer" } },
+          "fullscreen": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": false } }
+        }
+      }
+    ],
+    "wires": [
+      { "id": 30, "from_node": 30, "from_pin": "output", "to_node": 32, "to_pin": "input" },
+      { "id": 31, "from_node": 32, "from_pin": "output", "to_node": 33, "to_pin": "input" },
+      { "id": 32, "from_node": 33, "from_pin": "output", "to_node": 34, "to_pin": "input" },
+      { "id": 33, "from_node": 34, "from_pin": "output", "to_node": 36, "to_pin": "input1" },
+      { "id": 34, "from_node": 35, "from_pin": "output", "to_node": 36, "to_pin": "input2" },
+      { "id": 35, "from_node": 36, "from_pin": "output", "to_node": 37, "to_pin": "input" },
+      { "id": 36, "from_node": 37, "from_pin": "output", "to_node": 38, "to_pin": "input" }
+    ]
+  }
+}

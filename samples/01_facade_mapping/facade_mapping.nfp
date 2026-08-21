@@ -1,0 +1,152 @@
+{
+  "format": "nodeforge_project_v1",
+  "schema_version": 1,
+  "metadata": {
+    "name": "Flagship Façade Mapping Show",
+    "author": "Neo Realms Interactive",
+    "description": "Production dual-projector façade mapping with generative noise visual synthesizer, 2D Bezier grid warping, S-curve softedge blending, and dual window physical output routing.",
+    "engine_version": "1.0.0",
+    "created": "2026-08-21T01:00:00Z",
+    "modified": "2026-08-21T01:00:00Z"
+  },
+  "timeline": {
+    "fps": 60.0,
+    "bpm": 120.0,
+    "start_frame": 1,
+    "end_frame": 3600,
+    "current_frame": 1,
+    "is_playing": true
+  },
+  "viewport": {
+    "pan": [ 0.0, 0.0 ],
+    "zoom": 1.0
+  },
+  "root_graph": {
+    "nodes": [
+      {
+        "id": 1,
+        "name": "master_clock",
+        "type": "TimeChanOp",
+        "pos": [ -600.0, -100.0 ],
+        "params": {
+          "speed": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 1.0 } }
+        }
+      },
+      {
+        "id": 2,
+        "name": "anim_lfo",
+        "type": "LFOChanOp",
+        "pos": [ -400.0, -100.0 ],
+        "params": {
+          "type": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } },
+          "frequency": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.2 } },
+          "amplitude": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 1.0 } },
+          "bias": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.0 } },
+          "phase": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.0 } }
+        }
+      },
+      {
+        "id": 3,
+        "name": "base_pattern",
+        "type": "NoiseTexOp",
+        "pos": [ -200.0, -200.0 ],
+        "params": {
+          "type": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 1 } },
+          "frequency": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 4.5 } },
+          "harmonics": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 4 } },
+          "roughness": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.5 } },
+          "exponent": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 1.0 } },
+          "offset": { "mode": "constant", "expr": "", "val": { "type": "vec2", "val": [ 0.0, 0.0 ] } },
+          "color1": { "mode": "constant", "expr": "", "val": { "type": "vec4", "val": [ 0.05, 0.1, 0.25, 1.0 ] } },
+          "color2": { "mode": "constant", "expr": "", "val": { "type": "vec4", "val": [ 0.9, 0.7, 0.3, 1.0 ] } },
+          "time": { "mode": "expression", "expr": "op('anim_lfo')['chan1'] * 5.0", "val": { "type": "float", "val": 0.0 } }
+        }
+      },
+      {
+        "id": 4,
+        "name": "glow_blur",
+        "type": "BlurTexOp",
+        "pos": [ 50.0, -300.0 ],
+        "params": {
+          "radius": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 12 } },
+          "sigma": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 5.0 } },
+          "passes": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 2 } }
+        }
+      },
+      {
+        "id": 5,
+        "name": "composite_mix",
+        "type": "CompositeTexOp",
+        "pos": [ 250.0, -200.0 ],
+        "params": {
+          "operation": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 1 } },
+          "opacity": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.85 } }
+        }
+      },
+      {
+        "id": 6,
+        "name": "warp_blend_left",
+        "type": "WarpBlendTexOp",
+        "pos": [ 500.0, -350.0 ],
+        "params": {
+          "screen_index": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } },
+          "grid_rows": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 4 } },
+          "grid_cols": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 4 } },
+          "blend_edge": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 1 } },
+          "blend_width": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.15 } },
+          "blend_gamma": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 2.2 } },
+          "black_level": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.0 } },
+          "show_grid": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": false } }
+        }
+      },
+      {
+        "id": 7,
+        "name": "warp_blend_right",
+        "type": "WarpBlendTexOp",
+        "pos": [ 500.0, -50.0 ],
+        "params": {
+          "screen_index": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 1 } },
+          "grid_rows": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 4 } },
+          "grid_cols": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 4 } },
+          "blend_edge": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } },
+          "blend_width": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.15 } },
+          "blend_gamma": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 2.2 } },
+          "black_level": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.0 } },
+          "show_grid": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": false } }
+        }
+      },
+      {
+        "id": 8,
+        "name": "projector_out_1",
+        "type": "ProjectorOutTexOp",
+        "pos": [ 750.0, -350.0 ],
+        "params": {
+          "display_index": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 1 } },
+          "fullscreen": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": true } },
+          "borderless": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": true } }
+        }
+      },
+      {
+        "id": 9,
+        "name": "projector_out_2",
+        "type": "ProjectorOutTexOp",
+        "pos": [ 750.0, -50.0 ],
+        "params": {
+          "display_index": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 2 } },
+          "fullscreen": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": true } },
+          "borderless": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": true } }
+        }
+      }
+    ],
+    "wires": [
+      { "id": 1, "from_node": 1, "from_pin": "output", "to_node": 2, "to_pin": "reset" },
+      { "id": 2, "from_node": 3, "from_pin": "output", "to_node": 4, "to_pin": "input" },
+      { "id": 3, "from_node": 3, "from_pin": "output", "to_node": 5, "to_pin": "input1" },
+      { "id": 4, "from_node": 4, "from_pin": "output", "to_node": 5, "to_pin": "input2" },
+      { "id": 5, "from_node": 5, "from_pin": "output", "to_node": 6, "to_pin": "input" },
+      { "id": 6, "from_node": 5, "from_pin": "output", "to_node": 7, "to_pin": "input" },
+      { "id": 7, "from_node": 6, "from_pin": "output", "to_node": 8, "to_pin": "input" },
+      { "id": 8, "from_node": 7, "from_pin": "output", "to_node": 9, "to_pin": "input" }
+    ]
+  }
+}

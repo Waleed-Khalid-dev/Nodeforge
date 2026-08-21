@@ -12,7 +12,7 @@
 [![Python 3.11](https://img.shields.io/badge/Python-3.11_Embedded-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
 [![CMake](https://img.shields.io/badge/CMake-3.28+-064F8C?style=flat-square&logo=cmake&logoColor=white)](https://cmake.org/)
 [![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub_Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white)](https://github.com/Waleed-Khalid-dev/Nodeforge/actions)
-[![Tests](https://img.shields.io/badge/Tests-105%20Passing%20%7C%20100%25-brightgreen?style=flat-square&logo=google)](https://github.com/google/googletest)
+[![Tests](https://img.shields.io/badge/Tests-131%20Passing%20%7C%20100%25-brightgreen?style=flat-square&logo=google)](https://github.com/google/googletest)
 [![Platform](https://img.shields.io/badge/Platform-Windows_x64-0078D6?style=flat-square&logo=windows)](https://microsoft.com/windows)
 [![Plugin SDK](https://img.shields.io/badge/SDK-C%20ABI%20%2B%20C%2B%2B23-orange?style=flat-square)](sdk/README.md)
 [![License](https://img.shields.io/badge/License-Proprietary_%7C_Neo_Realms-9cf?style=flat-square)](#license)
@@ -22,6 +22,8 @@
 [✨ Core Capabilities](#-core-capabilities) •
 [🏗️ Architecture](#️-architecture) •
 [🧩 Operator Ecosystem](#-operator-ecosystem) •
+[🌌 Particle Simulation](#-gpu-compute-particles) •
+[📽️ Flagship Showcases](#-flagship-production-showcases) •
 [🔌 Plugin SDK](#-plugin-sdk--extensibility) •
 [⚡ Quick Start](#-quick-start) •
 [📦 Packaging & Distribution](#-packaging--distribution) •
@@ -38,7 +40,7 @@
 
 ## 📖 Executive Summary
 
-**NodeForge** is a high-performance, clean-room, C++23 / Vulkan 1.3 real-time visual development engine architected from the ground up for **façade-scale architectural projection mapping**, **interactive holograms**, **generative 3D graphics**, and **ultra-low-latency show control**. 
+**NodeForge** is a high-performance, clean-room, C++23 / Vulkan 1.3 real-time visual development engine architected from the ground up for **façade-scale architectural projection mapping**, **interactive holograms**, **million-particle GPU physics swarms**, **walkable 3D floor plans**, and **ultra-low-latency show control**. 
 
 Engineered for **Neo Realms**, NodeForge delivers professional-grade DAG execution, sub-millisecond dirty propagation, zero-allocation GPU texture leasing, embedded Python 3.11 scripting, multi-display Bezier grid warping with gamma-correct softedge blending, a versioned C/C++23 binary Plugin SDK with dynamic hot-reloading, dedicated sub-microsecond profiling diagnostics, and a lightweight standalone kiosk runtime (`nodeforge_player.exe`).
 
@@ -53,7 +55,7 @@ Engineered for **Neo Realms**, NodeForge delivers professional-grade DAG executi
 ### 🎨 GPU Texture Processing (`TexOp`)
 - **Vulkan 1.3 Dynamic Rendering** with zero render-pass boilerplate.
 - **Zero-Allocation Texture Leasing Pool** preventing GPU memory fragmentation across continuous multi-hour installations.
-- **Runtime SPIR-V Shader Compilation** with hot-reload support.
+- **Runtime SPIR-V Shader Compilation** with live hot-reload support.
 - **Zero-Copy Interop** via Spout2 GPU texture sharing and NDI 6 network video streaming.
 
 </td>
@@ -70,6 +72,15 @@ Engineered for **Neo Realms**, NodeForge delivers professional-grade DAG executi
 <tr>
 <td width="50%" valign="top">
 
+### 🌌 GPU Compute Particles (`GeomOp` / `MatOp`)
+- **Vulkan 1.3 Compute Physics Pipeline** simulating over **1,000,000 active particles at 60+ FPS**.
+- **3D Simplex Curl Turbulence Noise** for organic, mass-conserving fluid motion.
+- **Dynamic Point Attractors/Repulsors** driven by OSC LiDAR and hand-tracking coordinates.
+- **Point-Sprite & Billboard Quad Materials** with soft circular Gaussian falloff and depth fading.
+
+</td>
+<td width="50%" valign="top">
+
 ### 📐 3D Geometry, Materials & Scene Graph
 - **Procedural Geometry Engine (`GeomOp`)** supporting Grids, Spheres, Boxes, Tori, Cylinders, Noise Deformation, Normal calculation, and Mesh Merging.
 - **Unified Material System (`MatOp`)** with Unlit Constant, Blinn-Phong, and custom runtime GLSL shaders.
@@ -77,6 +88,8 @@ Engineered for **Neo Realms**, NodeForge delivers professional-grade DAG executi
 - **Dynamic 3D Camera & Light Comps** rendered straight into downstream 2D texture networks.
 
 </td>
+</tr>
+<tr>
 <td width="50%" valign="top">
 
 ### 🎛️ Protocols, SIMD Channels & Show Control
@@ -88,8 +101,6 @@ Engineered for **Neo Realms**, NodeForge delivers professional-grade DAG executi
   - **Art-Net 4 DMX512:** UDP Port 6454 broadcaster/receiver across 32,768 universes.
 
 </td>
-</tr>
-<tr>
 <td width="50%" valign="top">
 
 ### 🔌 Binary Plugin SDK & Dynamic Operators
@@ -99,164 +110,110 @@ Engineered for **Neo Realms**, NodeForge delivers professional-grade DAG executi
 - **Multi-Directory Auto-Discovery & Hot-Reload:** In-session DLL reloading without graph interruption.
 
 </td>
-<td width="50%" valign="top">
-
-### ⚡ Performance Profiling & Standalone Player
-- **Dual-Engine `CookProfiler`:** Sub-microsecond per-node CPU timing and Vulkan `VkQueryPool` GPU timestamp passes.
-- **Floating `PerformanceHUD` (F3)** and dockable `ProfilerPanel` with search and sparklines.
-- **Win32 SEH Crash Diagnostics:** Automated `.nfp.crash` emergency state serialization.
-- **Standalone Kiosk Player (`nodeforge_player.exe`):** Minimalist, high-framerate kiosk engine for live venues.
-
-</td>
 </tr>
 </table>
 
 ---
 
-## 🏗️ Architecture & Engine Topology
+## 🏗️ Architecture
 
-NodeForge separates execution into distinct evaluation phases: **Input & Clock Polling**, **Dirty Flag Invalidation**, **Demand-Driven Topologically Sorted Cooking**, and **Vulkan Command Queue Submission**.
+NodeForge employs a hybrid execution model designed for deterministic real-time multimedia workloads:
 
-```mermaid
-flowchart TD
-    subgraph Inputs ["1. Input & Protocol Ingestion"]
-        MIDI["🎹 WinMM MIDI In"]
-        OSC["📡 OSC UDP Receiver"]
-        SERIAL["🔌 Serial Win32 COM"]
-        DMX["💡 Art-Net 4 DMX512"]
-        INPUT["🖱️ Mouse / Keyboard"]
-    end
-
-    subgraph DAG ["2. Directed Acyclic Graph Runtime"]
-        CLOCK["⏱️ Master Clock & Timeline"]
-        DIRTY["⚡ Hybrid Dirty Invalidation"]
-        TOPO["🔗 Kahn Topo Sort & Cycle Rejection"]
-        PY["🐍 Embedded Python 3.11 / GIL"]
-        PROF["⏱️ Sub-Microsecond CookProfiler"]
-    end
-
-    subgraph Families ["3. Typed Operator Evaluation & Plugins"]
-        CHAN["🎛️ ChanOp\n(SIMD Buffer)"]
-        DATA["📊 DataOp\n(DataTable 2D)"]
-        GEOM["📐 GeomOp & MatOp\n(Mesh & Shaders)"]
-        TEX["🎨 TexOp\n(Vulkan TexturePool)"]
-        PLUG["🔌 PluginNodeProxy\n(Dynamic C ABI DLLs)"]
-    end
-
-    subgraph Output ["4. Output, Mapping & Presentation"]
-        VIEWER["🖥️ Studio UI Viewers & Oscilloscopes"]
-        SPOUT["🔄 Spout2 & NDI 6 Streaming"]
-        WARP["📐 2D Bezier Warp & Softedge Blend"]
-        DISP["📽️ Multi-Projector Windows (5760x1080)"]
-        KIOSK["🚀 Standalone Kiosk Player (nodeforge_player)"]
-    end
-
-    Inputs -->|Async Ring Buffers| DAG
-    CLOCK --> DIRTY
-    DIRTY --> TOPO
-    PY <-->|pybind11 API| DAG
-    PROF -.->|Live Canvas Badges| DAG
-    TOPO --> Families
-    Families --> Output
 ```
+                                  ┌───────────────────────────┐
+                                  │      NodeForge Studio     │
+                                  │ (ImGui Canvas / Inspector)│
+                                  └─────────────┬─────────────┘
+                                                │
+                                                ▼
+                                  ┌───────────────────────────┐
+                                  │    Graph DAG Runtime      │
+                                  │  - Push Dirty Push-Down   │
+                                  │  - Pull-on-Demand Cook    │
+                                  │  - Kahn Topo-Sort Order   │
+                                  └─────────────┬─────────────┘
+                                                │
+                 ┌──────────────────┬───────────┴───────┬──────────────────┐
+                 ▼                  ▼                   ▼                  ▼
+          ┌─────────────┐    ┌─────────────┐     ┌─────────────┐    ┌─────────────┐
+          │   TexOps    │    │   GeomOps   │     │   ChanOps   │    │   DataOps   │
+          │ (Vulkan 1.3)│    │ (Particles) │     │ (SIMD AVX2) │    │  (Tables)   │
+          └──────┬──────┘    └──────┬──────┘     └──────┬──────┘    └──────┬──────┘
+                 │                  │                   │                  │
+                 └──────────────────┴───────────┬───────┴──────────────────┘
+                                                │
+                                                ▼
+                                  ┌───────────────────────────┐
+                                  │   Hardware I/O & Show     │
+                                  │ (Spout/NDI/MIDI/OSC/DMX)  │
+                                  └───────────────────────────┘
+```
+
+- **Push-Dirty, Pull-Cook Evaluation:** Parameter edits and dynamic time pulses invalidate downstream paths instantly without executing unneeded subnets.
+- **Topological Sorting:** Guarantees deterministic, cycle-free node cook order.
+- **Zero-Allocation GPU Memory:** Textures lease VMA memory blocks from a thread-safe `TexturePool` and return them immediately at frame boundaries.
+- **Safe Python GIL Sandbox:** Embedded Python 3.11 evaluates expressions and automation callbacks via pybind11 with full exception safety.
 
 ---
 
-## 🧩 Operator Ecosystem
+## 🧩 Operator Ecosystem (64+ Core Operators)
 
-NodeForge features an organized suite of typed operators structured across 6 core families:
+NodeForge organizes operators into 6 distinct, color-coded node families:
 
-```
-NodeForge Root
-├── 🎨 TexOp (Texture Operators)
-│   ├── Tex.Constant, Tex.Noise, Tex.LoadImage, Tex.Transform, Tex.Composite
-│   ├── Tex.Blur, Tex.Level, Tex.Resolution, Tex.Null, Tex.ToWindow
-│   ├── Tex.MovieFileIn (FFmpeg), Tex.VideoDeviceIn (DirectShow/MF)
-│   ├── Tex.SpoutIn, Tex.SpoutOut, Tex.NDIIn, Tex.NDIOut
-│   └── Tex.ProjectorOut, Tex.WarpBlend (Multi-Projector Mapping)
-├── 🎛️ ChanOp (Channel Operators)
-│   ├── Chan.Constant, Chan.Time, Chan.LFO, Chan.Noise, Chan.Math, Chan.Filter
-│   ├── Chan.Merge, Chan.Select, Chan.Trail, Chan.AudioFileIn
-│   ├── Chan.MIDIIn, Chan.MIDIOut, Chan.OSCIn, Chan.OSCOut
-│   ├── Chan.DMXIn, Chan.DMXOut, Chan.MouseIn, Chan.KeyboardIn
-│   └── Chan.ChanToTex, Chan.TexToChan
-├── 📐 GeomOp (Geometry Operators)
-│   ├── Geom.Grid, Geom.Sphere, Geom.Box, Geom.Torus, Geom.Cylinder
-│   ├── Geom.Transform, Geom.Merge, Geom.NoiseDeform, Geom.Normals
-│   └── Geom.ChanToGeom (Point Cloud Instancing)
-├── 💡 MatOp (Material Operators)
-│   ├── Mat.Constant (Unlit color)
-│   ├── Mat.Phong (Blinn-Phong specular/diffuse/ambient)
-│   └── Mat.GLSL (Custom SPIR-V vertex/fragment pipelines)
-├── 📊 DataOp (Data & Script Operators)
-│   ├── Data.Text, Data.Table, Data.Script (Python hooks onCook/onPulse)
-│   ├── Data.JSON, Data.Web (Async HTTP), Data.Serial (COM I/O)
-│   └── Data.ChanToData, Data.DataToChan
-├── 📦 Comp (Component Operators)
-│   ├── Comp.Container (Nested subnetwork execution with InOp/OutOp boundary sync)
-│   ├── Comp.Camera (Projection/View matrices & orbit controls)
-│   ├── Comp.Light (Point/Directional/Spot illumination)
-│   └── Comp.Geometry (Mesh + Material binding with GPU instancing)
-└── 🔌 Plugin (Dynamic Custom Operators)
-    ├── Plugin.TexInvert (GPU Compute Inversion)
-    ├── Plugin.ChanHarmonicLFO (SIMD Multi-Harmonic Generator)
-    └── Plugin.DataCSVTransform (Tabular CSV/TSV Transformation)
-```
+| Family | Accent Color | Primary Data Type | Key Operators |
+|:---:|:---:|:---:|:---|
+| **TexOp** | **Cyan** | 2D GPU Textures | `Noise`, `Blur`, `Composite`, `Level`, `Transform`, `Resolution`, `MovieFileIn`, `VideoDeviceIn`, `SpoutIn/Out`, `NDIIn/Out`, `ProjectorOut`, `WarpBlend`, `Render` |
+| **GeomOp** | **Blue** | 3D Meshes & Particles | `Grid`, `Sphere`, `Box`, `Torus`, `Cylinder`, `Transform`, `Merge`, `NoiseDeform`, `Normals`, `ChanToGeom`, `ParticleEmitter`, `ParticleForce`, `ParticleAttractor` |
+| **ChanOp** | **Green** | 1D SIMD Channels & Audio | `Constant`, `Time`, `LFO`, `Noise`, `Math`, `Filter`, `Merge`, `Select`, `Trail`, `AudioFileIn`, `MIDIIn/Out`, `OSCIn/Out`, `DMXIn/Out`, `MouseIn`, `KeyboardIn` |
+| **DataOp** | **Pink** | 2D Tabular & Text | `Table`, `Text`, `Script`, `JSON`, `Select`, `Merge`, `OSCIn/Out`, `Web`, `Serial`, `ChanToData`, `DataToChan` |
+| **MatOp & 3D Comps** | **Gold / Gray** | Materials & Scene | `ConstantMat`, `PhongMat`, `GLSLMat`, `ParticleMat`, `CameraComp`, `LightComp`, `GeometryComp` |
+| **Comp** | **Orange** | Subnetworks & Plugins | `ContainerComp`, `InOp`, `OutOp`, `PluginProxyNode` |
+
+---
+
+## 📽️ Flagship Production Showcases (`samples/`)
+
+NodeForge includes 5 production-ready flagship template projects engineered for live enterprise shows:
+
+1. **[`samples/01_facade_mapping`](samples/01_facade_mapping)** — Dual-projector architectural façade mapping show featuring real-time generative GPU noise, 2-pass separable Gaussian glow, 2D Bezier grid warping, S-curve gamma softedge blending, and dual window physical output routing.
+2. **[`samples/02_interactive_floorplan`](samples/02_interactive_floorplan)** — 3D walkable architectural floor plan with OSC visitor tracking, dynamic avatar mesh transform, procedural geometry merging, Phong lighting, and GPU rasterized rendering.
+3. **[`samples/03_audiovisual_stage`](samples/03_audiovisual_stage)** — Live audio-reactive generative visual synthesizer driven by ChanOp audio analysis and live MIDI CC controls.
+4. **[`samples/04_dmx_showcontrol`](samples/04_dmx_showcontrol)** — Art-Net 4 DMX512 lighting matrix controller with Serial microcontroller telemetry and keyboard cue switching.
+5. **[`samples/05_holographic_particles`](samples/05_holographic_particles)** — High-density GPU compute particle swarm simulation driven by OSC hand tracking gesture attractors, 3D curl noise turbulence, and additive bloom glow.
+
+---
+
+## 📚 Operator Cheat Sheets & Training
+
+NodeForge provides a complete documentation suite for creative technologists and system engineers:
+
+- **Cheat Sheets:** [Master Reference](docs/cheat-sheets/00_master_cheat_sheet.md) • [TexOp](docs/cheat-sheets/01_texop_cheat_sheet.md) • [ChanOp](docs/cheat-sheets/02_chanop_cheat_sheet.md) • [DataOp](docs/cheat-sheets/03_dataop_cheat_sheet.md) • [GeomOp](docs/cheat-sheets/04_geomop_cheat_sheet.md) • [MatOp](docs/cheat-sheets/05_matop_scene_cheat_sheet.md) • [Comp System](docs/cheat-sheets/06_comp_system_cheat_sheet.md) • [Particles](docs/cheat-sheets/07_particles_cheat_sheet.md)
+- **Workshop Curriculum:** [6-Module Hands-On Training Syllabus](docs/training/workshop_curriculum.md)
+- **Interactive Labs:** [Lab 1: Generative Graphics](docs/training/lab_01_generative_graphics.md) • [Lab 2: 3D Pipelines](docs/training/lab_02_3d_render_pipelines.md) • [Lab 3: Projection Mapping](docs/training/lab_03_projection_mapping.md) • [Lab 4: Show Control](docs/training/lab_04_interactive_controls.md)
+- **Deployment Manuals:** [Enterprise IT Deployment Guide](docs/deployment/it_deployment_guide.md) • [On-Site Calibration Checklist](docs/deployment/on_site_calibration_checklist.md)
 
 ---
 
 ## 🔌 Plugin SDK & Extensibility
 
-NodeForge provides a versioned, binary-stable Plugin SDK allowing external C++ developers to write high-performance custom operators:
-
-- **Location:** [`sdk/include/`](sdk/include/)
-- **Documentation:** [`sdk/README.md`](sdk/README.md)
-- **Included Samples:**
-  - `TexInvertPlugin`: GPU TexOp shader processing.
-  - `ChanHarmonicLFOPlugin`: SIMD ChanOp waveform generation.
-  - `DataCSVTransformPlugin`: 2D tabular DataOp transformer.
+Developers can author high-performance native operator plugins in modern C++23 with zero compiler version lock-in:
 
 ```cpp
 #include <NodeForgePluginSDK.hpp>
 
-class CustomInvertOp : public nf::sdk::TexOpPlugin {
+class RippleTexOpPlugin : public nf::sdk::TexOpPluginInstance {
 public:
-    NF_Result Initialize() override {
-        AddInputPin("Input", NF_PIN_TEXTURE);
-        AddOutputPin("Output", NF_PIN_TEXTURE);
-        AddFloatParam("gamma", 1.0f, 0.1f, 5.0f);
-        return NF_SUCCESS;
-    }
+    explicit RippleTexOpPlugin(const nf_plugin_node_desc_t* desc) : TexOpPluginInstance(desc) {}
 
-    NF_Result Cook(const NF_CookContext* ctx) override {
-        // Access Vulkan device, descriptors, and execute dynamic GPU passes
-        return NF_SUCCESS;
+    bool Execute(const nf_plugin_cook_context_t* ctx, nf_plugin_gpu_texture_t* outTex) override {
+        float time = static_cast<float>(ctx->time_seconds);
+        // Execute custom Vulkan 1.3 compute or raster passes...
+        return true;
     }
 };
 
-NF_REGISTER_OPERATOR("CustomInvert", "TexOp", "Filters", CustomInvertOp)
+NF_REGISTER_PLUGIN("RippleTexOp", "Generators", "Generates interactive concentric ripples.", RippleTexOpPlugin)
 ```
-
----
-
-## 🛠️ Technology Stack & Dependencies
-
-All dependencies are pinned, managed via **vcpkg** or approved third-party vendors, avoiding unnecessary code reinvention:
-
-| Subsystem | Technology | Purpose & Rationale |
-|---|---|---|
-| **Core Systems Language** | **C++23** (MSVC v143) | Zero-overhead memory management, modern standard library ranges, and SIMD alignment. |
-| **Graphics API** | **Vulkan 1.3** | Explicit GPU synchronization, Dynamic Rendering, compute dispatch, and multi-queue scalability. |
-| **GPU Memory Manager** | **Vulkan Memory Allocator (VMA)** | Industrial memory sub-allocation preventing GPU driver memory fragmentation. |
-| **Vulkan Bootstrap** | **vk-bootstrap** | Streamlined instance, physical device selection, and swapchain initialization. |
-| **Shader Toolchain** | **shaderc / glslang** | Runtime GLSL to SPIR-V bytecode compilation with hot-reload capabilities. |
-| **UI Framework** | **Dear ImGui (Docking)** + Custom Canvas | Infinite pan/zoom node canvas (0.2x–2.5x), bezier connection routing, docking layout. |
-| **Scripting Runtime** | **CPython 3.11 + pybind11** | Safe GIL-managed embedded Python scripting and expression evaluation. |
-| **Media Decoders** | **FFmpeg (LGPL)** + **stb_image** | Asynchronous multi-threaded video stream decoding and still image ingestion. |
-| **Inter-Process Sharing** | **Spout2** + **NDI SDK v6.3.2** | Zero-copy Windows GPU texture sharing and LAN network video broadcast. |
-| **Lighting & Show Control** | **WinMM** + **Native Art-Net 4 Engine** | Low-latency MIDI message processing and 512-channel DMX universe UDP routing. |
-| **Packaging & CI/CD** | **CMake CPack + NSIS + GitHub Actions** | Automated production installer, portable zip bundle staging, and CI/CD matrix. |
-| **Test Framework** | **GoogleTest** | Comprehensive unit testing and 10,000-frame soak benchmark verification. |
 
 ---
 
@@ -264,13 +221,11 @@ All dependencies are pinned, managed via **vcpkg** or approved third-party vendo
 
 ### 📋 Prerequisites
 
-Ensure your development environment meets the baseline requirements:
-
 - **OS:** Windows 10 / 11 x64
 - **Toolchain:** Visual Studio 2022 (MSVC v143 or BuildTools 18+) with C++23 support
 - **Build Systems:** CMake 3.28+ and Ninja
 - **Package Manager:** `vcpkg` (set `$env:VCPKG_ROOT` in PowerShell)
-- **GPU:** NVIDIA GeForce RTX 3060 12GB or higher recommended (DirectX 12 / Vulkan 1.3 capable)
+- **GPU:** NVIDIA GeForce RTX 3060 12GB or higher recommended (Vulkan 1.3 capable)
 
 ---
 
@@ -291,9 +246,9 @@ Ensure your development environment meets the baseline requirements:
    cmake --build build
    ```
 
-3. **Execute the Full Test & Benchmark Suite (105 Tests):**
+3. **Execute the Full Test & Benchmark Suite (131 Tests):**
    ```powershell
-   # Run automated unit and performance benchmarks
+   # Run automated unit, soak, and 1M particle performance benchmarks
    .\build\bin\nodeforge_tests.exe
    ```
 
@@ -304,7 +259,7 @@ Ensure your development environment meets the baseline requirements:
 
 5. **Launch Standalone Kiosk Player:**
    ```powershell
-   .\build\bin\nodeforge_player.exe --project samples/projection_test.nfp --fullscreen --kiosk
+   .\build\bin\nodeforge_player.exe --project samples/01_facade_mapping/facade_mapping.nfp --fullscreen --kiosk
    ```
 
 ---
@@ -322,18 +277,13 @@ cd build
 cpack -G NSIS
 ```
 
-Generated release artifacts in `dist/`:
-- `NodeForge-Portable-v0.1.0-win64.zip` (19.5 MB) — Complete self-contained portable runtime.
-- `NodeForge-SDK-v0.1.0-win64.zip` (2.0 KB) — Pure header SDK & sample CMake projects.
-- `NodeForge-Setup-v0.1.0-win64.exe` — Windows installer with `.nfp`/`.nfc` file associations.
-
 ---
 
 ## 🗺️ Phase Roadmap & Progress
 
 | Phase | Milestone | Focus Area | Status | Verification |
 |:---:|:---|:---|:---:|:---:|
-| **0** | **Project Genesis** | Repo skeleton, CMake, vcpkg, GLFW shell, ADR-0001–0003 | ✅ Complete | Build passes cleanly |
+| **0** | **Project Genesis** | Repo skeleton, CMake, vcpkg, GLFW shell, ADR-0001–0003 | ✅ Complete | Clean build passes |
 | **1** | **GPU Foundation** | Vulkan 1.3, Dynamic Rendering, VMA, Swapchain, Texture upload | ✅ Complete | Headless texture upload verified |
 | **2** | **Graph Runtime** | Node, Pin, Wire, Graph, Kahn Topo sort, Cycle rejection, Hybrid dirty propagation | ✅ Complete | 10/10 unit tests passing |
 | **3** | **Params & Python** | Constant/Expr dual-mode, pybind11 `nodeforge` module, GIL safety | ✅ Complete | 16/16 tests passing |
@@ -347,7 +297,9 @@ Generated release artifacts in `dist/`:
 | **11** | **Protocols & Show Control** | MIDI (WinMM), OSC, Serial COM, Art-Net 4 DMX512, Mouse/Keyboard | ✅ Complete | 104/104 tests passing (100%) |
 | **12** | **Performance & Profiling** | Cook profiler UI, GPU timing, Texture leak HUD, Crash recovery | ✅ Complete | 110/110 tests passing (100%) |
 | **13** | **Plugin SDK & Packaging** | C ABI + C++23 SDK, dynamic proxy, PluginManager, Kiosk Player, NSIS/ZIP & CI/CD | ✅ Complete | 105/105 tests passing (100%) |
-| **14** | **Commercial Show Pack** | Neo Realms Façade Mapping & Gesture Flagship Template + Training | 🔨 Active | Phase 14 Kickoff |
+| **14** | **Company Show Pack & Training** | 4 Flagship `.nfp` Projects, 3 `.nfc` Templates, 7 Cheat Sheets, Workshop & IT Manual | ✅ Complete | 123/123 tests passing (100%) |
+| **15.1**| **GPU Compute Particles** ⭐ | Vulkan compute shaders, 3D curl turbulence noise, attractors, 1M particles | ✅ Complete | 131/131 tests passing (100%) |
+| **15.2**| **Advanced GPU Instancing** | Multi-Mesh GPU Instancing along curves and tables with dynamic attribute binding | 🔨 Next | Epic 15.2 In Planning |
 
 ---
 

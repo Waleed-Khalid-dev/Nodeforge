@@ -1,0 +1,5 @@
+zone_id,zone_name,pos_x,pos_y,radius,description
+1,Entrance Lobby,0.0,-8.0,3.0,Main reception and ticket check-in area
+2,Exhibition Hall A,-6.0,0.0,4.5,Generative LED cube interactive hologram gallery
+3,Exhibition Hall B,6.0,0.0,4.5,Multi-projector immersive projection tunnel
+4,VIP Lounge,0.0,7.0,2.5,Augmented architectural model viewing station

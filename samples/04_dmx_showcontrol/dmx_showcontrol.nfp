@@ -1,0 +1,108 @@
+{
+  "format": "nodeforge_project_v1",
+  "schema_version": 1,
+  "metadata": {
+    "name": "Art-Net DMX512 & Show Control System",
+    "author": "Neo Realms Interactive",
+    "description": "Production lighting control and hardware automation network utilizing Art-Net 4 DMX512 over UDP, Win32 serial microcontroller telemetry, and keyboard hotkey cue triggering.",
+    "engine_version": "1.0.0",
+    "created": "2026-08-21T01:00:00Z",
+    "modified": "2026-08-21T01:00:00Z"
+  },
+  "timeline": {
+    "fps": 60.0,
+    "bpm": 120.0,
+    "start_frame": 1,
+    "end_frame": 3600,
+    "current_frame": 1,
+    "is_playing": true
+  },
+  "viewport": {
+    "pan": [ 0.0, 0.0 ],
+    "zoom": 1.0
+  },
+  "root_graph": {
+    "nodes": [
+      {
+        "id": 40,
+        "name": "timeline_clock",
+        "type": "TimeChanOp",
+        "pos": [ -700.0, -100.0 ],
+        "params": {
+          "speed": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 1.0 } }
+        }
+      },
+      {
+        "id": 41,
+        "name": "chase_lfo",
+        "type": "LFOChanOp",
+        "pos": [ -480.0, -100.0 ],
+        "params": {
+          "type": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } },
+          "frequency": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 1.0 } },
+          "amplitude": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.5 } },
+          "bias": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.5 } }
+        }
+      },
+      {
+        "id": 42,
+        "name": "dmx_byte_scale",
+        "type": "MathChanOp",
+        "pos": [ -260.0, -100.0 ],
+        "params": {
+          "operation": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } },
+          "scalar": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 255.0 } },
+          "clamp_min": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.0 } },
+          "clamp_max": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 255.0 } }
+        }
+      },
+      {
+        "id": 43,
+        "name": "artnet_dmx_out",
+        "type": "DMXOutChanOp",
+        "pos": [ 0.0, -100.0 ],
+        "params": {
+          "ip_address": { "mode": "constant", "expr": "", "val": { "type": "string", "val": "127.0.0.1" } },
+          "port": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 6454 } },
+          "universe": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } },
+          "subnet": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } },
+          "net": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } }
+        }
+      },
+      {
+        "id": 44,
+        "name": "arduino_serial",
+        "type": "SerialDataOp",
+        "pos": [ -700.0, 150.0 ],
+        "params": {
+          "port": { "mode": "constant", "expr": "", "val": { "type": "string", "val": "COM3" } },
+          "baud_rate": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 115200 } }
+        }
+      },
+      {
+        "id": 45,
+        "name": "cue_table",
+        "type": "TableDataOp",
+        "pos": [ -480.0, 150.0 ],
+        "params": {
+          "rows": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 4 } },
+          "cols": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 3 } }
+        }
+      },
+      {
+        "id": 46,
+        "name": "cue_keys",
+        "type": "KeyboardInChanOp",
+        "pos": [ -260.0, 150.0 ],
+        "params": {
+          "keys": { "mode": "constant", "expr": "", "val": { "type": "string", "val": "1 2 3 4 space" } }
+        }
+      }
+    ],
+    "wires": [
+      { "id": 40, "from_node": 40, "from_pin": "output", "to_node": 41, "to_pin": "reset" },
+      { "id": 41, "from_node": 41, "from_pin": "output", "to_node": 42, "to_pin": "input" },
+      { "id": 42, "from_node": 42, "from_pin": "output", "to_node": 43, "to_pin": "input" }
+    ]
+  }
+}

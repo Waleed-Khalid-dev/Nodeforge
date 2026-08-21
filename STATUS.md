@@ -1,7 +1,7 @@
 # NodeForge Status
 
-**Active phase:** 14  
-**Phase name:** Company Workflow Pack + Training  
+**Active phase:** 15  
+**Phase name:** Expansion Toward “Almost Everything”  
 
 **Updated:** 2026-08-21  
 **Branch policy:** main protected; work on `phase/0-*` branches when git is initialized  
@@ -9,9 +9,12 @@
 
 ## In progress
 
-- [ ] Phase 14 kickoff (Company flagship projection mapping sample graph, operator cheat sheets, internal workshop training documentation, template projects)
+- [ ] Phase 15 Epic 15.2 (Advanced GPU Instancing Engine & Dynamic Mesh Multi-Attribute Distribution)
 
 ## Completed
+
+- [x] Phase 15 Epic 15.1: GPU Compute Particle Simulation System (Double-buffered GPU VMA storage buffers, Vulkan 1.3 GLSL compute shaders with 3D Simplex Curl turbulence noise, modular ParticleEmitterGeomOp, ParticleForceGeomOp, ParticleAttractorGeomOp, ParticleMatOp, interactive OSC gesture modulation, samples/05_holographic_particles flagship project, 131/131 automated tests passing with 1,000,000 particle benchmark)
+- [x] Phase 14: Company Workflow Pack + Training (4 production flagship .nfp sample projects: Façade Mapping, 3D Interactive Floor Plan, Generative AV Stage, DMX Show Control; 3 reusable .nfc templates; 7 modular operator family cheat sheets; 6-module internal workshop curriculum with 4 hands-on lab guides; Enterprise IT operations manual & on-site calibration checklist; 123/123 automated tests passing with 100% pass rate)
 
 - [x] Phase 0: Repository, clean-room setup, roadmap, baseline CMake & dependencies
 - [x] Phase 1: GPU Foundation (Vulkan 1.3, Dynamic Rendering, VMA, Swapchain, Texture2D upload & present, Headless tests)
@@ -103,6 +106,7 @@
 - Phase 11 complete (2026-08-20)
 - Phase 12 complete (2026-08-20)
 - Phase 13 complete (2026-08-21)
+- Phase 14 complete (2026-08-21)
 
 ## Notes
 

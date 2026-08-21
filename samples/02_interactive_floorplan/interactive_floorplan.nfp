@@ -1,0 +1,180 @@
+{
+  "format": "nodeforge_project_v1",
+  "schema_version": 1,
+  "metadata": {
+    "name": "Interactive Walkable Floor Plan 3D",
+    "author": "Neo Realms Interactive",
+    "description": "Real-time 3D architectural floor plan with OSC visitor tracking, dynamic avatar positioning, procedural geometry, lighting, and GPU rasterized rendering.",
+    "engine_version": "1.0.0",
+    "created": "2026-08-21T01:00:00Z",
+    "modified": "2026-08-21T01:00:00Z"
+  },
+  "timeline": {
+    "fps": 60.0,
+    "bpm": 120.0,
+    "start_frame": 1,
+    "end_frame": 3600,
+    "current_frame": 1,
+    "is_playing": true
+  },
+  "viewport": {
+    "pan": [ 0.0, 0.0 ],
+    "zoom": 0.9
+  },
+  "root_graph": {
+    "nodes": [
+      {
+        "id": 10,
+        "name": "osc_sensor_in",
+        "type": "OSCInChanOp",
+        "pos": [ -700.0, -300.0 ],
+        "params": {
+          "port": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 8000 } },
+          "address_pattern": { "mode": "constant", "expr": "", "val": { "type": "string", "val": "/tracking/*" } },
+          "decay_rate": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.0 } }
+        }
+      },
+      {
+        "id": 11,
+        "name": "coord_remap",
+        "type": "MathChanOp",
+        "pos": [ -480.0, -300.0 ],
+        "params": {
+          "operation": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } },
+          "scalar": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 10.0 } },
+          "clamp_min": { "mode": "constant", "expr": "", "val": { "type": "float", "val": -10.0 } },
+          "clamp_max": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 10.0 } }
+        }
+      },
+      {
+        "id": 12,
+        "name": "pos_filter",
+        "type": "FilterChanOp",
+        "pos": [ -280.0, -300.0 ],
+        "params": {
+          "type": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } },
+          "filter_width": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.15 } }
+        }
+      },
+      {
+        "id": 13,
+        "name": "floor_mesh",
+        "type": "GridGeomOp",
+        "pos": [ -500.0, -50.0 ],
+        "params": {
+          "size_x": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 20.0 } },
+          "size_y": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 20.0 } },
+          "rows": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 20 } },
+          "cols": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 20 } }
+        }
+      },
+      {
+        "id": 14,
+        "name": "avatar_sphere",
+        "type": "SphereGeomOp",
+        "pos": [ -500.0, 150.0 ],
+        "params": {
+          "radius": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.5 } },
+          "rows": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 16 } },
+          "cols": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 16 } }
+        }
+      },
+      {
+        "id": 15,
+        "name": "avatar_transform",
+        "type": "TransformGeomOp",
+        "pos": [ -280.0, 150.0 ],
+        "params": {
+          "translate": { "mode": "expression", "expr": "[op('pos_filter')['x'], 0.5, op('pos_filter')['y']]", "val": { "type": "vec3", "val": [ 0.0, 0.5, 0.0 ] } },
+          "rotate": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 0.0, 0.0, 0.0 ] } },
+          "scale": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 1.0, 1.0, 1.0 ] } }
+        }
+      },
+      {
+        "id": 16,
+        "name": "scene_merge",
+        "type": "MergeGeomOp",
+        "pos": [ -50.0, 50.0 ],
+        "params": {}
+      },
+      {
+        "id": 17,
+        "name": "arch_mat",
+        "type": "PhongMatOp",
+        "pos": [ -50.0, 250.0 ],
+        "params": {
+          "diffuse": { "mode": "constant", "expr": "", "val": { "type": "vec4", "val": [ 0.8, 0.85, 0.9, 1.0 ] } },
+          "specular": { "mode": "constant", "expr": "", "val": { "type": "vec4", "val": [ 1.0, 1.0, 1.0, 1.0 ] } },
+          "shininess": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 32.0 } }
+        }
+      },
+      {
+        "id": 18,
+        "name": "geo_holder",
+        "type": "GeometryComp",
+        "pos": [ 180.0, 100.0 ],
+        "params": {
+          "enable_instancing": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": false } }
+        }
+      },
+      {
+        "id": 19,
+        "name": "main_camera",
+        "type": "CameraComp",
+        "pos": [ 180.0, -100.0 ],
+        "params": {
+          "fov": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 55.0 } },
+          "near_plane": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.1 } },
+          "far_plane": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 100.0 } },
+          "position": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 0.0, 12.0, 18.0 ] } },
+          "target": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 0.0, 0.0, 0.0 ] } }
+        }
+      },
+      {
+        "id": 20,
+        "name": "key_light",
+        "type": "LightComp",
+        "pos": [ 180.0, -250.0 ],
+        "params": {
+          "color": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 1.0, 0.95, 0.9 ] } },
+          "intensity": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 1.2 } },
+          "position": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 10.0, 20.0, 15.0 ] } }
+        }
+      },
+      {
+        "id": 21,
+        "name": "render_view",
+        "type": "RenderTexOp",
+        "pos": [ 420.0, -50.0 ],
+        "params": {
+          "width": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 1920 } },
+          "height": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 1080 } },
+          "clear_color": { "mode": "constant", "expr": "", "val": { "type": "vec4", "val": [ 0.03, 0.04, 0.06, 1.0 ] } }
+        }
+      },
+      {
+        "id": 22,
+        "name": "display_out",
+        "type": "ToWindowTexOp",
+        "pos": [ 650.0, -50.0 ],
+        "params": {
+          "title": { "mode": "constant", "expr": "", "val": { "type": "string", "val": "Interactive Walkable Floor Plan 3D" } },
+          "fullscreen": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": false } }
+        }
+      }
+    ],
+    "wires": [
+      { "id": 10, "from_node": 10, "from_pin": "output", "to_node": 11, "to_pin": "input" },
+      { "id": 11, "from_node": 11, "from_pin": "output", "to_node": 12, "to_pin": "input" },
+      { "id": 12, "from_node": 14, "from_pin": "output", "to_node": 15, "to_pin": "input" },
+      { "id": 13, "from_node": 13, "from_pin": "output", "to_node": 16, "to_pin": "input1" },
+      { "id": 14, "from_node": 15, "from_pin": "output", "to_node": 16, "to_pin": "input2" },
+      { "id": 15, "from_node": 16, "from_pin": "output", "to_node": 18, "to_pin": "geometry" },
+      { "id": 16, "from_node": 17, "from_pin": "output", "to_node": 18, "to_pin": "material" },
+      { "id": 17, "from_node": 18, "from_pin": "output", "to_node": 21, "to_pin": "geo1" },
+      { "id": 18, "from_node": 19, "from_pin": "output", "to_node": 21, "to_pin": "camera" },
+      { "id": 19, "from_node": 20, "from_pin": "output", "to_node": 21, "to_pin": "light" },
+      { "id": 20, "from_node": 21, "from_pin": "output", "to_node": 22, "to_pin": "input" }
+    ]
+  }
+}

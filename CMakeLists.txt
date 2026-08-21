@@ -42,6 +42,8 @@ add_library(nodeforge_core STATIC
     src/gpu/TexturePool.cpp
     src/gpu/ShaderCompiler.cpp
     src/gpu/FrameResources.cpp
+    src/gpu/ParticleBuffer.cpp
+    src/gpu/ParticleComputePass.cpp
     src/render/FullscreenPass.cpp
     src/render/ComputePass.cpp
     src/core/ChannelBuffer.cpp
@@ -95,10 +97,14 @@ add_library(nodeforge_core STATIC
     src/operators/geom/NoiseDeformGeomOp.cpp
     src/operators/geom/NormalsGeomOp.cpp
     src/operators/geom/ChanToGeomOp.cpp
+    src/operators/geom/ParticleEmitterGeomOp.cpp
+    src/operators/geom/ParticleForceGeomOp.cpp
+    src/operators/geom/ParticleAttractorGeomOp.cpp
     src/operators/mat/MatOp.cpp
     src/operators/mat/ConstantMatOp.cpp
     src/operators/mat/PhongMatOp.cpp
     src/operators/mat/GLSLMatOp.cpp
+    src/operators/mat/ParticleMatOp.cpp
     src/operators/comp/CameraComp.cpp
     src/operators/comp/LightComp.cpp
     src/operators/comp/GeometryComp.cpp

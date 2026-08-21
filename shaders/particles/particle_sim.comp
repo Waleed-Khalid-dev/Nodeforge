@@ -1,0 +1,170 @@
+#version 450
+
+layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
+
+struct Particle {
+    vec4 posLife;   // xyz: pos, w: normalized life [0.0 .. 1.0]
+    vec4 velMass;   // xyz: velocity, w: inverse mass
+    vec4 colorSize; // rgb: color, a: size
+};
+
+layout(std430, set = 0, binding = 0) readonly buffer ParticleIn {
+    Particle particlesIn[];
+};
+
+layout(std430, set = 0, binding = 1) writeonly buffer ParticleOut {
+    Particle particlesOut[];
+};
+
+layout(push_constant) uniform PushConsts {
+    float deltaTime;
+    float time;
+    uint particleCount;
+    float birthRate;
+    float lifetime;
+    float lifetimeVar;
+    float initialSpeed;
+    float spreadAngle;
+    vec4 gravityAndDrag;      // xyz: gravity, w: drag
+    vec4 turbulenceParams;    // x: strength, y: freq, z: speed, w: vortexStrength
+    vec4 attractorParams;     // xyz: attractorPos, w: attractorStrength
+    vec4 attractorSettings;   // x: attractorRadius, y: attractorType (0: attract, 1: repel), z: falloff, w: maxVelocity
+    vec4 startColor;
+    vec4 endColor;
+} pc;
+
+// Hash functions for pseudo-random numbers
+float hash(uint n) {
+    n = (n << 13U) ^ n;
+    n = n * (n * n * 15731U + 789221U) + 1376312589U;
+    return float(n & 0x7fffffffU) / float(0x7fffffff);
+}
+
+vec3 hash3(uint n) {
+    return vec3(hash(n), hash(n + 19849U), hash(n + 65537U));
+}
+
+// 3D Simplex-like procedural noise
+float noise3D(vec3 p) {
+    vec3 i = floor(p);
+    vec3 f = fract(p);
+    f = f * f * (3.0 - 2.0 * f);
+
+    uint n = uint(i.x + i.y * 57.0 + i.z * 113.0);
+    float a = hash(n);
+    float b = hash(n + 1U);
+    float c = hash(n + 57U);
+    float d = hash(n + 58U);
+    float e = hash(n + 113U);
+    float f1 = hash(n + 114U);
+    float g = hash(n + 170U);
+    float h = hash(n + 171U);
+
+    return mix(
+        mix(mix(a, b, f.x), mix(c, d, f.x), f.y),
+        mix(mix(e, f1, f.x), mix(g, h, f.x), f.y),
+        f.z
+    );
+}
+
+// 3D Curl Noise Field (Divergence-Free)
+vec3 computeCurl(vec3 p, float t, float freq) {
+    vec3 coord = p * freq + vec3(0.0, 0.0, t);
+    float eps = 0.05;
+
+    float dx = (noise3D(coord + vec3(eps, 0.0, 0.0)) - noise3D(coord - vec3(eps, 0.0, 0.0))) / (2.0 * eps);
+    float dy = (noise3D(coord + vec3(0.0, eps, 0.0)) - noise3D(coord - vec3(0.0, eps, 0.0))) / (2.0 * eps);
+    float dz = (noise3D(coord + vec3(0.0, 0.0, eps)) - noise3D(coord - vec3(0.0, 0.0, eps))) / (2.0 * eps);
+
+    float nx = noise3D(coord + vec3(17.1, 31.7, 4.3));
+    float ny = noise3D(coord + vec3(53.2, 11.9, 83.1));
+
+    return vec3(dy - dz, dz - dx, dx - dy);
+}
+
+void main() {
+    uint id = gl_GlobalInvocationID.x;
+    if (id >= pc.particleCount) return;
+
+    Particle p = particlesIn[id];
+    float life = p.posLife.w;
+    float dt = pc.deltaTime;
+
+    // Age particle
+    life -= dt / max(0.001, pc.lifetime);
+
+    if (life <= 0.0) {
+        // Respawn particle
+        uint seed = id + uint(pc.time * 1000.0);
+        vec3 rnd = hash3(seed);
+        vec3 rndDir = normalize(rnd * 2.0 - 1.0);
+
+        p.posLife.xyz = rndDir * 0.2; // Point / Sphere volume origin
+        p.posLife.w = 1.0 - (hash(seed + 77U) * pc.lifetimeVar * 0.5);
+
+        float speed = pc.initialSpeed * (0.8 + 0.4 * hash(seed + 123U));
+        p.velMass.xyz = rndDir * speed;
+        p.velMass.w = 1.0; // Inv mass
+
+        p.colorSize.rgb = pc.startColor.rgb;
+        p.colorSize.a = 0.05; // Size
+    } else {
+        vec3 pos = p.posLife.xyz;
+        vec3 vel = p.velMass.xyz;
+
+        // 1. Gravity & Drag
+        vec3 accel = pc.gravityAndDrag.xyz;
+
+        // 2. 3D Curl Turbulence
+        if (pc.turbulenceParams.x > 0.0) {
+            vec3 curl = computeCurl(pos, pc.time * pc.turbulenceParams.z, pc.turbulenceParams.y);
+            accel += curl * pc.turbulenceParams.x * 5.0;
+        }
+
+        // 3. Vortex Swirl Force
+        if (pc.turbulenceParams.w != 0.0) {
+            vec3 axis = vec3(0.0, 1.0, 0.0);
+            vec3 rad = pos - axis * dot(pos, axis);
+            vec3 tanDir = cross(axis, rad);
+            accel += normalize(tanDir + vec3(1e-5)) * pc.turbulenceParams.w;
+        }
+
+        // 4. Attractor / Repulsor Force
+        if (abs(pc.attractorParams.w) > 0.0) {
+            vec3 toTarget = pc.attractorParams.xyz - pos;
+            float dist = length(toTarget);
+            if (dist < pc.attractorSettings.x && dist > 0.01) {
+                vec3 dir = toTarget / dist;
+                float falloffFactor = 1.0 - (dist / pc.attractorSettings.x);
+                if (pc.attractorSettings.z == 1.0) {
+                    falloffFactor = 1.0 / (dist * dist + 0.1);
+                }
+                float signVal = (pc.attractorSettings.y == 0.0) ? 1.0 : -1.0;
+                accel += dir * (pc.attractorParams.w * falloffFactor * signVal * 10.0);
+            }
+        }
+
+        // Integrate Velocity
+        vel += accel * dt;
+        vel *= max(0.0, 1.0 - pc.gravityAndDrag.w * dt);
+
+        // Clamp Max Velocity
+        float speed = length(vel);
+        if (speed > pc.attractorSettings.w) {
+            vel = (vel / speed) * pc.attractorSettings.w;
+        }
+
+        // Integrate Position
+        pos += vel * dt;
+
+        p.posLife.xyz = pos;
+        p.posLife.w = life;
+        p.velMass.xyz = vel;
+
+        // Color interpolation over lifetime
+        float progress = 1.0 - life;
+        p.colorSize.rgb = mix(pc.startColor.rgb, pc.endColor.rgb, progress);
+    }
+
+    particlesOut[id] = p;
+}

@@ -1,0 +1,47 @@
+{
+  "format": "nodeforge_component_v1",
+  "schema_version": 1,
+  "name": "ArtNetDMXChase",
+  "inner_graph": {
+    "nodes": [
+      {
+        "id": 3001,
+        "name": "clock_in",
+        "type": "InOp",
+        "pos": [ -300.0, 0.0 ],
+        "params": {}
+      },
+      {
+        "id": 3002,
+        "name": "sine_lfo",
+        "type": "LFOChanOp",
+        "pos": [ -50.0, 0.0 ],
+        "params": {
+          "type": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } },
+          "frequency": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 2.0 } }
+        }
+      },
+      {
+        "id": 3003,
+        "name": "scale_255",
+        "type": "MathChanOp",
+        "pos": [ 150.0, 0.0 ],
+        "params": {
+          "scalar": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 255.0 } }
+        }
+      },
+      {
+        "id": 3004,
+        "name": "dmx_out",
+        "type": "OutOp",
+        "pos": [ 350.0, 0.0 ],
+        "params": {}
+      }
+    ],
+    "wires": [
+      { "id": 3001, "from_node": 3001, "from_pin": "output", "to_node": 3002, "to_pin": "phase" },
+      { "id": 3002, "from_node": 3002, "from_pin": "output", "to_node": 3003, "to_pin": "input" },
+      { "id": 3003, "from_node": 3003, "from_pin": "output", "to_node": 3004, "to_pin": "input" }
+    ]
+  }
+}

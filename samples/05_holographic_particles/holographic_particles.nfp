@@ -1,0 +1,169 @@
+{
+  "format": "nodeforge_project_v1",
+  "schema_version": 1,
+  "metadata": {
+    "name": "Holographic Interactive Particle Swarm",
+    "author": "Neo Realms Interactive",
+    "description": "High-density GPU particle simulation driven by OSC hand-tracking gesture attractors, 3D curl noise turbulence, additive bloom glow, and dynamic 3D rendering.",
+    "engine_version": "1.0.0",
+    "created": "2026-08-21T01:00:00Z",
+    "modified": "2026-08-21T01:00:00Z"
+  },
+  "timeline": {
+    "fps": 60.0,
+    "bpm": 120.0,
+    "start_frame": 1,
+    "end_frame": 7200,
+    "current_frame": 1,
+    "is_playing": true
+  },
+  "viewport": {
+    "pan": [ 0.0, 0.0 ],
+    "zoom": 0.95
+  },
+  "root_graph": {
+    "nodes": [
+      {
+        "id": 50,
+        "name": "osc_gesture",
+        "type": "OSCInChanOp",
+        "pos": [ -700.0, -150.0 ],
+        "params": {
+          "port": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 8000 } },
+          "address_pattern": { "mode": "constant", "expr": "", "val": { "type": "string", "val": "/hand/*" } }
+        }
+      },
+      {
+        "id": 51,
+        "name": "particle_emitter",
+        "type": "ParticleEmitterGeomOp",
+        "pos": [ -700.0, 100.0 ],
+        "params": {
+          "max_particles": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 100000 } },
+          "birth_rate": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 10000.0 } },
+          "lifetime": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 3.5 } },
+          "initial_speed": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 1.8 } },
+          "start_color": { "mode": "constant", "expr": "", "val": { "type": "vec4", "val": [ 0.0, 0.9, 1.0, 1.0 ] } },
+          "end_color": { "mode": "constant", "expr": "", "val": { "type": "vec4", "val": [ 0.9, 0.1, 0.8, 0.0 ] } }
+        }
+      },
+      {
+        "id": 52,
+        "name": "particle_force",
+        "type": "ParticleForceGeomOp",
+        "pos": [ -480.0, 100.0 ],
+        "params": {
+          "gravity": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 0.0, -0.2, 0.0 ] } },
+          "drag": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.1 } },
+          "turbulence_strength": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 2.0 } },
+          "turbulence_frequency": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.6 } },
+          "turbulence_speed": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.4 } }
+        }
+      },
+      {
+        "id": 53,
+        "name": "particle_attractor",
+        "type": "ParticleAttractorGeomOp",
+        "pos": [ -260.0, 100.0 ],
+        "params": {
+          "strength": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 8.0 } },
+          "radius": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 5.0 } },
+          "falloff": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 1 } }
+        }
+      },
+      {
+        "id": 54,
+        "name": "particle_mat",
+        "type": "ParticleMatOp",
+        "pos": [ -260.0, 300.0 ],
+        "params": {
+          "blend_mode": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } },
+          "base_size": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.08 } }
+        }
+      },
+      {
+        "id": 55,
+        "name": "geo_holder",
+        "type": "GeometryComp",
+        "pos": [ 0.0, 100.0 ],
+        "params": {
+          "enable_instancing": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": false } }
+        }
+      },
+      {
+        "id": 56,
+        "name": "main_camera",
+        "type": "CameraComp",
+        "pos": [ 0.0, -100.0 ],
+        "params": {
+          "fov": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 55.0 } },
+          "position": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 0.0, 3.0, 10.0 ] } },
+          "target": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 0.0, 0.0, 0.0 ] } }
+        }
+      },
+      {
+        "id": 57,
+        "name": "key_light",
+        "type": "LightComp",
+        "pos": [ 0.0, -250.0 ],
+        "params": {
+          "color": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 1.0, 1.0, 1.0 ] } },
+          "intensity": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 1.0 } }
+        }
+      },
+      {
+        "id": 58,
+        "name": "render_pass",
+        "type": "RenderTexOp",
+        "pos": [ 220.0, 0.0 ],
+        "params": {
+          "clear_color": { "mode": "constant", "expr": "", "val": { "type": "vec4", "val": [ 0.02, 0.02, 0.04, 1.0 ] } }
+        }
+      },
+      {
+        "id": 59,
+        "name": "bloom_blur",
+        "type": "BlurTexOp",
+        "pos": [ 440.0, -120.0 ],
+        "params": {
+          "radius": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 16 } },
+          "sigma": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 6.0 } }
+        }
+      },
+      {
+        "id": 60,
+        "name": "stage_composite",
+        "type": "CompositeTexOp",
+        "pos": [ 660.0, 0.0 ],
+        "params": {
+          "operation": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 1 } },
+          "opacity": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.8 } }
+        }
+      },
+      {
+        "id": 61,
+        "name": "stage_output",
+        "type": "ToWindowTexOp",
+        "pos": [ 880.0, 0.0 ],
+        "params": {
+          "title": { "mode": "constant", "expr": "", "val": { "type": "string", "val": "Holographic Interactive Particle Swarm" } },
+          "fullscreen": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": false } }
+        }
+      }
+    ],
+    "wires": [
+      { "id": 50, "from_node": 50, "from_pin": "output", "to_node": 53, "to_pin": "target_pos" },
+      { "id": 51, "from_node": 51, "from_pin": "output", "to_node": 52, "to_pin": "input" },
+      { "id": 52, "from_node": 52, "from_pin": "output", "to_node": 53, "to_pin": "input" },
+      { "id": 53, "from_node": 53, "from_pin": "output", "to_node": 55, "to_pin": "geometry" },
+      { "id": 54, "from_node": 54, "from_pin": "output", "to_node": 55, "to_pin": "material" },
+      { "id": 55, "from_node": 55, "from_pin": "output", "to_node": 58, "to_pin": "geo1" },
+      { "id": 56, "from_node": 56, "from_pin": "output", "to_node": 58, "to_pin": "camera" },
+      { "id": 57, "from_node": 57, "from_pin": "output", "to_node": 58, "to_pin": "light" },
+      { "id": 58, "from_node": 58, "from_pin": "output", "to_node": 59, "to_pin": "input" },
+      { "id": 59, "from_node": 58, "from_pin": "output", "to_node": 60, "to_pin": "input1" },
+      { "id": 60, "from_node": 59, "from_pin": "output", "to_node": 60, "to_pin": "input2" },
+      { "id": 61, "from_node": 60, "from_pin": "output", "to_node": 61, "to_pin": "input" }
+    ]
+  }
+}

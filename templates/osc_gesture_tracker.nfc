@@ -1,0 +1,40 @@
+{
+  "format": "nodeforge_component_v1",
+  "schema_version": 1,
+  "name": "OSCGestureTracker",
+  "inner_graph": {
+    "nodes": [
+      {
+        "id": 2001,
+        "name": "osc_rx",
+        "type": "OSCInChanOp",
+        "pos": [ -300.0, 0.0 ],
+        "params": {
+          "port": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 9000 } },
+          "address_pattern": { "mode": "constant", "expr": "", "val": { "type": "string", "val": "/gesture/*" } }
+        }
+      },
+      {
+        "id": 2002,
+        "name": "lag_filter",
+        "type": "FilterChanOp",
+        "pos": [ -50.0, 0.0 ],
+        "params": {
+          "type": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } },
+          "filter_width": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.1 } }
+        }
+      },
+      {
+        "id": 2003,
+        "name": "gesture_out",
+        "type": "OutOp",
+        "pos": [ 200.0, 0.0 ],
+        "params": {}
+      }
+    ],
+    "wires": [
+      { "id": 2001, "from_node": 2001, "from_pin": "output", "to_node": 2002, "to_pin": "input" },
+      { "id": 2002, "from_node": 2002, "from_pin": "output", "to_node": 2003, "to_pin": "input" }
+    ]
+  }
+}

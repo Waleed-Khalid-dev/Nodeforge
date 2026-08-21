@@ -1,0 +1,62 @@
+{
+  "format": "nodeforge_component_v1",
+  "schema_version": 1,
+  "name": "DualProjectorWarpRig",
+  "inner_graph": {
+    "nodes": [
+      {
+        "id": 1001,
+        "name": "video_in",
+        "type": "InOp",
+        "pos": [ -300.0, 0.0 ],
+        "params": {
+          "pin_type": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } }
+        }
+      },
+      {
+        "id": 1002,
+        "name": "warp_left",
+        "type": "WarpBlendTexOp",
+        "pos": [ 0.0, -150.0 ],
+        "params": {
+          "screen_index": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } },
+          "blend_edge": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 1 } },
+          "blend_width": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.15 } },
+          "blend_gamma": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 2.2 } }
+        }
+      },
+      {
+        "id": 1003,
+        "name": "warp_right",
+        "type": "WarpBlendTexOp",
+        "pos": [ 0.0, 150.0 ],
+        "params": {
+          "screen_index": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 1 } },
+          "blend_edge": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } },
+          "blend_width": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.15 } },
+          "blend_gamma": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 2.2 } }
+        }
+      },
+      {
+        "id": 1004,
+        "name": "out_left",
+        "type": "OutOp",
+        "pos": [ 300.0, -150.0 ],
+        "params": {}
+      },
+      {
+        "id": 1005,
+        "name": "out_right",
+        "type": "OutOp",
+        "pos": [ 300.0, 150.0 ],
+        "params": {}
+      }
+    ],
+    "wires": [
+      { "id": 1001, "from_node": 1001, "from_pin": "output", "to_node": 1002, "to_pin": "input" },
+      { "id": 1002, "from_node": 1001, "from_pin": "output", "to_node": 1003, "to_pin": "input" },
+      { "id": 1003, "from_node": 1002, "from_pin": "output", "to_node": 1004, "to_pin": "input" },
+      { "id": 1004, "from_node": 1003, "from_pin": "output", "to_node": 1005, "to_pin": "input" }
+    ]
+  }
+}

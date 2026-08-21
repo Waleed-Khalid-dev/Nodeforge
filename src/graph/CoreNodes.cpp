@@ -69,6 +69,10 @@
 #include "../operators/chan/DMXOutChanOp.h"
 #include "../operators/chan/MouseInChanOp.h"
 #include "../operators/chan/KeyboardInChanOp.h"
+#include "../operators/geom/ParticleEmitterGeomOp.h"
+#include "../operators/geom/ParticleForceGeomOp.h"
+#include "../operators/geom/ParticleAttractorGeomOp.h"
+#include "../operators/mat/ParticleMatOp.h"
 
 namespace nf {
 
@@ -572,6 +576,35 @@ void RegisterCoreNodes(NodeRegistry& registry) {
         NodeFamily::ChanOp,
         "Input",
         "Interactive keyboard key states, momentary pulse triggers, and modifier keys."
+    );
+
+    // Particle Subsystem (Phase 15 Epic 15.1)
+    registry.RegisterNodeType<ParticleEmitterGeomOp>(
+        "ParticleEmitterGeomOp",
+        NodeFamily::GeomOp,
+        "Particles",
+        "GPU compute particle emitter generating high-density particle streams from points, volumes, and meshes."
+    );
+
+    registry.RegisterNodeType<ParticleForceGeomOp>(
+        "ParticleForceGeomOp",
+        NodeFamily::GeomOp,
+        "Particles",
+        "Applies directional gravity, viscous drag, 3D curl turbulence noise, and vortex forces to particles."
+    );
+
+    registry.RegisterNodeType<ParticleAttractorGeomOp>(
+        "ParticleAttractorGeomOp",
+        NodeFamily::GeomOp,
+        "Particles",
+        "Dynamic 3D point attractors and repulsors driven by OSC/gesture and channel streams."
+    );
+
+    registry.RegisterNodeType<ParticleMatOp>(
+        "ParticleMatOp",
+        NodeFamily::MatOp,
+        "Particles",
+        "High-performance point-sprite and billboard quad particle material with additive/alpha blending."
     );
 }
 

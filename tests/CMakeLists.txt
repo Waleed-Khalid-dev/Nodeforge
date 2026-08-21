@@ -31,6 +31,8 @@ add_executable(nodeforge_tests
     unit/plugin_abi_test.cpp
     unit/plugin_manager_test.cpp
     unit/player_runtime_test.cpp
+    unit/workflow_pack_test.cpp
+    unit/particle_system_test.cpp
     benchmark/graph_benchmark.cpp
     benchmark/texop_benchmark.cpp
     benchmark/chanop_benchmark.cpp
@@ -39,6 +41,7 @@ add_executable(nodeforge_tests
     benchmark/projection_mapping_benchmark.cpp
     benchmark/show_control_benchmark.cpp
     benchmark/long_soak_benchmark.cpp
+    benchmark/particle_benchmark.cpp
 )
 
 target_link_libraries(nodeforge_tests PRIVATE
