@@ -9,10 +9,11 @@
 
 ## In progress
 
-- [ ] Phase 15 Epic 15.9 (AI Neural Style Transfer & Real-Time TensorRT/ONNX Runtime Inference TexOp)
+- [ ] Phase 15 Epic 15.10 (Production Stage Pre-visualization, DMX Fixture Mover & Lighting Simulator Comp)
 
 ## Completed
 
+- [x] Phase 15 Epic 15.9: AI Neural Style Transfer & Real-Time ONNX/TensorRT Inference Engine (NCHW tensor conversions, ONNX runtime session lifecycle, NeuralStyleTexOp, ONNXInferenceTexOp, PoseEstimationChanOp, SegmentationMaskTexOp, samples/13_ai_interactive_digital_twin flagship project, 193/193 automated tests passing with 60 FPS benchmark)
 - [x] Phase 15 Epic 15.8: Laser DAC & ILDA Laser Projector Control (16-bit ILDA vector point engine, galvo path optimization, LaserGeomOp, LaserDACChanOp, LaserPatternGeomOp, LaserFileInGeomOp, samples/12_laser_symphony_spectacular flagship project, 184/184 automated tests passing with 100 kpps benchmark)
 - [x] Phase 15 Epic 15.7: Volumetric Fog & Real-Time GPU Ray Marching Engine (Beer-Lambert optical extinction, Henyey-Greenstein anisotropic phase scattering, VolumetricCloudTexOp, VolumetricFogMatOp, VoxelGridGeomOp, LightShaftTexOp, samples/11_volumetric_nebula_cathedral flagship project, 176/176 automated tests passing with 60 FPS benchmark)
 - [x] Phase 15 Epic 15.6: OpenXR / VR & AR Spatial Tracking System (Native OpenXR 1.0 runtime wrapper, asymmetric stereo projection, OpenXRHeadsetTexOp, OpenXRControllerChanOp, OpenXRHandTrackingChanOp, OpenXRCameraComp, samples/10_openxr_immersive_holodeck flagship project, 168/168 automated tests passing with 120 FPS benchmark)

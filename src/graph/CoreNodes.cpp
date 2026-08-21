@@ -74,6 +74,10 @@
 #include "../operators/geom/LaserPatternGeomOp.h"
 #include "../operators/geom/LaserFileInGeomOp.h"
 #include "../operators/chan/LaserDACChanOp.h"
+#include "../operators/tex/NeuralStyleTexOp.h"
+#include "../operators/tex/ONNXInferenceTexOp.h"
+#include "../operators/tex/SegmentationMaskTexOp.h"
+#include "../operators/chan/PoseEstimationChanOp.h"
 #include "../operators/chan/AudioSpatializerChanOp.h"
 #include "../operators/chan/AmbisonicDecodeChanOp.h"
 #include "../operators/tex/RenderTexOp.h"
@@ -820,6 +824,35 @@ void RegisterCoreNodes(NodeRegistry& registry) {
         NodeFamily::ChanOp,
         "Laser",
         "Streams ILDA point channels to Ether Dream / Helios hardware DACs with safety shutter control."
+    );
+
+    // AI Neural Style & Inference (Phase 15 Epic 15.9)
+    registry.RegisterNodeType<NeuralStyleTexOp>(
+        "NeuralStyleTexOp",
+        NodeFamily::TexOp,
+        "AI",
+        "Fast artistic neural style transfer with presets (Candy, Mosaic, Udnie, Cyberpunk) & blend weighting."
+    );
+
+    registry.RegisterNodeType<ONNXInferenceTexOp>(
+        "ONNXInferenceTexOp",
+        NodeFamily::TexOp,
+        "AI",
+        "General-purpose ONNX deep learning vision model runner with DirectML/CUDA acceleration."
+    );
+
+    registry.RegisterNodeType<SegmentationMaskTexOp>(
+        "SegmentationMaskTexOp",
+        NodeFamily::TexOp,
+        "AI",
+        "Green-screen-free deep learning subject background segmentation & alpha matting."
+    );
+
+    registry.RegisterNodeType<PoseEstimationChanOp>(
+        "PoseEstimationChanOp",
+        NodeFamily::ChanOp,
+        "AI",
+        "Streams 17 standard skeletal body keypoints into channel tracks."
     );
 }
 

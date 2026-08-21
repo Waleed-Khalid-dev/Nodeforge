@@ -138,6 +138,11 @@ add_library(nodeforge_core STATIC
     src/operators/geom/LaserPatternGeomOp.cpp
     src/operators/geom/LaserFileInGeomOp.cpp
     src/operators/chan/LaserDACChanOp.cpp
+    src/ai/ONNXInferenceEngine.cpp
+    src/operators/tex/NeuralStyleTexOp.cpp
+    src/operators/tex/ONNXInferenceTexOp.cpp
+    src/operators/tex/SegmentationMaskTexOp.cpp
+    src/operators/chan/PoseEstimationChanOp.cpp
     src/media/VideoDecoder.cpp
     src/media/DisplayManager.cpp
     src/media/OutputWindow.cpp

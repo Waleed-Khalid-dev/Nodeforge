@@ -1,0 +1,113 @@
+{
+  "format": "nodeforge_project_v1",
+  "schema_version": 1,
+  "metadata": {
+    "name": "Live AI Kinetic Digital Twin & Cyberpunk Style Arena",
+    "author": "Neo Realms Interactive",
+    "description": "Production interactive AI digital twin featuring real-time fast neural style transfer, 17-keypoint body pose tracking, green-screen-free subject segmentation, kinetic particle aura, laser skeleton projection, and interactive style controls.",
+    "engine_version": "1.0.0",
+    "created": "2026-08-21T08:00:00Z",
+    "modified": "2026-08-21T08:00:00Z"
+  },
+  "timeline": {
+    "fps": 60.0,
+    "bpm": 124.0,
+    "start_frame": 1,
+    "end_frame": 7440,
+    "current_frame": 1,
+    "is_playing": true
+  },
+  "viewport": {
+    "pan": [ 0.0, 0.0 ],
+    "zoom": 0.9
+  },
+  "root_graph": {
+    "nodes": [
+      {
+        "id": 190,
+        "name": "camera_input",
+        "type": "VideoDeviceInTexOp",
+        "pos": [ -850.0, 0.0 ],
+        "params": {
+          "device_id": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } }
+        }
+      },
+      {
+        "id": 191,
+        "name": "neural_styler",
+        "type": "NeuralStyleTexOp",
+        "pos": [ -550.0, -150.0 ],
+        "params": {
+          "style_preset": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 4 } },
+          "style_weight": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.95 } },
+          "preserve_colors": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": false } }
+        }
+      },
+      {
+        "id": 192,
+        "name": "subject_matting",
+        "type": "SegmentationMaskTexOp",
+        "pos": [ -550.0, 0.0 ],
+        "params": {
+          "threshold": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.5 } },
+          "feather": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 2.5 } }
+        }
+      },
+      {
+        "id": 193,
+        "name": "pose_tracker",
+        "type": "PoseEstimationChanOp",
+        "pos": [ -550.0, 180.0 ],
+        "params": {
+          "confidence_threshold": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.5 } },
+          "smoothing": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.2 } }
+        }
+      },
+      {
+        "id": 194,
+        "name": "laser_skeleton",
+        "type": "LaserGeomOp",
+        "pos": [ -220.0, 250.0 ],
+        "params": {
+          "target_pps": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 30000 } },
+          "blank_delay": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 8 } }
+        }
+      },
+      {
+        "id": 195,
+        "name": "laser_dac_out",
+        "type": "LaserDACChanOp",
+        "pos": [ 80.0, 250.0 ],
+        "params": {
+          "dac_type": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 2 } },
+          "safety_shutter": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": true } }
+        }
+      },
+      {
+        "id": 196,
+        "name": "particle_aura",
+        "type": "ParticleEmitterGeomOp",
+        "pos": [ -220.0, 100.0 ],
+        "params": {
+          "max_particles": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 100000 } },
+          "emission_rate": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 5000.0 } }
+        }
+      },
+      {
+        "id": 197,
+        "name": "style_slider",
+        "type": "SliderPanelComp",
+        "pos": [ -220.0, -250.0 ],
+        "params": {
+          "value": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.95 } }
+        }
+      }
+    ],
+    "wires": [
+      { "id": 190, "from_node": 190, "from_pin": "output", "to_node": 191, "to_pin": "input" },
+      { "id": 191, "from_node": 190, "from_pin": "output", "to_node": 192, "to_pin": "input" },
+      { "id": 192, "from_node": 190, "from_pin": "output", "to_node": 193, "to_pin": "input" },
+      { "id": 193, "from_node": 194, "from_pin": "out_points", "to_node": 195, "to_pin": "in_points" }
+    ]
+  }
+}

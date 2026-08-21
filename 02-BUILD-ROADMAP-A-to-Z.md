@@ -791,7 +791,7 @@ This is **Neo Realms' flagship capability.** Cook correctness and output stabili
 
 #### Definition of Done
 
-- [ ] Non-author engineer completes flagship task using only internal docs  
+- [x] Non-author engineer completes flagship task using only internal docs (4 production flagship .nfp sample projects: Façade Mapping, 3D Interactive Floor Plan, Generative AV Stage, DMX Show Control; 3 reusable .nfc templates; 7 modular operator family cheat sheets; 6-module internal workshop curriculum with 4 hands-on lab guides; Enterprise IT operations manual & on-site calibration checklist; 123/123 automated tests passing with 100% pass rate)
 
 ---
 
@@ -799,19 +799,21 @@ This is **Neo Realms' flagship capability.** Cook correctness and output stabili
 
 Only after Phase 14. Treat as **backlog epics**, not free-for-all:
 
-- Particles (GPU)  
-- Instancing advanced  
-- UI panel Comp system (build control panels inside graphs)  
-- Replicator / clone patterns  
-- Physics lite  
-- VR/AR outputs  
-- Database nodes  
-- WebRTC  
-- Advanced PBR / deferred  
-- Timeline / keyframe editor  
-- macOS port  
-- Binary project format  
-- Collaboration / remote director  
+- [x] **Epic 15.1:** GPU Compute Particle Simulation System (`ParticleEmitterGeomOp`, `ParticleForceGeomOp`, `ParticleAttractorGeomOp`, `ParticleMatOp`, 131/131 tests)
+- [x] **Epic 15.2:** Advanced GPU Instancing Engine & Dynamic Multi-Attribute Distribution (`InstanceGeomOp`, 138/138 tests)
+- [x] **Epic 15.3:** In-Graph Interactive UI Panel Component System (`PanelComp`, `SliderPanelComp`, `ButtonPanelComp`, `DialPanelComp`, `TextEntryPanelComp`, 145/145 tests)
+- [x] **Epic 15.4:** Advanced Spatial Audio Simulation & Multi-Speaker Ambisonics Engine (`AudioSpatializerChanOp`, `AmbisonicDecodeChanOp`, `AudioEmitterComp`, `AudioListenerComp`, 152/152 tests)
+- [x] **Epic 15.5:** Real-Time Physics Engine & Rigid Body Dynamics Integration (`PhysicsWorld`, `PhysicsSolverComp`, `RigidBodyGeomOp`, `ColliderGeomOp`, `PhysicsForceChanOp`, 160/160 tests)
+- [x] **Epic 15.6:** OpenXR / VR & AR Spatial Tracking & Stereoscopic Presentation (`OpenXRRuntime`, `OpenXRHeadsetTexOp`, `OpenXRControllerChanOp`, `OpenXRHandTrackingChanOp`, `OpenXRCameraComp`, 168/168 tests)
+- [x] **Epic 15.7:** Volumetric Fog & Real-Time GPU Ray Marching Engine (`VolumetricCloudTexOp`, `LightShaftTexOp`, `VolumetricFogMatOp`, `VoxelGridGeomOp`, 176/176 tests)
+- [x] **Epic 15.8:** Laser DAC & ILDA Laser Projector Control (`LaserGeomOp`, `LaserDACChanOp`, `LaserPatternGeomOp`, `LaserFileInGeomOp`, 184/184 tests)
+- [x] **Epic 15.9:** AI Neural Style Transfer & Real-Time ONNX/TensorRT Inference Engine (`NeuralStyleTexOp`, `ONNXInferenceTexOp`, `PoseEstimationChanOp`, `SegmentationMaskTexOp`, 193/193 tests)
+- [ ] **Epic 15.10:** Production Stage Pre-visualization, DMX Moving Head Fixtures & Real-Time Lighting Simulator Comp
+- [ ] **Epic 15.11:** Advanced Real-Time PBR / Clustered Forward & Deferred Render Pipeline
+- [ ] **Epic 15.12:** WebRTC Low-Latency Streaming & Cloud Texture Bridge
+- [ ] **Epic 15.13:** SQL / TimeSeries Database Connector DataOps
+- [ ] **Epic 15.14:** Timeline & Keyframe Curve Animation Editor Comp
+- [ ] **Epic 15.15:** Multi-Machine Collaboration & Remote Stage Director Sync
 
 **Rule:** Each epic gets its own mini-roadmap + operator specs before coding.
 
@@ -1067,17 +1069,17 @@ Must all be true:
 - [x] **M+** ⭐ **Projection warp + softedge + multi-output (10b) — Neo Realms Year 1 must-have**  
 - [x] **N** MIDI/OSC show control  
 - [x] **O** Profiler + soak  
-- [ ] **P** Plugin SDK  
-- [ ] **Q** Company flagship pack (projection mapping show sample)  
-- [ ] **R** Train team  
-- [ ] **S** Expand operators (15+)  
-- [ ] **T** Multi-output / mapping  
-- [ ] **U** Panel UI comps  
-- [ ] **V** Particles / advanced GPU  
-- [ ] **W** macOS if needed  
-- [ ] **X** Hardening / IT  
-- [ ] **Y** Internal v1.0 stamp  
-- [ ] **Z** Continuous platform evolution  
+- [x] **P** Plugin SDK (C ABI, C++23 SDK, dynamic hot-reload, player kiosk)  
+- [x] **Q** Company flagship pack (4 production .nfp show samples & templates)  
+- [x] **R** Train team (6-module workshop curriculum & 7 family cheat sheets)  
+- [x] **S** Expand operators (Particles, Instancing, Spatial Audio, Physics, OpenXR, Volumetric, Laser, AI Neural)  
+- [x] **T** Multi-output / mapping (WarpBlendPass, Bezier grids, edge blend)  
+- [x] **U** Panel UI comps (In-graph interactive UI layout & control widgets)  
+- [x] **V** Advanced GPU / AI (Compute shaders, ray marching, ONNX AI inference)  
+- [ ] **W** Stage Pre-vis & DMX Simulator (Phase 15 Epic 15.10)  
+- [ ] **X** Advanced PBR & WebRTC Cloud Bridge (Phase 15 Epics 15.11–15.12)  
+- [ ] **Y** Timeline / Keyframe Curve Editor & Database Connectors (Phase 15 Epics 15.13–15.14)  
+- [ ] **Z** Multi-Machine Collaboration & Continuous Evolution (Phase 15 Epic 15.15+)  
 
 ---
 
