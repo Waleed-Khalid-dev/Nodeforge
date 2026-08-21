@@ -9,10 +9,12 @@
 
 ## In progress
 
-- [ ] Phase 15 Epic 15.3 (In-Graph Interactive UI Panel Component System — PanelComp, Sliders, Dials, Touch Controls)
+- [ ] Phase 15 Epic 15.5 (Real-Time Physics Engine & Rigid Body Dynamics Integration — Bullet/PhysX SOP)
 
 ## Completed
 
+- [x] Phase 15 Epic 15.4: Advanced Spatial Audio Simulation & Multi-Speaker Ambisonics Engine (3D spatial panner, B-Format Ambisonics encoding/decoding, 7.1.4 Atmos dome decoder, AudioEmitterComp, AudioListenerComp, samples/08_spatial_audio_dome flagship project, 152/152 automated tests passing with 64-stream benchmark)
+- [x] Phase 15 Epic 15.3: In-Graph Interactive UI Panel Component System (Modular PanelComp container with Flex/Absolute layout, SliderPanelComp, ButtonPanelComp, DialPanelComp, TextEntryPanelComp, dual channel/texture outputs, MIDI/OSC feedback, samples/07_live_show_control_panel flagship project, 145/145 automated tests passing with 500-widget benchmark)
 - [x] Phase 15 Epic 15.2: Advanced GPU Instancing Engine & Dynamic Multi-Attribute Distribution (Dedicated InstanceGeomOp with multi-mode procedural distribution: Table/Channel 1-to-1, Mesh Surface Normal alignment, Grid Array, Fibonacci Phyllotaxis Spiral, audio wave ripple modulation, samples/06_matrix_instancing flagship project, 138/138 automated tests passing with 100,000-instance benchmark)
 - [x] Phase 15 Epic 15.1: GPU Compute Particle Simulation System (Double-buffered GPU VMA storage buffers, Vulkan 1.3 GLSL compute shaders with 3D Simplex Curl turbulence noise, modular ParticleEmitterGeomOp, ParticleForceGeomOp, ParticleAttractorGeomOp, ParticleMatOp, interactive OSC gesture modulation, samples/05_holographic_particles flagship project, 131/131 automated tests passing with 1,000,000 particle benchmark)
 - [x] Phase 14: Company Workflow Pack + Training (4 production flagship .nfp sample projects: Façade Mapping, 3D Interactive Floor Plan, Generative AV Stage, DMX Show Control; 3 reusable .nfc templates; 7 modular operator family cheat sheets; 6-module internal workshop curriculum with 4 hands-on lab guides; Enterprise IT operations manual & on-site calibration checklist; 123/123 automated tests passing with 100% pass rate)

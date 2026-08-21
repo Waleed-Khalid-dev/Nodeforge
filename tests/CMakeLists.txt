@@ -34,6 +34,8 @@ add_executable(nodeforge_tests
     unit/workflow_pack_test.cpp
     unit/particle_system_test.cpp
     unit/instancing_system_test.cpp
+    unit/panel_system_test.cpp
+    unit/spatial_audio_test.cpp
     benchmark/graph_benchmark.cpp
     benchmark/texop_benchmark.cpp
     benchmark/chanop_benchmark.cpp
@@ -44,6 +46,8 @@ add_executable(nodeforge_tests
     benchmark/long_soak_benchmark.cpp
     benchmark/particle_benchmark.cpp
     benchmark/instancing_benchmark.cpp
+    benchmark/panel_benchmark.cpp
+    benchmark/spatial_audio_benchmark.cpp
 )
 
 target_link_libraries(nodeforge_tests PRIVATE

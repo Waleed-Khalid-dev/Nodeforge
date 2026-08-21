@@ -51,6 +51,15 @@
 #include "../operators/comp/CameraComp.h"
 #include "../operators/comp/LightComp.h"
 #include "../operators/comp/GeometryComp.h"
+#include "../operators/comp/PanelComp.h"
+#include "../operators/comp/SliderPanelComp.h"
+#include "../operators/comp/ButtonPanelComp.h"
+#include "../operators/comp/DialPanelComp.h"
+#include "../operators/comp/TextEntryPanelComp.h"
+#include "../operators/comp/AudioEmitterComp.h"
+#include "../operators/comp/AudioListenerComp.h"
+#include "../operators/chan/AudioSpatializerChanOp.h"
+#include "../operators/chan/AmbisonicDecodeChanOp.h"
 #include "../operators/tex/RenderTexOp.h"
 #include "../operators/tex/MovieFileInTexOp.h"
 #include "../operators/tex/VideoDeviceInTexOp.h"
@@ -614,6 +623,71 @@ void RegisterCoreNodes(NodeRegistry& registry) {
         NodeFamily::GeomOp,
         "Instancing",
         "Duplicates 3D template geometry across tables, channels, surface normals, grid arrays, and Fibonacci spirals."
+    );
+
+    // In-Graph Interactive UI Panel Component System (Phase 15 Epic 15.3)
+    registry.RegisterNodeType<PanelComp>(
+        "PanelComp",
+        NodeFamily::Comp,
+        "UI Panels",
+        "Master interactive UI layout container with Flex/Absolute placement and composite texture output."
+    );
+
+    registry.RegisterNodeType<SliderPanelComp>(
+        "SliderPanelComp",
+        NodeFamily::Comp,
+        "UI Panels",
+        "Continuous and stepped 1D fader widget emitting real-time channel streams and parameter modulation."
+    );
+
+    registry.RegisterNodeType<ButtonPanelComp>(
+        "ButtonPanelComp",
+        NodeFamily::Comp,
+        "UI Panels",
+        "Momentary, toggle latch, and radio group button widget."
+    );
+
+    registry.RegisterNodeType<DialPanelComp>(
+        "DialPanelComp",
+        NodeFamily::Comp,
+        "UI Panels",
+        "Rotary 270-degree potentiometer and bipolar center-zero knob widget."
+    );
+
+    registry.RegisterNodeType<TextEntryPanelComp>(
+        "TextEntryPanelComp",
+        NodeFamily::Comp,
+        "UI Panels",
+        "Editable text input and dynamic string readout widget."
+    );
+
+    // Advanced Spatial Audio & Ambisonics (Phase 15 Epic 15.4)
+    registry.RegisterNodeType<AudioSpatializerChanOp>(
+        "AudioSpatializerChanOp",
+        NodeFamily::ChanOp,
+        "Spatial Audio",
+        "3D audio panner computing discrete multi-speaker gains (Stereo, 5.1, 7.1.4 Atmos) or Ambisonic B-Format."
+    );
+
+    registry.RegisterNodeType<AmbisonicDecodeChanOp>(
+        "AmbisonicDecodeChanOp",
+        NodeFamily::ChanOp,
+        "Spatial Audio",
+        "Decodes 4-channel First-Order Ambisonics (W, X, Y, Z) soundfields into target physical speaker topologies."
+    );
+
+    registry.RegisterNodeType<AudioEmitterComp>(
+        "AudioEmitterComp",
+        NodeFamily::Comp,
+        "Spatial Audio",
+        "3D scene spatial sound emitter binding audio streams to 3D geometry objects with directional directivity."
+    );
+
+    registry.RegisterNodeType<AudioListenerComp>(
+        "AudioListenerComp",
+        NodeFamily::Comp,
+        "Spatial Audio",
+        "3D scene virtual listener / microphone tracking observer position and orientation."
     );
 }
 

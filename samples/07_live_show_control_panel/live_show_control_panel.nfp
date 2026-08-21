@@ -1,0 +1,121 @@
+{
+  "format": "nodeforge_project_v1",
+  "schema_version": 1,
+  "metadata": {
+    "name": "Master Live Show Control Panel",
+    "author": "Neo Realms Interactive",
+    "description": "Production in-graph touchscreen control surface featuring toggle cue buttons, master dimmer faders, rotary turbulence dials, text readouts, and live visual preview routing.",
+    "engine_version": "1.0.0",
+    "created": "2026-08-21T03:00:00Z",
+    "modified": "2026-08-21T03:00:00Z"
+  },
+  "timeline": {
+    "fps": 60.0,
+    "bpm": 128.0,
+    "start_frame": 1,
+    "end_frame": 7200,
+    "current_frame": 1,
+    "is_playing": true
+  },
+  "viewport": {
+    "pan": [ 0.0, 0.0 ],
+    "zoom": 0.9
+  },
+  "root_graph": {
+    "nodes": [
+      {
+        "id": 90,
+        "name": "cue_toggle_btn",
+        "type": "ButtonPanelComp",
+        "pos": [ -700.0, -200.0 ],
+        "params": {
+          "label": { "mode": "constant", "expr": "", "val": { "type": "string", "val": "Mainstage Active" } },
+          "button_type": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 1 } },
+          "state": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": true } }
+        }
+      },
+      {
+        "id": 91,
+        "name": "master_dimmer",
+        "type": "SliderPanelComp",
+        "pos": [ -700.0, -50.0 ],
+        "params": {
+          "label": { "mode": "constant", "expr": "", "val": { "type": "string", "val": "Master Dimmer" } },
+          "orientation": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } },
+          "min_value": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.0 } },
+          "max_value": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 1.0 } },
+          "value": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.85 } }
+        }
+      },
+      {
+        "id": 92,
+        "name": "turbulence_dial",
+        "type": "DialPanelComp",
+        "pos": [ -700.0, 100.0 ],
+        "params": {
+          "label": { "mode": "constant", "expr": "", "val": { "type": "string", "val": "Turbulence Speed" } },
+          "min_value": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.1 } },
+          "max_value": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 10.0 } },
+          "value": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 2.5 } },
+          "sweep_angle": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 270.0 } }
+        }
+      },
+      {
+        "id": 93,
+        "name": "show_title_text",
+        "type": "TextEntryPanelComp",
+        "pos": [ -700.0, 250.0 ],
+        "params": {
+          "label": { "mode": "constant", "expr": "", "val": { "type": "string", "val": "Show Title" } },
+          "text": { "mode": "constant", "expr": "", "val": { "type": "string", "val": "Neo Realms Mainstage 2026" } },
+          "read_only": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": true } }
+        }
+      },
+      {
+        "id": 94,
+        "name": "root_dashboard",
+        "type": "PanelComp",
+        "pos": [ -350.0, 0.0 ],
+        "params": {
+          "panel_width": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 1024 } },
+          "panel_height": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 768 } },
+          "layout_mode": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 2 } },
+          "spacing": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 14.0 } }
+        }
+      },
+      {
+        "id": 95,
+        "name": "live_noise_bg",
+        "type": "NoiseTexOp",
+        "pos": [ 0.0, -100.0 ],
+        "params": {
+          "period": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 3.0 } }
+        }
+      },
+      {
+        "id": 96,
+        "name": "generative_level",
+        "type": "LevelTexOp",
+        "pos": [ 250.0, -100.0 ],
+        "params": {
+          "brightness": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 1.0 } }
+        }
+      },
+      {
+        "id": 97,
+        "name": "stage_preview",
+        "type": "ToWindowTexOp",
+        "pos": [ 500.0, -100.0 ],
+        "params": {
+          "title": { "mode": "constant", "expr": "", "val": { "type": "string", "val": "Master Live Show Control Surface" } },
+          "fullscreen": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": false } }
+        }
+      }
+    ],
+    "wires": [
+      { "id": 90, "from_node": 90, "from_pin": "output", "to_node": 94, "to_pin": "in_ui" },
+      { "id": 91, "from_node": 95, "from_pin": "output", "to_node": 96, "to_pin": "input" },
+      { "id": 92, "from_node": 96, "from_pin": "output", "to_node": 97, "to_pin": "input" }
+    ]
+  }
+}

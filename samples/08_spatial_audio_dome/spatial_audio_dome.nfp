@@ -1,0 +1,156 @@
+{
+  "format": "nodeforge_project_v1",
+  "schema_version": 1,
+  "metadata": {
+    "name": "Immersive 3D Spatial Audio & Planetarium Dome",
+    "author": "Neo Realms Interactive",
+    "description": "Production spatial audio installation combining orbiting 3D sound emitters, First-Order Ambisonics B-Format encoding, 7.1.4 Dolby Atmos ceiling dome decoding, and audio-reactive geodesic dome rendering.",
+    "engine_version": "1.0.0",
+    "created": "2026-08-21T04:00:00Z",
+    "modified": "2026-08-21T04:00:00Z"
+  },
+  "timeline": {
+    "fps": 60.0,
+    "bpm": 120.0,
+    "start_frame": 1,
+    "end_frame": 7200,
+    "current_frame": 1,
+    "is_playing": true
+  },
+  "viewport": {
+    "pan": [ 0.0, 0.0 ],
+    "zoom": 0.9
+  },
+  "root_graph": {
+    "nodes": [
+      {
+        "id": 110,
+        "name": "audio_carrier",
+        "type": "AudioFileInChanOp",
+        "pos": [ -750.0, -150.0 ],
+        "params": {
+          "file_path": { "mode": "constant", "expr": "", "val": { "type": "string", "val": "assets/ambient_pad.wav" } },
+          "play": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": true } },
+          "loop": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": true } }
+        }
+      },
+      {
+        "id": 111,
+        "name": "lfo_orbit_x",
+        "type": "LFOChanOp",
+        "pos": [ -750.0, 50.0 ],
+        "params": {
+          "frequency": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.15 } },
+          "type": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } },
+          "amplitude": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 12.0 } }
+        }
+      },
+      {
+        "id": 112,
+        "name": "emitter_node",
+        "type": "AudioEmitterComp",
+        "pos": [ -480.0, -150.0 ],
+        "params": {
+          "translate": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 10.0, 2.0, -5.0 ] } },
+          "radius": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 2.0 } }
+        }
+      },
+      {
+        "id": 113,
+        "name": "listener_node",
+        "type": "AudioListenerComp",
+        "pos": [ -480.0, 50.0 ],
+        "params": {
+          "position": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 0.0, 0.0, 0.0 ] } }
+        }
+      },
+      {
+        "id": 114,
+        "name": "dome_spatializer",
+        "type": "AudioSpatializerChanOp",
+        "pos": [ -220.0, -50.0 ],
+        "params": {
+          "spatial_mode": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 0 } },
+          "speaker_layout": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 3 } },
+          "attenuation_rolloff": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.8 } }
+        }
+      },
+      {
+        "id": 115,
+        "name": "atmos_decoder",
+        "type": "AmbisonicDecodeChanOp",
+        "pos": [ 40.0, -50.0 ],
+        "params": {
+          "target_layout": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 3 } }
+        }
+      },
+      {
+        "id": 116,
+        "name": "dome_mesh",
+        "type": "SphereGeomOp",
+        "pos": [ -220.0, 200.0 ],
+        "params": {
+          "radius": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 20.0 } },
+          "rows": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 24 } },
+          "cols": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 24 } }
+        }
+      },
+      {
+        "id": 117,
+        "name": "dome_mat",
+        "type": "PhongMatOp",
+        "pos": [ -220.0, 350.0 ],
+        "params": {
+          "diffuse_color": { "mode": "constant", "expr": "", "val": { "type": "vec4", "val": [ 0.1, 0.4, 0.9, 1.0 ] } }
+        }
+      },
+      {
+        "id": 118,
+        "name": "geo_holder",
+        "type": "GeometryComp",
+        "pos": [ 40.0, 200.0 ],
+        "params": {
+          "enable_instancing": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": false } }
+        }
+      },
+      {
+        "id": 119,
+        "name": "orbit_cam",
+        "type": "CameraComp",
+        "pos": [ 40.0, 350.0 ],
+        "params": {
+          "position": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 0.0, 5.0, 15.0 ] } }
+        }
+      },
+      {
+        "id": 120,
+        "name": "render_pass",
+        "type": "RenderTexOp",
+        "pos": [ 300.0, 100.0 ],
+        "params": {
+          "clear_color": { "mode": "constant", "expr": "", "val": { "type": "vec4", "val": [ 0.01, 0.01, 0.04, 1.0 ] } }
+        }
+      },
+      {
+        "id": 121,
+        "name": "stage_output",
+        "type": "ToWindowTexOp",
+        "pos": [ 560.0, 100.0 ],
+        "params": {
+          "title": { "mode": "constant", "expr": "", "val": { "type": "string", "val": "Immersive 3D Spatial Audio & Planetarium Dome" } },
+          "fullscreen": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": false } }
+        }
+      }
+    ],
+    "wires": [
+      { "id": 110, "from_node": 110, "from_pin": "output", "to_node": 112, "to_pin": "in_audio" },
+      { "id": 111, "from_node": 112, "from_pin": "out_audio", "to_node": 114, "to_pin": "in_audio" },
+      { "id": 112, "from_node": 114, "from_pin": "out_audio", "to_node": 115, "to_pin": "in_bformat" },
+      { "id": 113, "from_node": 116, "from_pin": "output", "to_node": 118, "to_pin": "geometry" },
+      { "id": 114, "from_node": 117, "from_pin": "output", "to_node": 118, "to_pin": "material" },
+      { "id": 115, "from_node": 118, "from_pin": "output", "to_node": 120, "to_pin": "geo1" },
+      { "id": 116, "from_node": 119, "from_pin": "output", "to_node": 120, "to_pin": "camera" },
+      { "id": 117, "from_node": 120, "from_pin": "output", "to_node": 121, "to_pin": "input" }
+    ]
+  }
+}

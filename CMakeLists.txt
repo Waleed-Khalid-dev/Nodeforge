@@ -109,6 +109,13 @@ add_library(nodeforge_core STATIC
     src/operators/comp/CameraComp.cpp
     src/operators/comp/LightComp.cpp
     src/operators/comp/GeometryComp.cpp
+    src/operators/comp/PanelComp.cpp
+    src/operators/comp/SliderPanelComp.cpp
+    src/operators/comp/ButtonPanelComp.cpp
+    src/operators/comp/DialPanelComp.cpp
+    src/operators/comp/TextEntryPanelComp.cpp
+    src/operators/comp/AudioEmitterComp.cpp
+    src/operators/comp/AudioListenerComp.cpp
     src/media/VideoDecoder.cpp
     src/media/DisplayManager.cpp
     src/media/OutputWindow.cpp
@@ -123,6 +130,8 @@ add_library(nodeforge_core STATIC
     src/operators/chan/MIDIOutChanOp.cpp
     src/operators/chan/OSCInChanOp.cpp
     src/operators/chan/OSCOutChanOp.cpp
+    src/operators/chan/AudioSpatializerChanOp.cpp
+    src/operators/chan/AmbisonicDecodeChanOp.cpp
     src/operators/data/SerialDataOp.cpp
     src/operators/chan/DMXInChanOp.cpp
     src/operators/chan/DMXOutChanOp.cpp
