@@ -73,6 +73,7 @@
 #include "../operators/geom/ParticleForceGeomOp.h"
 #include "../operators/geom/ParticleAttractorGeomOp.h"
 #include "../operators/mat/ParticleMatOp.h"
+#include "../operators/geom/InstanceGeomOp.h"
 
 namespace nf {
 
@@ -605,6 +606,14 @@ void RegisterCoreNodes(NodeRegistry& registry) {
         NodeFamily::MatOp,
         "Particles",
         "High-performance point-sprite and billboard quad particle material with additive/alpha blending."
+    );
+
+    // Advanced GPU Instancing (Phase 15 Epic 15.2)
+    registry.RegisterNodeType<InstanceGeomOp>(
+        "InstanceGeomOp",
+        NodeFamily::GeomOp,
+        "Instancing",
+        "Duplicates 3D template geometry across tables, channels, surface normals, grid arrays, and Fibonacci spirals."
     );
 }
 

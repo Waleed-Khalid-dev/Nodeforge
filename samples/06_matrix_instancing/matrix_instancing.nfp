@@ -1,0 +1,167 @@
+{
+  "format": "nodeforge_project_v1",
+  "schema_version": 1,
+  "metadata": {
+    "name": "Audio-Reactive Kinetic Matrix Instancing",
+    "author": "Neo Realms Interactive",
+    "description": "High-performance GPU instancing showcase simulating a 100,000-object dynamic kinetic crystal matrix modulated by audio frequency waves, Phong specular lighting, and bloom glow.",
+    "engine_version": "1.0.0",
+    "created": "2026-08-21T02:00:00Z",
+    "modified": "2026-08-21T02:00:00Z"
+  },
+  "timeline": {
+    "fps": 60.0,
+    "bpm": 124.0,
+    "start_frame": 1,
+    "end_frame": 7200,
+    "current_frame": 1,
+    "is_playing": true
+  },
+  "viewport": {
+    "pan": [ 0.0, 0.0 ],
+    "zoom": 0.9
+  },
+  "root_graph": {
+    "nodes": [
+      {
+        "id": 70,
+        "name": "audio_spectrum",
+        "type": "AudioFileInChanOp",
+        "pos": [ -700.0, -150.0 ],
+        "params": {
+          "file_path": { "mode": "constant", "expr": "", "val": { "type": "string", "val": "assets/audio_track.wav" } },
+          "play": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": true } },
+          "loop": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": true } }
+        }
+      },
+      {
+        "id": 71,
+        "name": "math_filter",
+        "type": "MathChanOp",
+        "pos": [ -480.0, -150.0 ],
+        "params": {
+          "multiply": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 2.5 } }
+        }
+      },
+      {
+        "id": 72,
+        "name": "base_crystal",
+        "type": "BoxGeomOp",
+        "pos": [ -700.0, 100.0 ],
+        "params": {
+          "size": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 0.15, 0.4, 0.15 ] } }
+        }
+      },
+      {
+        "id": 73,
+        "name": "matrix_instancer",
+        "type": "InstanceGeomOp",
+        "pos": [ -260.0, 100.0 ],
+        "params": {
+          "distribution_mode": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 2 } },
+          "grid_count": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 60.0, 60.0, 1.0 ] } },
+          "grid_spacing": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 0.35, 0.35, 0.35 ] } },
+          "grid_center": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": true } },
+          "color_mode": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 1 } },
+          "start_color": { "mode": "constant", "expr": "", "val": { "type": "vec4", "val": [ 0.0, 0.8, 1.0, 1.0 ] } },
+          "end_color": { "mode": "constant", "expr": "", "val": { "type": "vec4", "val": [ 1.0, 0.1, 0.7, 1.0 ] } },
+          "noise_displacement": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.15 } }
+        }
+      },
+      {
+        "id": 74,
+        "name": "crystal_mat",
+        "type": "PhongMatOp",
+        "pos": [ -260.0, 300.0 ],
+        "params": {
+          "diffuse_color": { "mode": "constant", "expr": "", "val": { "type": "vec4", "val": [ 1.0, 1.0, 1.0, 1.0 ] } },
+          "specular_color": { "mode": "constant", "expr": "", "val": { "type": "vec4", "val": [ 1.0, 1.0, 1.0, 1.0 ] } },
+          "shininess": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 64.0 } }
+        }
+      },
+      {
+        "id": 75,
+        "name": "geo_holder",
+        "type": "GeometryComp",
+        "pos": [ 0.0, 100.0 ],
+        "params": {
+          "enable_instancing": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": false } }
+        }
+      },
+      {
+        "id": 76,
+        "name": "orbit_camera",
+        "type": "CameraComp",
+        "pos": [ 0.0, -100.0 ],
+        "params": {
+          "fov": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 60.0 } },
+          "position": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 0.0, 15.0, 25.0 ] } },
+          "target": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 0.0, 0.0, 0.0 ] } }
+        }
+      },
+      {
+        "id": 77,
+        "name": "key_light",
+        "type": "LightComp",
+        "pos": [ 0.0, -250.0 ],
+        "params": {
+          "color": { "mode": "constant", "expr": "", "val": { "type": "vec3", "val": [ 1.0, 1.0, 1.0 ] } },
+          "intensity": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 1.5 } }
+        }
+      },
+      {
+        "id": 78,
+        "name": "render_pass",
+        "type": "RenderTexOp",
+        "pos": [ 220.0, 0.0 ],
+        "params": {
+          "clear_color": { "mode": "constant", "expr": "", "val": { "type": "vec4", "val": [ 0.01, 0.01, 0.03, 1.0 ] } }
+        }
+      },
+      {
+        "id": 79,
+        "name": "bloom_blur",
+        "type": "BlurTexOp",
+        "pos": [ 440.0, -120.0 ],
+        "params": {
+          "radius": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 12 } },
+          "sigma": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 4.5 } }
+        }
+      },
+      {
+        "id": 80,
+        "name": "matrix_composite",
+        "type": "CompositeTexOp",
+        "pos": [ 660.0, 0.0 ],
+        "params": {
+          "operation": { "mode": "constant", "expr": "", "val": { "type": "int", "val": 1 } },
+          "opacity": { "mode": "constant", "expr": "", "val": { "type": "float", "val": 0.7 } }
+        }
+      },
+      {
+        "id": 81,
+        "name": "stage_output",
+        "type": "ToWindowTexOp",
+        "pos": [ 880.0, 0.0 ],
+        "params": {
+          "title": { "mode": "constant", "expr": "", "val": { "type": "string", "val": "Audio-Reactive Kinetic Matrix" } },
+          "fullscreen": { "mode": "constant", "expr": "", "val": { "type": "bool", "val": false } }
+        }
+      }
+    ],
+    "wires": [
+      { "id": 70, "from_node": 70, "from_pin": "output", "to_node": 71, "to_pin": "input" },
+      { "id": 71, "from_node": 71, "from_pin": "output", "to_node": 73, "to_pin": "instances_chan" },
+      { "id": 72, "from_node": 72, "from_pin": "output", "to_node": 73, "to_pin": "template_mesh" },
+      { "id": 73, "from_node": 73, "from_pin": "output", "to_node": 75, "to_pin": "geometry" },
+      { "id": 74, "from_node": 74, "from_pin": "output", "to_node": 75, "to_pin": "material" },
+      { "id": 75, "from_node": 75, "from_pin": "output", "to_node": 78, "to_pin": "geo1" },
+      { "id": 76, "from_node": 76, "from_pin": "output", "to_node": 78, "to_pin": "camera" },
+      { "id": 77, "from_node": 77, "from_pin": "output", "to_node": 78, "to_pin": "light" },
+      { "id": 78, "from_node": 78, "from_pin": "output", "to_node": 79, "to_pin": "input" },
+      { "id": 79, "from_node": 78, "from_pin": "output", "to_node": 80, "to_pin": "input1" },
+      { "id": 80, "from_node": 79, "from_pin": "output", "to_node": 80, "to_pin": "input2" },
+      { "id": 81, "from_node": 80, "from_pin": "output", "to_node": 81, "to_pin": "input" }
+    ]
+  }
+}

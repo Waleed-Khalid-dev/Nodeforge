@@ -100,6 +100,7 @@ add_library(nodeforge_core STATIC
     src/operators/geom/ParticleEmitterGeomOp.cpp
     src/operators/geom/ParticleForceGeomOp.cpp
     src/operators/geom/ParticleAttractorGeomOp.cpp
+    src/operators/geom/InstanceGeomOp.cpp
     src/operators/mat/MatOp.cpp
     src/operators/mat/ConstantMatOp.cpp
     src/operators/mat/PhongMatOp.cpp
